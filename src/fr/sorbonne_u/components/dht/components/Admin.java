@@ -15,6 +15,8 @@ public class Admin extends AbstractComponent{
 	protected HashMap<Integer, String[]> uris;//for later, link node index to JVM uri
 	protected int size;
 	protected int nbNodes;
+	protected String arg1;//pour passer en paramètres dans les innerClass
+	protected String arg2;
 	protected AdminDataOutboundPort adminDataOutboundPort;
 	protected String[][] ring;//ring[0][0]->inbound port de la node 0, ring[0][1]->outbound port de la node 0
 	
@@ -47,19 +49,9 @@ public class Admin extends AbstractComponent{
 				else{
 					this.doPortConnection(ring[i][1], tmp[0], NodeConnector.class.getCanonicalName());//utiliser un twoWayConnector?
 					this.doPortConnection(ring[i][0], tmp[1], NodeConnector.class.getCanonicalName());
-					this.runTask(
-							new AbstractComponent.AbstractTask() {
-								@Override
-								public void run() {
-									try {
-										Thread.sleep(500) ;
-										((Admin)this.getOwner()).
-										adminDataOutboundPort.setPred(ring[i][1], tmp[0]) ;//appeler sur le dataInboundPort de ring[i] ?
-									} catch (Exception e) {
-										throw new RuntimeException(e) ;
-									}
-								}
-							}) ;
+					
+					arg1 = ring[i][1];
+					arg2 = tmp[0];
 					
 					this.runTask(
 							new AbstractComponent.AbstractTask() {
@@ -68,7 +60,24 @@ public class Admin extends AbstractComponent{
 									try {
 										Thread.sleep(500) ;
 										((Admin)this.getOwner()).
-										adminDataOutboundPort.setSucc(tmp[1], ring[i][0]) ;//appeler sur le dataInboundPort de tmp? ?
+										adminDataOutboundPort.setPred(arg1, arg2) ;//appeler sur le dataInboundPort de ring[i] ?
+									} catch (Exception e) {
+										throw new RuntimeException(e) ;
+									}
+								}
+							}) ;
+					
+					arg1 = tmp[1];
+					arg2 = ring[i][0];
+					
+					this.runTask(
+							new AbstractComponent.AbstractTask() {
+								@Override
+								public void run() {
+									try {
+										Thread.sleep(500) ;
+										((Admin)this.getOwner()).
+										adminDataOutboundPort.setSucc(arg1, arg2) ;//appeler sur le dataInboundPort de tmp? ?
 									} catch (Exception e) {
 										throw new RuntimeException(e) ;
 									}
@@ -84,19 +93,9 @@ public class Admin extends AbstractComponent{
 		if((first != null)&&(first != tmp)){//on exclut le  cas où 0 ou 1 seule node
 			this.doPortConnection(first[1], tmp[0], NodeConnector.class.getCanonicalName());
 			this.doPortConnection(first[0], tmp[1], NodeConnector.class.getCanonicalName());
-			this.runTask(
-					new AbstractComponent.AbstractTask() {
-						@Override
-						public void run() {
-							try {
-								Thread.sleep(500) ;
-								((Admin)this.getOwner()).
-								adminDataOutboundPort.setPred(first[1], tmp[0]) ;//appeler sur le dataInboundPort de first ?
-							} catch (Exception e) {
-								throw new RuntimeException(e) ;
-							}
-						}
-					}) ;
+			
+			arg1 = first[1];
+			arg2 = tmp[0];
 			
 			this.runTask(
 					new AbstractComponent.AbstractTask() {
@@ -105,7 +104,24 @@ public class Admin extends AbstractComponent{
 							try {
 								Thread.sleep(500) ;
 								((Admin)this.getOwner()).
-								adminDataOutboundPort.setSucc(tmp[1], first[0]) ;//appeler sur le dataInboundPort de tmp? ?
+								adminDataOutboundPort.setPred(arg1, arg2) ;//appeler sur le dataInboundPort de first ?
+							} catch (Exception e) {
+								throw new RuntimeException(e) ;
+							}
+						}
+					}) ;
+			
+			arg1 = tmp[1];
+			arg2 = first[0];
+			
+			this.runTask(
+					new AbstractComponent.AbstractTask() {
+						@Override
+						public void run() {
+							try {
+								Thread.sleep(500) ;
+								((Admin)this.getOwner()).
+								adminDataOutboundPort.setSucc(arg1, arg2) ;//appeler sur le dataInboundPort de tmp? ?
 							} catch (Exception e) {
 								throw new RuntimeException(e) ;
 							}
