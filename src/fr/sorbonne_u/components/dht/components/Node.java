@@ -6,7 +6,7 @@ public class Node extends AbstractComponent{
 
 	public Node()
 	{
-		super(nbThreads, 1);//à voir combien de threads on va utiliser
+		super(1, 1);//à voir combien de threads on va utiliser
 		// TODO Auto-generated constructor stub
 	}
 
