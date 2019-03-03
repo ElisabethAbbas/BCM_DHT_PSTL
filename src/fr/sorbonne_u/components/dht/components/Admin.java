@@ -108,7 +108,7 @@ public class Admin extends AbstractComponent{
 							try {
 								Thread.sleep(500) ;
 								((Admin)this.getOwner()).
-								adminDataOutboundPort.setPred(arg1, arg2) ;//appeler sur le dataInboundPort de first ?
+								adminDataOutboundPort.setPred(arg1, arg2) ;
 							} catch (Exception e) {
 								throw new RuntimeException(e) ;
 							}
@@ -125,13 +125,13 @@ public class Admin extends AbstractComponent{
 							try {
 								Thread.sleep(500) ;
 								((Admin)this.getOwner()).
-								adminDataOutboundPort.setSucc(arg1, arg2) ;//appeler sur le dataInboundPort de tmp? ?
+								adminDataOutboundPort.setSucc(arg1, arg2) ;
 							} catch (Exception e) {
 								throw new RuntimeException(e) ;
 							}
 						}
 					}) ;
-			//first.setPred(tmp);// TODO :ring et tmp sont des uri, appeler setPred et setSucc sur ces ports
+			//first.setPred(tmp);// ring et tmp sont des uri, appeler setPred et setSucc sur ces ports
 			//tmp.setSucc(first);
 		}
 		
