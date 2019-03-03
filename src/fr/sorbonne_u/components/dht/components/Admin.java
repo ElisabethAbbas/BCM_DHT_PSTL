@@ -8,6 +8,8 @@ import java.util.concurrent.TimeUnit;
 import fr.sorbonne_u.components.AbstractComponent;
 import fr.sorbonne_u.components.dht.connectors.NodeConnector;
 import fr.sorbonne_u.components.dht.ports.AdminDataOutboundPort;
+import fr.sorbonne_u.components.dht.ports.NodeDataInboundPort;
+import fr.sorbonne_u.components.dht.ports.NodeDataOutboundPort;
 import fr.sorbonne_u.components.examples.pingpong.components.PingPongPlayer;
 import fr.sorbonne_u.components.examples.pingpong.ports.PingPongOutboundPort;
 
@@ -19,6 +21,7 @@ public class Admin extends AbstractComponent{
 	protected String arg2;
 	protected AdminDataOutboundPort adminDataOutboundPort;
 	protected String[][] ring;//ring[0][0]->inbound port de la node 0, ring[0][1]->outbound port de la node 0
+
 	
 	public void initialize (int size, HashMap<Integer, String[]> nodes) throws Exception{//constructeur avec uris des JVM et index desires dans la DHT, pour l'instant noms et index des nodes
 		this.adminDataOutboundPort = new AdminDataOutboundPort(this) ;
@@ -32,6 +35,7 @@ public class Admin extends AbstractComponent{
 		uris = nodes;
 		for (int ind : nodes.keySet()) {
 			// /!\ on considère que size est une puissance de 2, sinon arrondir au-dessus.
+			this.doPortConnection(this.adminDataOutboundPort.getPortURI(), nodes.get(ind)[0], NodeConnector.class.getCanonicalName());//not sure about the last parameter. Create new Connector?
 			ring[ind] = nodes.get(ind); 
 			nbNodes++;
 		}
@@ -47,7 +51,7 @@ public class Admin extends AbstractComponent{
 					tmp = ring[i];
 				}
 				else{
-					this.doPortConnection(ring[i][1], tmp[0], NodeConnector.class.getCanonicalName());//utiliser un twoWayConnector?
+					this.doPortConnection(ring[i][1], tmp[0], NodeConnector.class.getCanonicalName());//utiliser un connecteur différent pour différencier les relation de pred et succ? ou twoWay?
 					this.doPortConnection(ring[i][0], tmp[1], NodeConnector.class.getCanonicalName());
 					
 					arg1 = ring[i][1];
@@ -60,7 +64,7 @@ public class Admin extends AbstractComponent{
 									try {
 										Thread.sleep(500) ;
 										((Admin)this.getOwner()).
-										adminDataOutboundPort.setPred(arg1, arg2) ;//appeler sur le dataInboundPort de ring[i] ?
+										adminDataOutboundPort.setPred(arg1, arg2) ;
 									} catch (Exception e) {
 										throw new RuntimeException(e) ;
 									}
@@ -77,7 +81,7 @@ public class Admin extends AbstractComponent{
 									try {
 										Thread.sleep(500) ;
 										((Admin)this.getOwner()).
-										adminDataOutboundPort.setSucc(arg1, arg2) ;//appeler sur le dataInboundPort de tmp? ?
+										adminDataOutboundPort.setSucc(arg1, arg2) ;
 									} catch (Exception e) {
 										throw new RuntimeException(e) ;
 									}
@@ -91,7 +95,7 @@ public class Admin extends AbstractComponent{
 			}
 		}
 		if((first != null)&&(first != tmp)){//on exclut le  cas où 0 ou 1 seule node
-			this.doPortConnection(first[1], tmp[0], NodeConnector.class.getCanonicalName());
+			this.doPortConnection(first[1], tmp[0], NodeConnector.class.getCanonicalName());//utiliser un connecteur différent pour différencier les relation de pred et succ? ou twoWay?
 			this.doPortConnection(first[0], tmp[1], NodeConnector.class.getCanonicalName());
 			
 			arg1 = first[1];
