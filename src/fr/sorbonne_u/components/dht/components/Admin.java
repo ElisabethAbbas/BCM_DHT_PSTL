@@ -8,6 +8,7 @@ import java.util.concurrent.TimeUnit;
 import fr.sorbonne_u.components.AbstractComponent;
 import fr.sorbonne_u.components.dht.connectors.NodeConnector;
 import fr.sorbonne_u.components.dht.ports.AdminDataOutboundPort;
+import fr.sorbonne_u.components.dht.ports.AdminOutboundPort;
 import fr.sorbonne_u.components.dht.ports.NodeDataInboundPort;
 import fr.sorbonne_u.components.dht.ports.NodeDataOutboundPort;
 import fr.sorbonne_u.components.examples.pingpong.components.PingPongPlayer;
@@ -17,25 +18,26 @@ public class Admin extends AbstractComponent{
 	protected HashMap<Integer, String[]> uris;//for later, link node index to JVM uri
 	protected int size;
 	protected int nbNodes;
-	protected String arg1;//pour passer en paramètres dans les innerClass
+	protected String arg1;//pour passer en paramï¿½tres dans les innerClass
 	protected String arg2;
-	protected AdminDataOutboundPort adminDataOutboundPort;
+	protected AdminOutboundPort adminOutboundPort;
 	protected String[][] ring;//ring[0][0]->inbound port de la node 0, ring[0][1]->outbound port de la node 0
 
 	
 	public void initialize (int size, HashMap<Integer, String[]> nodes) throws Exception{//constructeur avec uris des JVM et index desires dans la DHT, pour l'instant noms et index des nodes
-		this.adminDataOutboundPort = new AdminDataOutboundPort(this) ;
+		this.adminOutboundPort = new AdminOutboundPort(this) ;
+		this.addPort(this.adminOutboundPort);
+		this.adminOutboundPort.localPublishPort();
 		this.size = size;
 		nbNodes = 0;
 		ring=new String[size][2];
 		for(int i = 0; i < size; i++){
-			// /!\ on considère que size est une puissance de 2, sinon arrondir au-dessus.
+			// /!\ on considï¿½re que size est une puissance de 2, sinon arrondir au-dessus.
 			ring[i] = null; 
 		}
 		uris = nodes;
 		for (int ind : nodes.keySet()) {
-			// /!\ on considère que size est une puissance de 2, sinon arrondir au-dessus.
-			this.doPortConnection(this.adminDataOutboundPort.getPortURI(), nodes.get(ind)[0], NodeConnector.class.getCanonicalName());//not sure about the last parameter. Create new Connector?
+			// /!\ on considï¿½re que size est une puissance de 2, sinon arrondir au-dessus.
 			ring[ind] = nodes.get(ind); 
 			nbNodes++;
 		}
@@ -51,12 +53,12 @@ public class Admin extends AbstractComponent{
 					tmp = ring[i];
 				}
 				else{
-					this.doPortConnection(ring[i][1], tmp[0], NodeConnector.class.getCanonicalName());//utiliser un connecteur différent pour différencier les relation de pred et succ? ou twoWay?
+					this.doPortConnection(ring[i][1], tmp[0], NodeConnector.class.getCanonicalName());//utiliser un connecteur diffï¿½rent pour diffï¿½rencier les relation de pred et succ? ou twoWay?
 					this.doPortConnection(ring[i][0], tmp[1], NodeConnector.class.getCanonicalName());
 					
 					arg1 = ring[i][1];
 					arg2 = tmp[0];
-					
+					this.doPortConnection(this.adminOutboundPort.getPortURI(), ring[i][1], NodeConnector.class.getCanonicalName());
 					this.runTask(
 							new AbstractComponent.AbstractTask() {
 								@Override
@@ -64,16 +66,16 @@ public class Admin extends AbstractComponent{
 									try {
 										Thread.sleep(500) ;
 										((Admin)this.getOwner()).
-										adminDataOutboundPort.setPred(arg1, arg2) ;
+										adminOutboundPort.setPred(arg2) ;
 									} catch (Exception e) {
 										throw new RuntimeException(e) ;
 									}
 								}
 							}) ;
-					
+					this.doPortDisconnection(this.adminOutboundPort.getPortURI());
 					arg1 = tmp[1];
 					arg2 = ring[i][0];
-					
+					this.doPortConnection(this.adminOutboundPort.getPortURI(), tmp[1], NodeConnector.class.getCanonicalName());
 					this.runTask(
 							new AbstractComponent.AbstractTask() {
 								@Override
@@ -81,26 +83,26 @@ public class Admin extends AbstractComponent{
 									try {
 										Thread.sleep(500) ;
 										((Admin)this.getOwner()).
-										adminDataOutboundPort.setSucc(arg1, arg2) ;
+										adminOutboundPort.setSucc(arg2) ;
 									} catch (Exception e) {
 										throw new RuntimeException(e) ;
 									}
 								}
 							}) ;
-					
+					this.doPortDisconnection(this.adminOutboundPort.getPortURI());
 					//ring[i].setPred(tmp);// TODO ring et tmp sont des uri, appeler setPred et setSucc sur ces ports avec runTask()
 					//tmp.setSucc(ring[i]);
 					tmp = ring[i];
 				}
 			}
 		}
-		if((first != null)&&(first != tmp)){//on exclut le  cas où 0 ou 1 seule node
-			this.doPortConnection(first[1], tmp[0], NodeConnector.class.getCanonicalName());//utiliser un connecteur différent pour différencier les relation de pred et succ? ou twoWay?
+		if((first != null)&&(first != tmp)){//on exclut le  cas oï¿½ 0 ou 1 seule node
+			this.doPortConnection(first[1], tmp[0], NodeConnector.class.getCanonicalName());//utiliser un connecteur diffï¿½rent pour diffï¿½rencier les relation de pred et succ? ou twoWay?
 			this.doPortConnection(first[0], tmp[1], NodeConnector.class.getCanonicalName());
 			
 			arg1 = first[1];
 			arg2 = tmp[0];
-			
+			this.doPortConnection(this.adminOutboundPort.getPortURI(), first[1], NodeConnector.class.getCanonicalName());
 			this.runTask(
 					new AbstractComponent.AbstractTask() {
 						@Override
@@ -108,16 +110,16 @@ public class Admin extends AbstractComponent{
 							try {
 								Thread.sleep(500) ;
 								((Admin)this.getOwner()).
-								adminDataOutboundPort.setPred(arg1, arg2) ;
+								adminOutboundPort.setPred(arg2) ;
 							} catch (Exception e) {
 								throw new RuntimeException(e) ;
 							}
 						}
 					}) ;
-			
+			this.doPortDisconnection(this.adminOutboundPort.getPortURI());
 			arg1 = tmp[1];
 			arg2 = first[0];
-			
+			this.doPortConnection(this.adminOutboundPort.getPortURI(), tmp[1], NodeConnector.class.getCanonicalName());
 			this.runTask(
 					new AbstractComponent.AbstractTask() {
 						@Override
@@ -125,12 +127,13 @@ public class Admin extends AbstractComponent{
 							try {
 								Thread.sleep(500) ;
 								((Admin)this.getOwner()).
-								adminDataOutboundPort.setSucc(arg1, arg2) ;
+								adminOutboundPort.setSucc(arg2) ;
 							} catch (Exception e) {
 								throw new RuntimeException(e) ;
 							}
 						}
 					}) ;
+			this.doPortDisconnection(this.adminOutboundPort.getPortURI());
 			//first.setPred(tmp);// ring et tmp sont des uri, appeler setPred et setSucc sur ces ports
 			//tmp.setSucc(first);
 		}

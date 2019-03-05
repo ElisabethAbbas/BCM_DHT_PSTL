@@ -32,12 +32,12 @@ public class AdminDataOutboundPort extends AbstractDataOutboundPort{
 		
 	}
 
-	public void setPred(String string, String string2) {
+	public void setPred(String string) {
 		// TODO Auto-generated method stub
 		
 	}
 
-	public void setSucc(String string, String string2) {
+	public void setSucc(String string) {
 		// TODO Auto-generated method stub
 		
 	}
