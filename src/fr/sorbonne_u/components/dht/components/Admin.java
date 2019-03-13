@@ -8,11 +8,15 @@ import java.util.concurrent.TimeUnit;
 import fr.sorbonne_u.components.AbstractComponent;
 import fr.sorbonne_u.components.dht.connectors.NodeConnector;
 import fr.sorbonne_u.components.dht.ports.AdminDataOutboundPort;
+import fr.sorbonne_u.components.dht.ports.AdminInboundPort;
 import fr.sorbonne_u.components.dht.ports.AdminOutboundPort;
 import fr.sorbonne_u.components.dht.ports.NodeDataInboundPort;
 import fr.sorbonne_u.components.dht.ports.NodeDataOutboundPort;
 import fr.sorbonne_u.components.examples.pingpong.components.PingPongPlayer;
 import fr.sorbonne_u.components.examples.pingpong.ports.PingPongOutboundPort;
+import fr.sorbonne_u.components.examples.reflection.interfaces.MyServiceI;
+import fr.sorbonne_u.components.examples.reflection.ports.MyServiceInboundPort;
+import fr.sorbonne_u.components.ports.PortI;
 
 public class Admin extends AbstractComponent{
 	protected HashMap<Integer, String[]> uris;//for later, link node index to JVM uri
@@ -23,6 +27,14 @@ public class Admin extends AbstractComponent{
 	protected AdminOutboundPort adminOutboundPort;
 	protected String[][] ring;//ring[0][0]->inbound port de la node 0, ring[0][1]->outbound port de la node 0
 
+	public Admin(String AdminInboundPortURI) throws Exception
+	{
+		super(AdminInboundPortURI, 1, 0);
+		this.addOfferedInterface(MyServiceI.class) ;
+		AdminInboundPort ip = new AdminInboundPort(this) ;
+		this.addPort(ip) ;
+		ip.publishPort() ;
+	}
 	
 	public void initialize (int size, HashMap<Integer, String[]> nodes) throws Exception{//constructeur avec uris des JVM et index desires dans la DHT, pour l'instant noms et index des nodes
 		this.adminOutboundPort = new AdminOutboundPort(this) ;
@@ -146,11 +158,14 @@ public class Admin extends AbstractComponent{
 			}
 		}*/
 	}
-
-	public Admin() 
+	
+	@Override
+	public void			finalise() throws Exception
 	{
-		super(1, 0);
-	}
+		PortI[] p = this.findPortsFromInterface(MyServiceI.class) ;
+		p[0].unpublishPort() ;
 
+		super.finalise();
+	}
 
 }

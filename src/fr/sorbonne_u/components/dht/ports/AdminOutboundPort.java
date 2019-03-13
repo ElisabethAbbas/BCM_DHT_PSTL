@@ -50,6 +50,11 @@ public class AdminOutboundPort extends AbstractOutboundPort implements AdminI{
 		((AdminI)this.connector).join(s);
 		
 	}
+	
+	public void 			test()
+	{
+		System.out.println("test !") ;
+	}
 
 	
 }
