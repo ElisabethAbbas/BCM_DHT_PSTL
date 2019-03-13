@@ -37,19 +37,19 @@ public class Admin extends AbstractComponent{
 	}
 	
 	public void initialize (int size, HashMap<Integer, String[]> nodes) throws Exception{//constructeur avec uris des JVM et index desires dans la DHT, pour l'instant noms et index des nodes
-		this.adminOutboundPort = new AdminOutboundPort(this) ;
+		/*this.adminOutboundPort = new AdminOutboundPort(this) ;
 		this.addPort(this.adminOutboundPort);
-		this.adminOutboundPort.localPublishPort();
+		this.adminOutboundPort.localPublishPort();*/
 		this.size = size;
 		nbNodes = 0;
 		ring=new String[size][2];
 		for(int i = 0; i < size; i++){
-			// /!\ on consid�re que size est une puissance de 2, sinon arrondir au-dessus.
+			// /!\ on considere que size est une puissance de 2, sinon arrondir au-dessus.
 			ring[i] = null; 
 		}
 		uris = nodes;
 		for (int ind : nodes.keySet()) {
-			// /!\ on consid�re que size est une puissance de 2, sinon arrondir au-dessus.
+			// /!\ on considere que size est une puissance de 2, sinon arrondir au-dessus.
 			ring[ind] = nodes.get(ind); 
 			nbNodes++;
 		}
@@ -65,7 +65,7 @@ public class Admin extends AbstractComponent{
 					tmp = ring[i];
 				}
 				else{
-					this.doPortConnection(ring[i][1], tmp[0], NodeConnector.class.getCanonicalName());//utiliser un connecteur diff�rent pour diff�rencier les relation de pred et succ? ou twoWay?
+					this.doPortConnection(ring[i][1], tmp[0], NodeConnector.class.getCanonicalName());//utiliser un connecteur different pour differencier les relation de pred et succ? ou twoWay?
 					this.doPortConnection(ring[i][0], tmp[1], NodeConnector.class.getCanonicalName());
 					
 					arg1 = ring[i][1];
