@@ -8,37 +8,37 @@ implements	NodeI
 {
 
 	@Override
-	public void setPred(String s) {
-		((NodeI)this.offering).setPred(s);
+	public boolean setPred(String s) throws Exception {
+		 return ((NodeI)this.offering).setPred(s);
 		
 	}
 
 	@Override
-	public void setSucc(String s) {
+	public boolean setSucc(String s) throws Exception {
 		// TODO Auto-generated method stub
-		((NodeI)this.offering).setSucc(s);
+		return ((NodeI)this.offering).setSucc(s);
 	}
 
 	@Override
-	public void setIndex(int i) {
+	public boolean setIndex(int i) throws Exception {
 		// TODO Auto-generated method stub
-		((NodeI)this.offering).setIndex(i);
+		return ((NodeI)this.offering).setIndex(i);
 	}
 
 	@Override
-	public String getPred() {
+	public String getPred() throws Exception {
 		// TODO Auto-generated method stub
 		return ((NodeI)this.offering).getPred();
 	}
 
 	@Override
-	public String getSucc() {
+	public String getSucc() throws Exception {
 		// TODO Auto-generated method stub
 		return ((NodeI)this.offering).getSucc();
 	}
 
 	@Override
-	public int getIndex() {
+	public int getIndex() throws Exception {
 		// TODO Auto-generated method stub
 		return ((NodeI)this.offering).getIndex();
 	}

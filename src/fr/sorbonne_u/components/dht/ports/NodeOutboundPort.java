@@ -22,40 +22,39 @@ public class NodeOutboundPort extends AbstractOutboundPort implements NodeI{
 	}
 
 	@Override
-	public void setPred(String s) {
+	public boolean setPred(String s) throws Exception {
 		// TODO Auto-generated method stub
-		((NodeI)this.connector).setPred(s);
+		return ((NodeI)this.connector).setPred(s);
 		
 	}
 
 	@Override
-	public void setSucc(String s) {
+	public boolean setSucc(String s) throws Exception {
 		// TODO Auto-generated method stub
-		((NodeI)this.connector).setSucc(s);
+		return ((NodeI)this.connector).setSucc(s);
 	}
 
 	@Override
-	public void setIndex(int i) {
+	public boolean setIndex(int i) throws Exception {
 		// TODO Auto-generated method stub
-		((NodeI)this.connector).setIndex(i);
+		return ((NodeI)this.connector).setIndex(i);
 	}
 
 	@Override
-	public String getPred() {
+	public String getPred() throws Exception {
 		// TODO Auto-generated method stub
-		((NodeI)this.connector).getPred();
-		return null;
+		return ((NodeI)this.connector).getPred();
 	}
 
 	@Override
-	public String getSucc() {
+	public String getSucc() throws Exception {
 		// TODO Auto-generated method stub
 		return ((NodeI)this.connector).getSucc();
 
 	}
 
 	@Override
-	public int getIndex() {
+	public int getIndex() throws Exception {
 		// TODO Auto-generated method stub
 		return ((NodeI)this.connector).getIndex();
 

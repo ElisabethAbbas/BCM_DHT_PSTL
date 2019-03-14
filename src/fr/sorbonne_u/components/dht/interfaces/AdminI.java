@@ -5,8 +5,7 @@ import java.util.HashMap;
 import fr.sorbonne_u.components.interfaces.OfferedI;
 import fr.sorbonne_u.components.interfaces.RequiredI;
 
-public interface AdminI extends		OfferedI,
-RequiredI
+public interface AdminI extends		OfferedI
 {
 	public void initialize(HashMap<Integer, String> nodes);//maybe rethink parameters
 	public String[] getRing();

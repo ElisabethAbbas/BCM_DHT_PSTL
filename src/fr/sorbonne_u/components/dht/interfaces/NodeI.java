@@ -6,10 +6,10 @@ import fr.sorbonne_u.components.interfaces.RequiredI;
 public interface NodeI extends		OfferedI,
 RequiredI
 {
-	public void setPred(String s);
-	public void setSucc(String s);
-	public void setIndex(int i);
-	public String getPred();
-	public String getSucc();
-	public int getIndex();
+	public boolean setPred(String s) throws Exception;
+	public boolean setSucc(String s)throws Exception;
+	public boolean setIndex(int i)throws Exception;
+	public String getPred()throws Exception;
+	public String getSucc()throws Exception;
+	public int getIndex()throws Exception;
 }
