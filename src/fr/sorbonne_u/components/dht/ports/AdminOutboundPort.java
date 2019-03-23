@@ -25,17 +25,18 @@ public class AdminOutboundPort extends AbstractOutboundPort implements AdminRequ
 		super(AdminI.class, owner);
 	}
 	@Override
-	public boolean setPred(String s) throws Exception {
-		return ((NodeConnector)this.connector).setPred(s);
+	public void setPred(String s, int n) throws Exception {
+		System.out.println("setting pred - admin outbound port");
+		((NodeConnector)this.connector).setPred(s,n);
 	}
 	@Override
-	public boolean setSucc(String s) throws Exception {
-		return ((NodeConnector)this.connector).setSucc(s);
+	public void setSucc(String s, int n) throws Exception {
+		((NodeConnector)this.connector).setSucc(s,n);
 	}
 
 	@Override
-	public boolean setIndex(int i) throws Exception {
-		return ((NodeConnector)this.connector).setIndex(i);
+	public void setIndex(int i) throws Exception {
+		((NodeConnector)this.connector).setIndex(i);
 	}
 
 	@Override

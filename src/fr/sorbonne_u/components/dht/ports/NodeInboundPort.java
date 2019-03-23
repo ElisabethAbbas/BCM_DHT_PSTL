@@ -4,10 +4,10 @@ import fr.sorbonne_u.components.AbstractComponent;
 import fr.sorbonne_u.components.ComponentI;
 import fr.sorbonne_u.components.dht.components.Node;
 import fr.sorbonne_u.components.dht.interfaces.NodeI;
-import fr.sorbonne_u.components.examples.basic_cs.components.URIProvider;
+import fr.sorbonne_u.components.dht.interfaces.NodeOfferedI;
 import fr.sorbonne_u.components.ports.AbstractInboundPort;
 
-public class NodeInboundPort extends AbstractInboundPort implements NodeI{
+public class NodeInboundPort extends AbstractInboundPort implements NodeOfferedI{
 	private static final long serialVersionUID = 1L;
 
 	public				NodeInboundPort(
@@ -15,53 +15,70 @@ public class NodeInboundPort extends AbstractInboundPort implements NodeI{
 		ComponentI owner
 		) throws Exception
 	{
-		super(uri, NodeI.class, owner);
+		super(uri, NodeOfferedI.class, owner);
 	}
 
 	public				NodeInboundPort(ComponentI owner)
 	throws Exception
 	{
-		super(NodeI.class, owner);
+		super(NodeOfferedI.class, owner);
 	}
 
 	@Override
-	public boolean setPred(String s) throws Exception {
-		return this.getOwner().handleRequestSync(
+	public void setPred(String s, int n) throws Exception {
+		this.getOwner().handleRequestAsync(
 				new AbstractComponent.AbstractService<Boolean>() {
 					@Override
 					public Boolean call() throws Exception {
-						return ((Node)this.getOwner()).
-									setPred(s) ;
+						((Node)this.getOwner()).
+									setPred(s,n) ;
+						return true;
 					}
 				}) ;
 		
 	}
 
 	@Override
-	public boolean setSucc(String s) throws Exception {
-		return this.getOwner().handleRequestSync(
+	public void setSucc(String s, int n) throws Exception {
+		this.getOwner().handleRequestAsync(
 				new AbstractComponent.AbstractService<Boolean>() {
 					@Override
 					public Boolean call() throws Exception {
-						return ((Node)this.getOwner()).
-								setSucc(s) ;
+						((Node)this.getOwner()).
+								setSucc(s,n) ;
+						return true;
 					}
 				}) ;
 		
 	}
 
 	@Override
-	public boolean setIndex(int i) throws Exception {
-		return this.getOwner().handleRequestSync(
+	public void setIndex(int i) throws Exception {
+		this.getOwner().handleRequestAsync(
 				new AbstractComponent.AbstractService<Boolean>() {
 					@Override
 					public Boolean call() throws Exception {
-						return ((Node)this.getOwner()).
+						((Node)this.getOwner()).
 								setIndex(i) ;
+						return true;
 					}
 				}) ;
 		
 	}
+	
+	/*@Override
+	public void connect(String port) throws Exception {
+		this.getOwner().handleRequestAsync(
+				new AbstractComponent.AbstractService<Boolean>() {
+					@Override
+					public Boolean call() throws Exception {
+						((Node)this.getOwner()).
+								connect(port) ;
+						return true;
+					}
+				}) ;
+		
+	}*/
 
 	@Override
 	public String getPred() throws Exception {

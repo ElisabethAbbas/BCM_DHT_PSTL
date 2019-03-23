@@ -2,45 +2,47 @@ package fr.sorbonne_u.components.dht.connectors;
 
 import fr.sorbonne_u.components.connectors.AbstractConnector;
 import fr.sorbonne_u.components.dht.interfaces.NodeI;
+import fr.sorbonne_u.components.dht.interfaces.NodeOfferedI;
 
 public class NodeConnector  extends		AbstractConnector
-implements	NodeI
+implements	NodeOfferedI
 {
 
 	@Override
-	public boolean setPred(String s) throws Exception {
-		 return ((NodeI)this.offering).setPred(s);
+	public void setPred(String s, int n) throws Exception {
+		System.out.println("setting pred - connector");
+		 ((NodeOfferedI)this.offering).setPred(s,n);
 		
 	}
 
 	@Override
-	public boolean setSucc(String s) throws Exception {
+	public void setSucc(String s, int n) throws Exception {
 		// TODO Auto-generated method stub
-		return ((NodeI)this.offering).setSucc(s);
+		((NodeOfferedI)this.offering).setSucc(s,n);
 	}
 
 	@Override
-	public boolean setIndex(int i) throws Exception {
+	public void setIndex(int i) throws Exception {
 		// TODO Auto-generated method stub
-		return ((NodeI)this.offering).setIndex(i);
+		((NodeOfferedI)this.offering).setIndex(i);
 	}
 
 	@Override
 	public String getPred() throws Exception {
 		// TODO Auto-generated method stub
-		return ((NodeI)this.offering).getPred();
+		return ((NodeOfferedI)this.offering).getPred();
 	}
 
 	@Override
 	public String getSucc() throws Exception {
 		// TODO Auto-generated method stub
-		return ((NodeI)this.offering).getSucc();
+		return ((NodeOfferedI)this.offering).getSucc();
 	}
 
 	@Override
 	public int getIndex() throws Exception {
 		// TODO Auto-generated method stub
-		return ((NodeI)this.offering).getIndex();
+		return ((NodeOfferedI)this.offering).getIndex();
 	}
 
 }

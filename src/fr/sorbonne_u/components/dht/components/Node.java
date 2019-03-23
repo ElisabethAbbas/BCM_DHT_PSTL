@@ -1,10 +1,11 @@
 package fr.sorbonne_u.components.dht.components;
 
 import fr.sorbonne_u.components.AbstractComponent;
-import fr.sorbonne_u.components.ComponentI;
-import fr.sorbonne_u.components.dht.interfaces.AdminI;
+import fr.sorbonne_u.components.dht.connectors.NodeConnector;
 import fr.sorbonne_u.components.dht.interfaces.AdminRequiredI;
 import fr.sorbonne_u.components.dht.interfaces.NodeI;
+import fr.sorbonne_u.components.dht.interfaces.NodeOfferedI;
+import fr.sorbonne_u.components.dht.interfaces.NodeRequiredI;
 import fr.sorbonne_u.components.dht.ports.AdminOutboundPort;
 import fr.sorbonne_u.components.dht.ports.NodeDataOutboundPort;
 import fr.sorbonne_u.components.dht.ports.NodeInboundPort;
@@ -19,7 +20,8 @@ public class Node extends AbstractComponent{
 	protected String pred;
 	protected String succ;
 	protected int index;
-	protected NodeOutboundPort nObp ;
+	protected NodeOutboundPort nObpPred ;
+	protected NodeOutboundPort nObpSucc ;
 	protected NodeInboundPort nIbp ;
 	protected String adminRIPURI ;
 	protected AdminOutboundPort	adminPort ;
@@ -30,13 +32,17 @@ public class Node extends AbstractComponent{
 		assert	adminRIPURI != null ;
 
 		this.adminRIPURI = adminRIPURI ;
-		this.addRequiredInterface(AdminRequiredI.class) ;
-		this.addRequiredInterface(PingPongI.class) ;
-		this.addOfferedInterface(PingPongI.class) ;
+		//this.addRequiredInterface(AdminRequiredI.class) ;
+		//this.addRequiredInterface(NodeRequiredI.class) ;
+		//this.addOfferedInterface(NodeOfferedI.class) ;
 		
-		this.nObp = new NodeOutboundPort(this) ;
-		this.addPort(this.nObp) ;
-		this.nObp.localPublishPort() ;
+		this.nObpPred = new NodeOutboundPort(this) ;
+		this.addPort(this.nObpPred) ;
+		this.nObpPred.localPublishPort() ;
+		
+		this.nObpSucc = new NodeOutboundPort(this) ;
+		this.addPort(this.nObpSucc) ;
+		this.nObpSucc.localPublishPort() ;
 		
 		this.nIbp = new NodeInboundPort(this) ;
 		this.addPort(this.nIbp) ;
@@ -60,24 +66,28 @@ public class Node extends AbstractComponent{
 		return this.nIbp;
 	}
 	
-	public NodeOutboundPort getOutboundPort() {
-		return this.nObp;
+	public NodeOutboundPort getOutboundPort() {//TODO
+		return this.nObpSucc;//TODO
 	}
 	
-	public boolean setPred(String inboundPort) throws Exception {
+	public void setPred(String inboundPort, int n) throws Exception {
+		this.logMessage("setting pred to "+n+"...");
 		this.pred = inboundPort;
-		return true;
+		
+		//this.doPortConnection(this.nObpPred.getPortURI(), inboundPort, NodeConnector.class.getCanonicalName());
 	}
 	
-	public boolean setSucc(String inboundPort) throws Exception {
+	public void setSucc(String inboundPort, int n) throws Exception {
+		this.logMessage("setting succ to "+n+"...");
 		this.succ = inboundPort;
-		return true;
+		this.doPortConnection(this.nObpSucc.getPortURI(), inboundPort, NodeConnector.class.getCanonicalName());
 
 	}
-	
-	public boolean setIndex(int index)throws Exception {
+	public void connect(String port) throws Exception {//not used
+		//this.doPortConnection(this.nObp.getPortURI(), port, NodeConnector.class.getCanonicalName());
+	}
+	public void setIndex(int index)throws Exception {
 		this.index = index;
-		return true;
 	}
 	public String getPred() {
 		return pred;
@@ -124,8 +134,10 @@ public class Node extends AbstractComponent{
 	{
 		this.adminPort.doDisconnection() ;
 		this.adminPort.unpublishPort() ;
-		this.nObp.doDisconnection() ;
-		this.nObp.unpublishPort() ;
+		this.nObpPred.doDisconnection() ;
+		this.nObpPred.unpublishPort() ;
+		this.nObpSucc.doDisconnection() ;
+		this.nObpSucc.unpublishPort() ;
 
 		super.finalise();
 	}

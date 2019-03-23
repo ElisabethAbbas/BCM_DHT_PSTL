@@ -11,9 +11,9 @@ public class				CVM
 extends		AbstractCVM
 {
 	public static String ADMIN_RIP_URI = "admin-rip" ;
-	public static String NODE1_RIP_URI = "node1-rip" ;
-	public static String NODE2_RIP_URI = "node2-rip" ;
-	public static String NODE3_RIP_URI = "node3-rip" ;
+	public static String NODE1_RIP_URI = "node4-rip" ;
+	public static String NODE2_RIP_URI = "node1-rip" ;
+	public static String NODE3_RIP_URI = "node6-rip" ;
 	
 	public				CVM() throws Exception
 	{
@@ -31,8 +31,8 @@ extends		AbstractCVM
 		String[] nodePorts1=new String[2];
 		nodePorts1[0]=node1.getInboundPort().getPortURI();
 		nodePorts1[1]=node1.getOutboundPort().getPortURI();
-		nodes.put(1,nodePorts1);
-		System.out.println("node 1 : "+ nodePorts1[0]+","+nodePorts1[0]);
+		nodes.put(4,nodePorts1);
+		System.out.println("node 1 : "+ nodePorts1[0]+","+nodePorts1[1]);
 		node1.toggleTracing() ;
 		node1.toggleLogging() ;
 		
@@ -41,8 +41,8 @@ extends		AbstractCVM
 		String[] nodePorts2=new String[2];
 		nodePorts2[0]=node2.getInboundPort().getPortURI();
 		nodePorts2[1]=node2.getOutboundPort().getPortURI();
-		nodes.put(4,nodePorts2);
-		System.out.println("node 2 : "+ nodePorts2[0]+","+nodePorts2[0]);
+		nodes.put(1,nodePorts2);
+		System.out.println("node 2 : "+ nodePorts2[0]+","+nodePorts2[1]);
 		node2.toggleTracing() ;
 		node2.toggleLogging() ;
 		
@@ -52,7 +52,7 @@ extends		AbstractCVM
 		nodePorts3[0]=node3.getInboundPort().getPortURI();
 		nodePorts3[1]=node3.getOutboundPort().getPortURI();
 		nodes.put(6,nodePorts3);
-		System.out.println("node 3 : "+ nodePorts3[0]+","+nodePorts3[0]);
+		System.out.println("node 3 : "+ nodePorts3[0]+","+nodePorts3[1]);
 		node3.toggleTracing() ;
 		node3.toggleLogging() ;
 		
