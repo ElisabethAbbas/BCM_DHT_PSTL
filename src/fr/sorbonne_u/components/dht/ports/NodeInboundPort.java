@@ -41,12 +41,12 @@ public class NodeInboundPort extends AbstractInboundPort implements NodeOfferedI
 	@Override
 	public void setSucc(String s, int n) throws Exception {
 		this.getOwner().handleRequestAsync(
-				new AbstractComponent.AbstractService<Boolean>() {
+				new AbstractComponent.AbstractService<Void>() {
 					@Override
-					public Boolean call() throws Exception {
+					public Void call() throws Exception {
 						((Node)this.getOwner()).
 								setSucc(s,n) ;
-						return true;
+						return null ;
 					}
 				}) ;
 		
