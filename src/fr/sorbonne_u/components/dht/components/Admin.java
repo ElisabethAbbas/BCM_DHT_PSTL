@@ -27,10 +27,6 @@ public class Admin extends AbstractComponent{
 		super(AdminInboundPortURI, 1, 1);
 		this.size = size;
 		this.nodes = nodes;
-		/*this.addOfferedInterface(MyServiceI.class) ;
-		AdminInboundPort ip = new AdminInboundPort(this) ;
-		this.addPort(ip) ;
-		ip.publishPort() ;*/
 		
 		this.addRequiredInterface(AdminRequiredI.class);
 		this.addOfferedInterface(NodeOfferedI.class);
@@ -134,10 +130,6 @@ public class Admin extends AbstractComponent{
 	@Override
 	public void			finalise() throws Exception
 	{
-		/*PortI[] p = this.findPortsFromInterface(AdminI.class) ;
-		p[0].unpublishPort() ;*/
-		this.doPortDisconnection(this.adminOutboundPort.getPortURI());
-		
 		super.finalise();
 	}
 	

@@ -1,25 +1,14 @@
 package fr.sorbonne_u.components.dht.components;
 
-import java.util.concurrent.TimeUnit;
-
 import fr.sorbonne_u.components.AbstractComponent;
 import fr.sorbonne_u.components.dht.connectors.NodeConnector;
 import fr.sorbonne_u.components.dht.interfaces.AdminRequiredI;
-import fr.sorbonne_u.components.dht.interfaces.NodeI;
 import fr.sorbonne_u.components.dht.interfaces.NodeOfferedI;
 import fr.sorbonne_u.components.dht.interfaces.NodeRequiredI;
-import fr.sorbonne_u.components.dht.ports.AdminOutboundPort;
-import fr.sorbonne_u.components.dht.ports.NodeDataOutboundPort;
 import fr.sorbonne_u.components.dht.ports.NodeInboundPort;
 import fr.sorbonne_u.components.dht.ports.NodeOutboundPort;
-import fr.sorbonne_u.components.examples.pingpong.components.PingPongPlayer;
-import fr.sorbonne_u.components.examples.pingpong.interfaces.PingPongI;
-import fr.sorbonne_u.components.examples.pingpong.ports.PingPongOutboundPort;
-import fr.sorbonne_u.components.examples.reflection.connectors.MyServiceConnector;
-import fr.sorbonne_u.components.examples.reflection.interfaces.MyServiceI;
 import fr.sorbonne_u.components.exceptions.ComponentShutdownException;
 import fr.sorbonne_u.components.exceptions.ComponentStartException;
-import fr.sorbonne_u.components.reflection.connectors.ReflectionConnector;
 
 public class Node extends AbstractComponent{
 	protected String pred;
@@ -29,7 +18,7 @@ public class Node extends AbstractComponent{
 	protected NodeOutboundPort nObpSucc ;
 	protected NodeInboundPort nIbp ;
 	protected String adminRIPURI ;
-	protected AdminOutboundPort	adminPort ;
+	//protected AdminOutboundPort	adminPort ;
 
 	public Node(String nodeRIPURI, String adminRIPURI) throws Exception
 	{
@@ -54,7 +43,6 @@ public class Node extends AbstractComponent{
 		this.addPort(this.nIbp) ;
 		this.nIbp.publishPort() ;
 
-
 		this.tracer.setTitle("Node "+nodeRIPURI) ;
 		this.tracer.setRelativePosition(1, 1) ;
 
@@ -65,7 +53,6 @@ public class Node extends AbstractComponent{
 	}
 
 	public void initialize() throws Exception {
-
 	}
 
 	public NodeInboundPort getInboundPort() {
@@ -80,7 +67,7 @@ public class Node extends AbstractComponent{
 		this.logMessage("setting pred to "+n+"...");
 		this.pred = inboundPort;
 
-		//this.doPortConnection(this.nObpPred.getPortURI(), inboundPort, NodeConnector.class.getCanonicalName());
+		this.doPortConnection(this.nObpPred.getPortURI(), inboundPort, NodeConnector.class.getCanonicalName());
 	}
 
 	public void setSucc(String inboundPort, int n) throws Exception {
@@ -177,10 +164,10 @@ public class Node extends AbstractComponent{
 	@Override
 	public void			finalise() throws Exception
 	{ 
-		this.adminPort.doDisconnection() ;
+		// déconnexion des outboundPort : 
+		//this.adminPort.doDisconnection() ;
 		this.nObpPred.doDisconnection() ;
 		this.nObpSucc.doDisconnection() ;
-		this.nIbp.doDisconnection();
 		
 		super.finalise();
 	}
@@ -189,9 +176,9 @@ public class Node extends AbstractComponent{
 	public void			shutdown() throws ComponentShutdownException
 	{
 		try {
+			//this.adminPort.unpublishPort();
 			this.nObpPred.unpublishPort();
 			this.nObpSucc.unpublishPort() ;
-			this.adminPort.unpublishPort();
 			this.nIbp.unpublishPort();
 		} catch (Exception e) {
 			throw new ComponentShutdownException(e);
