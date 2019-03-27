@@ -8,6 +8,8 @@ import java.util.concurrent.TimeUnit;
 import fr.sorbonne_u.components.AbstractComponent;
 import fr.sorbonne_u.components.dht.connectors.NodeConnector;
 import fr.sorbonne_u.components.dht.interfaces.AdminOfferedI;
+import fr.sorbonne_u.components.dht.interfaces.AdminRequiredI;
+import fr.sorbonne_u.components.dht.interfaces.NodeOfferedI;
 import fr.sorbonne_u.components.dht.interfaces.NodeRequiredI;
 import fr.sorbonne_u.components.dht.ports.AdminOutboundPort;
 import fr.sorbonne_u.components.exceptions.ComponentShutdownException;
@@ -30,8 +32,8 @@ public class Admin extends AbstractComponent{
 		this.addPort(ip) ;
 		ip.publishPort() ;*/
 		
-		this.addRequiredInterface(NodeRequiredI.class);
-		this.addOfferedInterface(AdminOfferedI.class);
+		this.addRequiredInterface(AdminRequiredI.class);
+		this.addOfferedInterface(NodeOfferedI.class);
 		
 		this.adminOutboundPort = new AdminOutboundPort(this);
 		this.addPort(this.adminOutboundPort);
