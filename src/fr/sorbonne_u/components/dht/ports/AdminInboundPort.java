@@ -3,10 +3,10 @@ package fr.sorbonne_u.components.dht.ports;
 import java.util.HashMap;
 
 import fr.sorbonne_u.components.ComponentI;
-import fr.sorbonne_u.components.dht.interfaces.AdminI;
+import fr.sorbonne_u.components.dht.interfaces.AdminOfferedI;
 import fr.sorbonne_u.components.ports.AbstractInboundPort;
 
-public class AdminInboundPort extends AbstractInboundPort implements AdminI{
+public class AdminInboundPort extends AbstractInboundPort implements AdminOfferedI{
 	private static final long serialVersionUID = 1L;
 
 	public				AdminInboundPort(
@@ -14,13 +14,13 @@ public class AdminInboundPort extends AbstractInboundPort implements AdminI{
 		ComponentI owner
 		) throws Exception
 	{
-		super(uri, AdminI.class, owner);
+		super(uri, AdminOfferedI.class, owner);
 	}
 
 	public				AdminInboundPort(ComponentI owner)
 	throws Exception
 	{
-		super(AdminI.class, owner);
+		super(AdminOfferedI.class, owner);
 	}
 
 	@Override

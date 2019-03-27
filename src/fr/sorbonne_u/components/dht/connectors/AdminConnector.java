@@ -3,28 +3,25 @@ package fr.sorbonne_u.components.dht.connectors;
 import java.util.HashMap;
 
 import fr.sorbonne_u.components.connectors.AbstractConnector;
-import fr.sorbonne_u.components.dht.interfaces.AdminI;
+import fr.sorbonne_u.components.dht.interfaces.AdminOfferedI;
 
 public class AdminConnector extends		AbstractConnector
-implements	AdminI
+implements	AdminOfferedI
 {
 
 	@Override
 	public void initialize(HashMap<Integer, String> nodes) {
-		// TODO Auto-generated method stub
-		
+		((AdminOfferedI)this.offering).initialize(nodes);
 	}
 
 	@Override
 	public String[] getRing() {
-		// TODO Auto-generated method stub
-		return null;
+		return ((AdminOfferedI)this.offering).getRing();
 	}
 
 	@Override
 	public void join(String s) {
-		// TODO Auto-generated method stub
-		
+		((AdminOfferedI)this.offering).join(s);	
 	}
 
 }

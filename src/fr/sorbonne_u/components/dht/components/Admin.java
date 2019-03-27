@@ -7,10 +7,11 @@ import java.util.concurrent.TimeUnit;
 
 import fr.sorbonne_u.components.AbstractComponent;
 import fr.sorbonne_u.components.dht.connectors.NodeConnector;
-import fr.sorbonne_u.components.dht.interfaces.AdminI;
+import fr.sorbonne_u.components.dht.interfaces.AdminOfferedI;
+import fr.sorbonne_u.components.dht.interfaces.NodeRequiredI;
 import fr.sorbonne_u.components.dht.ports.AdminOutboundPort;
+import fr.sorbonne_u.components.exceptions.ComponentShutdownException;
 import fr.sorbonne_u.components.exceptions.ComponentStartException;
-import fr.sorbonne_u.components.ports.PortI;
 
 public class Admin extends AbstractComponent{
 	protected HashMap<Integer, String[]> uris;//for later, link node index to JVM uri
@@ -28,7 +29,11 @@ public class Admin extends AbstractComponent{
 		AdminInboundPort ip = new AdminInboundPort(this) ;
 		this.addPort(ip) ;
 		ip.publishPort() ;*/
-		this.adminOutboundPort = new AdminOutboundPort(this) ;
+		
+		this.addRequiredInterface(NodeRequiredI.class);
+		this.addOfferedInterface(AdminOfferedI.class);
+		
+		this.adminOutboundPort = new AdminOutboundPort(this);
 		this.addPort(this.adminOutboundPort);
 		this.adminOutboundPort.localPublishPort();
 		this.tracer.setTitle("Admin") ;
@@ -127,10 +132,20 @@ public class Admin extends AbstractComponent{
 	@Override
 	public void			finalise() throws Exception
 	{
-		PortI[] p = this.findPortsFromInterface(AdminI.class) ;
-		p[0].unpublishPort() ;
-
+		/*PortI[] p = this.findPortsFromInterface(AdminI.class) ;
+		p[0].unpublishPort() ;*/
+		this.doPortDisconnection(this.adminOutboundPort.getPortURI());
+		
 		super.finalise();
 	}
-
+	
+	@Override
+	public void			shutdown() throws ComponentShutdownException
+	{
+		try {
+			this.adminOutboundPort.unpublishPort();
+		} catch (Exception e) {
+			throw new ComponentShutdownException(e);
+		}
+	}
 }
