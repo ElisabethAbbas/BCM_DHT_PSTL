@@ -33,8 +33,8 @@ extends		AbstractCVM
 		nodePorts1[1]=node1.getOutboundPort().getPortURI();
 		nodes.put(4,nodePorts1);
 		System.out.println("node 1 : "+ nodePorts1[0]+","+nodePorts1[1]);
-		node1.toggleTracing() ;
-		node1.toggleLogging() ;
+		node1.toggleTracing();
+		node1.toggleLogging();
 		
 		Node node2 = new Node(NODE2_RIP_URI, ADMIN_RIP_URI) ;
 		this.deployedComponents.add(node2) ;
