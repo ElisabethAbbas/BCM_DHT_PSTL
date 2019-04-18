@@ -15,13 +15,13 @@ public class NodeManagementIbp extends AbstractInboundPort implements NodeManage
 		ComponentI owner
 		) throws Exception
 	{
-		super(uri, NodeOfferedI.class, owner);
+		super(uri, NodeManagementI.class, owner);
 	}
 
 	public				NodeManagementIbp(ComponentI owner)
 	throws Exception
 	{
-		super(NodeOfferedI.class, owner);
+		super(NodeManagementI.class, owner);
 	}
 
 	@Override
