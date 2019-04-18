@@ -1,5 +1,7 @@
 package fr.sorbonne_u.components.dht.components;
 
+import java.util.concurrent.TimeUnit;
+
 import fr.sorbonne_u.components.AbstractComponent;
 import fr.sorbonne_u.components.dht.connectors.NodeConnector;
 import fr.sorbonne_u.components.dht.interfaces.AdminRequiredI;
@@ -91,38 +93,124 @@ public class Node extends AbstractComponent{
 	public int getIndex() {
 		return index;
 	}
+	public NodeOutboundPort getNObpPred() {
+		return nObpPred;
+	}	
+	public NodeOutboundPort getNObpSucc() {
+		return nObpSucc;
+	}
+
 
 	public void			start() throws ComponentStartException
 	{
 		this.logMessage("starting node component.") ;
 		super.start();
 	}
-
-	/*@Override
+	
+	/*
 	public void			execute() throws Exception
 	{
 		super.execute() ;
-
-		if(index==1)
-			Thread.sleep(5000L);
+		
+		//  exécution de la stabilisation toutes les 3 secondes
+		this.scheduleTaskWithFixedDelay(
+				new AbstractComponent.AbstractTask() {
+					@Override
+					public void run() {
+						try {
+							((Node)this.getOwner()).stab1();
+						} catch (Exception e) {
+							throw new RuntimeException(e) ;
+						}
+					}
+				}, 0, 3000, // délai entre la fin d'une exécution et la suivante, à modifier 
+				, TimeUnit.MILLISECONDS) ;
 
 		this.traceMessage("La node "+index+" fait la stabilisation.\n") ;
+	}
+
+
+	public void stab1() {
+		// rajouter le doPortConnexion et déconnexion !!
+
+		// rajouter le doPortConnexion !!
+		this.doPortConnection(
+				this.nObp.getPortURI(),
+				this.adminRIPURI,
+				ReflectionConnector.class.getCanonicalName());
+
+		
 		this.scheduleTask(
 				new AbstractComponent.AbstractTask() {
 					@Override
 					public void run() {
 						try {
-							((Node)this.getOwner()).
-							nObpSucc.execute() ;
+							((Node)this.getOwner()).nObpSucc.stab2((Node)this.getOwner());
 						} catch (Exception e) {
 							throw new RuntimeException(e) ;
 						}
 					}
-				},
-				100L, TimeUnit.MILLISECONDS) ;
+				}, 0, 
+				TimeUnit.MILLISECONDS) ;
 	}
 	
-	public void stabilisation(){//called periodically --> stabilisation
+	public void stab2(Node n) {
+		// rajouter le doPortConnexion et déconnexion  !!
+
+		this.scheduleTask(
+				new AbstractComponent.AbstractTask() {
+					@Override
+					public void run() {
+						try {
+							NodeOutboundPort nobp = ((Node)this.getOwner()).nObpPred;
+							if(nobp!=null) // ?? ou inutile? 
+								nobp.stab3(n);
+						} catch (Exception e) {
+							throw new RuntimeException(e) ;
+						}
+					}
+				}, 0, 
+				TimeUnit.MILLISECONDS) ;
+	}
+
+	public void stab3(Node n) {
+		// rajouter le doPortConnexion et déconnexion !!
+
+		this.scheduleTask(
+				new AbstractComponent.AbstractTask() {
+					@Override
+					public void run() {
+						try {
+							if(((Node)this.getOwner()).getIndex()>n.getIndex())
+								n.nObpSucc.stab4((Node)this.getOwner());
+						} catch (Exception e) {
+							throw new RuntimeException(e) ;
+						}
+					}
+				}, 0,  
+				TimeUnit.MILLISECONDS) ;
+	}
+	
+	public void stab4(Node succ) {
+		// rajouter le doPortConnexion et déconnexion  !!
+
+		this.scheduleTask(
+				new AbstractComponent.AbstractTask() {
+					@Override
+					public void run() {
+						try {
+							if(((Node)this.getOwner()).getIndex()<succ.getIndex())
+								((Node)this.getOwner()).setSucc(, n);
+						} catch (Exception e) {
+							throw new RuntimeException(e) ;
+						}
+					}
+				}, 0,  
+				TimeUnit.MILLISECONDS) ;
+	}*/
+
+	
+/*	public void stabilisation(){//called periodically --> stabilisation
 		String uriPred = nObpSucc.getPred();
 		if((v!=this)&&((v.getIndex()>index)&&(v.getIndex()<succ.getIndex()))){//remplacer v!=this par this.equals(v)
 			succ=v;
