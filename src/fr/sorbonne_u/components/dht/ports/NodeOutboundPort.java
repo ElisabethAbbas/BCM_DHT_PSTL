@@ -66,4 +66,54 @@ public class NodeOutboundPort extends AbstractOutboundPort implements NodeRequir
 		return ((NodeRequiredI)this.connector).getIndex();
 
 	}
+	
+	/*@Override
+	public void stab1() throws Exception {
+		this.getOwner().handleRequestAsync(
+				new AbstractComponent.AbstractService<Void>() {
+					@Override
+					public Void call() throws Exception {
+						((Node)this.getOwner()).getNObpSucc().stab2((Node) this.getOwner());
+						return null ;
+					}
+				}) ;
+		
+	}
+	
+	@Override
+	public void stab2(Node n) throws Exception {
+		this.getOwner().handleRequestAsync(
+				new AbstractComponent.AbstractService<Void>() {
+					@Override
+					public Void call() throws Exception {
+						((Node)this.getOwner()).getNObpPred().stab3(n);
+						return null ;
+					}
+				}) ;
+		
+	}
+	
+	@Override
+	public void stab3(Node n) throws Exception {
+		this.getOwner().handleRequestAsync(
+				new AbstractComponent.AbstractService<Void>() {
+					@Override
+					public Void call() throws Exception {
+						((Node)this.getOwner()).getNObpPred(); // ???????? à modifier
+						return null ;
+					}
+				}) ;
+		
+	}
+
+	public void stab4(Node n) {
+		this.getOwner().handleRequestAsync(
+				new AbstractComponent.AbstractService<Void>() {
+					@Override
+					public Void call() throws Exception {
+					 // ?????? à remplir
+						return null ;
+					}
+				}) ;
+	}*/
 }
