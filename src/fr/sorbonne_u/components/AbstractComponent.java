@@ -1946,11 +1946,8 @@ implements	ComponentI
 		assert	!this.isPortConnected(portURI) :
 					new PreconditionException(portURI + " is already "
 															+ "connected!") ;
-		System.out.println("préconditions ok");
 		PortI p = this.findPortFromURI(portURI) ;
-		System.out.println("port 1 trouvé");
 		p.doConnection(otherPortURI, ccname) ;
-		System.out.println("connexion établie");
 		assert	this.isPortConnected(portURI) ;
 	}
 

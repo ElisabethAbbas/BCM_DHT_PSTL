@@ -5,10 +5,13 @@ import java.util.HashMap;
 import fr.sorbonne_u.components.AbstractComponent;
 import fr.sorbonne_u.components.cvm.AbstractCVM;
 import fr.sorbonne_u.components.dht.connectors.NodeConnector;
+import fr.sorbonne_u.components.dht.connectors.NodeManagementConnector;
 import fr.sorbonne_u.components.dht.interfaces.AdminRequiredI;
+import fr.sorbonne_u.components.dht.interfaces.NodeManagementI;
 import fr.sorbonne_u.components.dht.interfaces.NodeOfferedI;
 import fr.sorbonne_u.components.dht.ports.AdminOutboundPort;
 import fr.sorbonne_u.components.dht.ports.NodeInboundPort;
+import fr.sorbonne_u.components.dht.ports.NodeManagementIbp;
 import fr.sorbonne_u.components.pre.dcc.connectors.DynamicComponentCreationConnector;
 import fr.sorbonne_u.components.pre.dcc.ports.DynamicComponentCreationOutboundPort;
 import fr.sorbonne_u.components.reflection.connectors.ReflectionConnector;
@@ -31,7 +34,7 @@ public class DynamicAdmin extends		AbstractComponent
 		this.nodes = nodes;
 		
 		this.addRequiredInterface(AdminRequiredI.class);
-		this.addOfferedInterface(NodeOfferedI.class);
+		this.addOfferedInterface(NodeManagementI.class);
 		
 		this.adminOutboundPort = new AdminOutboundPort(this);
 		this.addPort(this.adminOutboundPort);
@@ -72,7 +75,7 @@ public class DynamicAdmin extends		AbstractComponent
 
 		for(int n : nodesReflectionIbpURIS.keySet()) {
 			rop.doConnection(nodesReflectionIbpURIS.get(n), ReflectionConnector.class.getCanonicalName());
-			ring[n] = rop.findPortURIsFromInterface(NodeInboundPort.class)[0];
+			ring[n] = rop.findPortURIsFromInterface(NodeManagementIbp.class)[0];
 			rop.doDisconnection();
 		}
 		
@@ -91,14 +94,14 @@ public class DynamicAdmin extends		AbstractComponent
 				}
 				else{
 					this.logMessage("connecting Outb->Inb admin - node : " + i +"...");
-					this.doPortConnection(this.adminOutboundPort.getPortURI(), ring[i], NodeConnector.class.getCanonicalName());
+					this.doPortConnection(this.adminOutboundPort.getPortURI(), ring[i], NodeManagementConnector.class.getCanonicalName());
 					
 					this.logMessage("settingPred node : " + i +"...");
 					this.adminOutboundPort.setPred(tmp, tmpi);
 					
 					this.doPortDisconnection(this.adminOutboundPort.getPortURI());
 					this.logMessage("connecting Outb->Inb admin - node : " + tmpi +"...");
-					this.doPortConnection(this.adminOutboundPort.getPortURI(), tmp, NodeConnector.class.getCanonicalName());
+					this.doPortConnection(this.adminOutboundPort.getPortURI(), tmp, NodeManagementConnector.class.getCanonicalName());
 					
 					this.logMessage("settingSucc node : " + tmpi +"...");
 					this.adminOutboundPort.setSucc(ring[i],i);
@@ -110,11 +113,11 @@ public class DynamicAdmin extends		AbstractComponent
 			}
 		}
 		if((first != null)&&(first != tmp)){//pour ne pas faire le cas ou 1 seule node
-			this.doPortConnection(this.adminOutboundPort.getPortURI(), first, NodeConnector.class.getCanonicalName());
+			this.doPortConnection(this.adminOutboundPort.getPortURI(), first, NodeManagementConnector.class.getCanonicalName());
 			
 			this.adminOutboundPort.setPred(tmp,tmpi);
 			this.doPortDisconnection(this.adminOutboundPort.getPortURI());
-			this.doPortConnection(this.adminOutboundPort.getPortURI(), tmp, NodeConnector.class.getCanonicalName());
+			this.doPortConnection(this.adminOutboundPort.getPortURI(), tmp, NodeManagementConnector.class.getCanonicalName());
 			
 			this.adminOutboundPort.setSucc(first,firsti);
 			this.doPortDisconnection(this.adminOutboundPort.getPortURI());

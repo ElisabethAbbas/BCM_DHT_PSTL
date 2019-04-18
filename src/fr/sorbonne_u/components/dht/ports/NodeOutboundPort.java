@@ -1,6 +1,7 @@
 package fr.sorbonne_u.components.dht.ports;
 
 import fr.sorbonne_u.components.ComponentI;
+import fr.sorbonne_u.components.dht.interfaces.NodeOfferedI;
 import fr.sorbonne_u.components.dht.interfaces.NodeRequiredI;
 import fr.sorbonne_u.components.dht.interfaces.NodeRequiredI;
 import fr.sorbonne_u.components.ports.AbstractOutboundPort;
@@ -65,6 +66,36 @@ public class NodeOutboundPort extends AbstractOutboundPort implements NodeRequir
 		// TODO Auto-generated method stub
 		return ((NodeRequiredI)this.connector).getIndex();
 
+	}
+
+	@Override
+	public void stab1() throws Exception {
+		// TODO Auto-generated method stub
+		((NodeRequiredI)this.connector).stab1();
+	}
+
+	@Override
+	public void stab2(NodeInboundPort startNode) throws Exception {
+		// TODO Auto-generated method stub
+		((NodeRequiredI)this.connector).stab2(startNode);
+	}
+
+	@Override
+	public void stab3(String predOfSucc, int succInd) throws Exception {
+		// TODO Auto-generated method stub
+		((NodeRequiredI)this.connector).stab3(predOfSucc, succInd);
+	}
+
+	@Override
+	public void stab4(NodeInboundPort startNode, int succInd, String predOfSucc) throws Exception {
+		// TODO Auto-generated method stub
+		((NodeRequiredI)this.connector).stab4(startNode, succInd, predOfSucc);
+	}
+
+	@Override
+	public void stab5(int succPredInd, int succInd, String predOfSucc) throws Exception {
+		// TODO Auto-generated method stub
+		((NodeRequiredI)this.connector).stab5(succInd, succInd, predOfSucc);
 	}
 	
 	/*@Override

@@ -7,8 +7,10 @@ import java.util.concurrent.TimeUnit;
 
 import fr.sorbonne_u.components.AbstractComponent;
 import fr.sorbonne_u.components.dht.connectors.NodeConnector;
+import fr.sorbonne_u.components.dht.connectors.NodeManagementConnector;
 import fr.sorbonne_u.components.dht.interfaces.AdminOfferedI;
 import fr.sorbonne_u.components.dht.interfaces.AdminRequiredI;
+import fr.sorbonne_u.components.dht.interfaces.NodeManagementI;
 import fr.sorbonne_u.components.dht.interfaces.NodeOfferedI;
 import fr.sorbonne_u.components.dht.interfaces.NodeRequiredI;
 import fr.sorbonne_u.components.dht.ports.AdminOutboundPort;
@@ -29,7 +31,7 @@ public class Admin extends AbstractComponent{
 		this.nodes = nodes;
 		
 		this.addRequiredInterface(AdminRequiredI.class);
-		this.addOfferedInterface(NodeOfferedI.class);
+		this.addOfferedInterface(NodeManagementI.class);
 		
 		this.adminOutboundPort = new AdminOutboundPort(this);
 		this.addPort(this.adminOutboundPort);
@@ -70,14 +72,14 @@ public class Admin extends AbstractComponent{
 				}
 				else{
 					this.logMessage("connecting Outb->Inb admin - node : " + i +"...");
-					this.doPortConnection(this.adminOutboundPort.getPortURI(), ring[i][0], NodeConnector.class.getCanonicalName());
+					this.doPortConnection(this.adminOutboundPort.getPortURI(), ring[i][0], NodeManagementConnector.class.getCanonicalName());
 					
 					this.logMessage("settingPred node : " + i +"...");
 					this.adminOutboundPort.setPred(tmp[0], tmpi);
 					
 					this.doPortDisconnection(this.adminOutboundPort.getPortURI());
 					this.logMessage("connecting Outb->Inb admin - node : " + tmpi +"...");
-					this.doPortConnection(this.adminOutboundPort.getPortURI(), tmp[0], NodeConnector.class.getCanonicalName());
+					this.doPortConnection(this.adminOutboundPort.getPortURI(), tmp[0], NodeManagementConnector.class.getCanonicalName());
 					
 					this.logMessage("settingSucc node : " + tmpi +"...");
 					this.adminOutboundPort.setSucc(ring[i][0],i);
@@ -89,11 +91,11 @@ public class Admin extends AbstractComponent{
 			}
 		}
 		if((first != null)&&(first != tmp)){//pour ne pas faire le cas ou 1 seule node
-			this.doPortConnection(this.adminOutboundPort.getPortURI(), first[0], NodeConnector.class.getCanonicalName());
+			this.doPortConnection(this.adminOutboundPort.getPortURI(), first[0], NodeManagementConnector.class.getCanonicalName());
 			
 			this.adminOutboundPort.setPred(tmp[0],tmpi);
 			this.doPortDisconnection(this.adminOutboundPort.getPortURI());
-			this.doPortConnection(this.adminOutboundPort.getPortURI(), tmp[0], NodeConnector.class.getCanonicalName());
+			this.doPortConnection(this.adminOutboundPort.getPortURI(), tmp[0], NodeManagementConnector.class.getCanonicalName());
 			
 			this.adminOutboundPort.setSucc(first[0],firsti);
 			this.doPortDisconnection(this.adminOutboundPort.getPortURI());

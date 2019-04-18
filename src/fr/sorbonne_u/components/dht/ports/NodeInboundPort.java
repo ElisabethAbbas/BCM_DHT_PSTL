@@ -27,12 +27,12 @@ public class NodeInboundPort extends AbstractInboundPort implements NodeOfferedI
 	@Override
 	public void setPred(String s, int n) throws Exception {
 		this.getOwner().handleRequestAsync(
-				new AbstractComponent.AbstractService<Boolean>() {
+				new AbstractComponent.AbstractService<Void>() {
 					@Override
-					public Boolean call() throws Exception {
+					public Void call() throws Exception {
 						((Node)this.getOwner()).
 									setPred(s,n) ;
-						return true;
+						return null;
 					}
 				}) ;
 		
@@ -55,12 +55,12 @@ public class NodeInboundPort extends AbstractInboundPort implements NodeOfferedI
 	@Override
 	public void setIndex(int i) throws Exception {
 		this.getOwner().handleRequestAsync(
-				new AbstractComponent.AbstractService<Boolean>() {
+				new AbstractComponent.AbstractService<Void>() {
 					@Override
-					public Boolean call() throws Exception {
+					public Void call() throws Exception {
 						((Node)this.getOwner()).
 								setIndex(i) ;
-						return true;
+						return null;
 					}
 				}) ;
 		
@@ -112,6 +112,66 @@ public class NodeInboundPort extends AbstractInboundPort implements NodeOfferedI
 					public Integer call() throws Exception {
 						return ((Node)this.getOwner()).
 								getIndex() ;
+					}
+				}) ;
+	}
+
+	@Override
+	public void stab1() throws Exception {
+		this.getOwner().handleRequestAsync(
+				new AbstractComponent.AbstractService<Void>() {
+					@Override
+					public Void call() throws Exception {
+						((Node)this.getOwner()).stab1() ;
+						return null;
+					}
+				}) ;
+	}
+
+	@Override
+	public void stab2(NodeInboundPort startNode) throws Exception {
+		this.getOwner().handleRequestAsync(
+				new AbstractComponent.AbstractService<Void>() {
+					@Override
+					public Void call() throws Exception {
+						((Node)this.getOwner()).stab2(startNode) ;
+						return null;
+					}
+				}) ;
+	}
+
+	@Override
+	public void stab3(String predOfSucc, int succInd) throws Exception {
+		this.getOwner().handleRequestAsync(
+				new AbstractComponent.AbstractService<Void>() {
+					@Override
+					public Void call() throws Exception {
+						((Node)this.getOwner()).stab3(predOfSucc, succInd) ;
+						return null;
+					}
+				}) ;
+	}
+
+	@Override
+	public void stab4(NodeInboundPort startNode, int succInd, String predOfSucc) throws Exception {
+		this.getOwner().handleRequestAsync(
+				new AbstractComponent.AbstractService<Void>() {
+					@Override
+					public Void call() throws Exception {
+						((Node)this.getOwner()).stab4(startNode, succInd, predOfSucc) ;
+						return null;
+					}
+				}) ;
+	}
+
+	@Override
+	public void stab5(int succPredInd, int succInd, String predOfSucc) throws Exception {
+		this.getOwner().handleRequestAsync(
+				new AbstractComponent.AbstractService<Void>() {
+					@Override
+					public Void call() throws Exception {
+						((Node)this.getOwner()).stab5(succPredInd, succInd, predOfSucc) ;
+						return null;
 					}
 				}) ;
 	}
