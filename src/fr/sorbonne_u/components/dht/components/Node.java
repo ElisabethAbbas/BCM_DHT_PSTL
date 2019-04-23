@@ -26,17 +26,20 @@ public class Node extends AbstractComponent{
 	protected String adminRIPURI ;
 	//protected AdminOutboundPort	adminPort ;
 
-	public Node(String nodeRIPURI, String adminRIPURI) throws Exception
+	public Node(String nodeRIPURI, String adminRIPURI, int index) throws Exception
 	{
+		
 		super(nodeRIPURI,1, 1);//� voir combien de threads on va utiliser
+		System.out.println("NODE BEIND CREATED...");
 		assert	adminRIPURI != null ;
-
+		this.index = index;
 		this.adminRIPURI = adminRIPURI ;
 
 		this.addRequiredInterface(AdminRequiredI.class) ;
 		this.addRequiredInterface(NodeRequiredI.class) ;
 		this.addOfferedInterface(NodeOfferedI.class) ;
 		this.addOfferedInterface(NodeManagementI.class) ;
+		this.addRequiredInterface(NodeManagementI.class) ;
 		
 		this.nObpPred = new NodeOutboundPort(this) ;
 		this.addPort(this.nObpPred) ;
@@ -73,6 +76,10 @@ public class Node extends AbstractComponent{
 	public NodeManagementIbp getInboundPort() {
 		return this.nMIbp;
 	}
+	
+	public String getInboundPortURI() throws Exception {
+		return this.nIbp.getPortURI();
+	}
 
 	public NodeOutboundPort getOutboundPort() {//TODO
 		return this.nObpSucc;//TODO
@@ -89,7 +96,6 @@ public class Node extends AbstractComponent{
 		this.logMessage("setting succ to "+n+"...");
 		this.succ = inboundPort;
 		this.doPortConnection(this.nObpSucc.getPortURI(), inboundPort, NodeConnector.class.getCanonicalName());
-
 	}
 	public void connect(String port) throws Exception {//not used
 		//this.doPortConnection(this.nObp.getPortURI(), port, NodeConnector.class.getCanonicalName());
@@ -118,21 +124,39 @@ public class Node extends AbstractComponent{
 	{
 		this.logMessage("starting node component.") ;
 		super.start();
+		//  exécution de la stabilisation toutes les 3 secondes
+		this.scheduleTaskWithFixedDelay(
+				new AbstractComponent.AbstractTask() {
+					@Override
+					public void run() {
+						try {
+							((Node)this.getOwner()).stab1();
+						} catch (Exception e) {
+							throw new RuntimeException(e) ;
+						}
+					}
+				}, 3000, 3000 // délai entre la fin d'une exécution et la suivante, à modifier 
+				, TimeUnit.MILLISECONDS) ;
+
 	}
 	public void stab1() throws Exception {
+		this.logMessage("stabilisation 1...");
 		nObpSucc.stab2(this.nIbp);
 	}
 	public void stab2(NodeInboundPort startNode) throws Exception {
+		this.logMessage("stabilisation 2...");
 		this.doPortConnection(this.nObpStab.getPortURI(), startNode.getPortURI(), NodeConnector.class.getCanonicalName());
 		this.nObpStab.stab3(this.pred, index);
 		this.doPortDisconnection(this.nObpStab.getPortURI());
 	}
 	public void stab3(String predOfSucc, int succInd) throws Exception {
+		this.logMessage("stabilisation 3...");
 		this.doPortConnection(this.nObpStab.getPortURI(), predOfSucc, NodeConnector.class.getCanonicalName());
 		this.nObpStab.stab4(this.nIbp, succInd, predOfSucc);
 		this.doPortDisconnection(this.nObpStab.getPortURI());
 	}
 	public void stab4(NodeInboundPort startNode, int succInd, String predOfSucc) throws Exception {
+		this.logMessage("stabilisation 4...");
 		this.doPortConnection(this.nObpStab.getPortURI(), startNode.getPortURI(), NodeConnector.class.getCanonicalName());
 		this.nObpStab.stab5(index, succInd, predOfSucc);
 		this.doPortDisconnection(this.nObpStab.getPortURI());
@@ -142,10 +166,18 @@ public class Node extends AbstractComponent{
 			this.doPortDisconnection(this.nObpSucc.getPortURI());
 			this.doPortConnection(this.nObpSucc.getPortURI(), predOfSucc, NodeConnector.class.getCanonicalName());
 			this.succ = predOfSucc;
+			
 			//this.nObpSucc.notifyPred(this.nIbp);
 		}
+		this.logMessage("stabilisation 5...");
 	}
+	public void			execute() throws Exception
+	{
+		super.execute() ;
+		
 	
+			
+	}
 	/*
 	public void			execute() throws Exception
 	{

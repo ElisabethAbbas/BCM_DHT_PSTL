@@ -118,6 +118,7 @@ public class NodeInboundPort extends AbstractInboundPort implements NodeOfferedI
 
 	@Override
 	public void stab1() throws Exception {
+		System.out.println("test stab1 node inbound port");
 		this.getOwner().handleRequestAsync(
 				new AbstractComponent.AbstractService<Void>() {
 					@Override
@@ -130,6 +131,7 @@ public class NodeInboundPort extends AbstractInboundPort implements NodeOfferedI
 
 	@Override
 	public void stab2(NodeInboundPort startNode) throws Exception {
+		System.out.println("test stab2 node inbound port");
 		this.getOwner().handleRequestAsync(
 				new AbstractComponent.AbstractService<Void>() {
 					@Override
@@ -142,6 +144,7 @@ public class NodeInboundPort extends AbstractInboundPort implements NodeOfferedI
 
 	@Override
 	public void stab3(String predOfSucc, int succInd) throws Exception {
+		System.out.println("test stab3 node inbound port");
 		this.getOwner().handleRequestAsync(
 				new AbstractComponent.AbstractService<Void>() {
 					@Override
@@ -154,6 +157,7 @@ public class NodeInboundPort extends AbstractInboundPort implements NodeOfferedI
 
 	@Override
 	public void stab4(NodeInboundPort startNode, int succInd, String predOfSucc) throws Exception {
+		System.out.println("test stab4 node inbound port");
 		this.getOwner().handleRequestAsync(
 				new AbstractComponent.AbstractService<Void>() {
 					@Override
@@ -166,6 +170,7 @@ public class NodeInboundPort extends AbstractInboundPort implements NodeOfferedI
 
 	@Override
 	public void stab5(int succPredInd, int succInd, String predOfSucc) throws Exception {
+		System.out.println("test stab5 node inbound port");
 		this.getOwner().handleRequestAsync(
 				new AbstractComponent.AbstractService<Void>() {
 					@Override

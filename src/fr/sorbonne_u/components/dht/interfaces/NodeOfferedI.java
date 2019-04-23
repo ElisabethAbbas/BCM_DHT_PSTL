@@ -5,7 +5,7 @@ import fr.sorbonne_u.components.dht.ports.NodeInboundPort;
 import fr.sorbonne_u.components.interfaces.OfferedI;
 import fr.sorbonne_u.components.interfaces.RequiredI;
 
-public interface NodeOfferedI extends		 OfferedI
+public interface NodeOfferedI extends OfferedI, RequiredI
 {
 	public void setPred(String s, int n) throws Exception;
 	public void setSucc(String s, int n)throws Exception;

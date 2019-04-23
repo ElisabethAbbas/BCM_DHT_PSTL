@@ -698,6 +698,7 @@ implements	ReflectionI
 	public String[]		findPortURIsFromInterface(final Class<?> inter)
 	throws Exception
 	{
+		System.out.println("test findPorts rIBP");
 		return this.getOwner().handleRequestSync(
 					new AbstractComponent.AbstractService<String[]>() {
 						@Override

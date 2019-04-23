@@ -52,5 +52,10 @@ public class AdminOutboundPort extends AbstractOutboundPort implements AdminRequ
 	public int getIndex() throws Exception {
 		return ((NodeManagementConnector)this.connector).getIndex();
 	}
+
+	@Override
+	public String getInboundPortURI() throws Exception {
+		return ((NodeManagementConnector)this.connector).getInboundPortURI();
+	}
 	
 }

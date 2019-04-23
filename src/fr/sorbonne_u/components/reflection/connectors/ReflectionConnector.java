@@ -443,6 +443,7 @@ implements	ReflectionI
 	public String[]		findPortURIsFromInterface(Class<?> inter)
 	throws Exception
 	{
+		System.out.println("test findPorts refl connector");
 		return ((ReflectionI)this.offering).findPortURIsFromInterface(inter) ;
 	}
 

@@ -44,4 +44,9 @@ implements	NodeManagementI
 		// TODO Auto-generated method stub
 		return ((NodeManagementI)this.offering).getIndex();
 	}
+
+	@Override
+	public String getInboundPortURI() throws Exception {
+		return ((NodeManagementI)this.offering).getInboundPortURI();
+	}
 }

@@ -9,5 +9,6 @@ RequiredI
 	public void setIndex(int i) throws Exception;
 	public String getPred() throws Exception;
 	public String getSucc() throws Exception;
+	public String getInboundPortURI()throws Exception;
 	public int getIndex() throws Exception;
 }

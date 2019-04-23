@@ -12,68 +12,67 @@ implements	NodeOfferedI
 	@Override
 	public void setPred(String s, int n) throws Exception {
 		System.out.println("setting pred - connector");
-		 ((NodeOfferedI)this.offering).setPred(s,n);
+		 ((NodeInboundPort)this.offering).setPred(s,n);
 		
 	}
 
 	@Override
 	public void setSucc(String s, int n) throws Exception {
 		// TODO Auto-generated method stub
-		((NodeOfferedI)this.offering).setSucc(s,n);
+		((NodeInboundPort)this.offering).setSucc(s,n);
 	}
 
 	@Override
 	public void setIndex(int i) throws Exception {
 		// TODO Auto-generated method stub
-		((NodeOfferedI)this.offering).setIndex(i);
+		((NodeInboundPort)this.offering).setIndex(i);
 	}
 
 	@Override
 	public String getPred() throws Exception {
 		// TODO Auto-generated method stub
-		return ((NodeOfferedI)this.offering).getPred();
+		return ((NodeInboundPort)this.offering).getPred();
 	}
 
 	@Override
 	public String getSucc() throws Exception {
 		// TODO Auto-generated method stub
-		return ((NodeOfferedI)this.offering).getSucc();
+		return ((NodeInboundPort)this.offering).getSucc();
 	}
 
 	@Override
 	public int getIndex() throws Exception {
 		// TODO Auto-generated method stub
-		return ((NodeOfferedI)this.offering).getIndex();
+		return ((NodeInboundPort)this.offering).getIndex();
 	}
 
 	@Override
 	public void stab1() throws Exception {
-		// TODO Auto-generated method stub
-		((NodeOfferedI)this.offering).stab1();
+		System.out.println("test stab1 node connector");
+		((NodeInboundPort)this.offering).stab1();
 	}
 
 	@Override
 	public void stab2(NodeInboundPort startNode) throws Exception {
-		// TODO Auto-generated method stub
-		((NodeOfferedI)this.offering).stab2(startNode);
+		System.out.println("test stab2 node connector");
+		((NodeInboundPort)this.offering).stab2(startNode);
 	}
 
 	@Override
 	public void stab3(String predOfSucc, int succInd) throws Exception {
-		// TODO Auto-generated method stub
-		((NodeOfferedI)this.offering).stab3(predOfSucc, succInd);
+		System.out.println("test stab3 node connector");
+		((NodeInboundPort)this.offering).stab3(predOfSucc, succInd);
 	}
 
 	@Override
 	public void stab4(NodeInboundPort startNode, int succInd, String predOfSucc) throws Exception {
-		// TODO Auto-generated method stub
-		((NodeOfferedI)this.offering).stab4(startNode, succInd, predOfSucc);
+		System.out.println("test stab4 node connector");
+		((NodeInboundPort)this.offering).stab4(startNode, succInd, predOfSucc);
 	}
 
 	@Override
 	public void stab5(int succPredInd, int succInd, String predOfSucc) throws Exception {
-		// TODO Auto-generated method stub
-		((NodeOfferedI)this.offering).stab5(succInd, succInd, predOfSucc);
+		System.out.println("test stab5 node connector");
+		((NodeInboundPort)this.offering).stab5(succInd, succInd, predOfSucc);
 	}
-
 }

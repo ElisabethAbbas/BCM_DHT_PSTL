@@ -41,6 +41,7 @@ import fr.sorbonne_u.components.examples.basic_cs.components.URIProvider;
 import fr.sorbonne_u.components.examples.basic_cs.connectors.URIServiceConnector;
 import fr.sorbonne_u.components.examples.ddeployment_cs.connectors.URIConsumerLaunchConnector;
 import fr.sorbonne_u.components.examples.ddeployment_cs.interfaces.URIConsumerLaunchI;
+import fr.sorbonne_u.components.examples.ddeployment_cs.ports.URIConsumerLaunchInboundPort;
 import fr.sorbonne_u.components.examples.ddeployment_cs.ports.URIConsumerLaunchOutboundPort;
 import fr.sorbonne_u.components.exceptions.ComponentShutdownException;
 import fr.sorbonne_u.components.exceptions.ComponentStartException;
@@ -261,7 +262,7 @@ extends		AbstractComponent
 											 this.providerInboundPortURI}) ;
 		// call the dynamic component creator of the consumer JVM to create
 		// the provider component
-		this.portToConsumerJVM.createComponent(
+		String ribp = this.portToConsumerJVM.createComponent(
 								DynamicURIConsumer.class.getCanonicalName(),
 								new Object[]{CONSUMER_COMPONENT_URI,
 											 this.consumerOutboundPortURI,
@@ -271,7 +272,12 @@ extends		AbstractComponent
 		ReflectionOutboundPort rop = new ReflectionOutboundPort(this) ;
 		this.addPort(rop) ;
 		rop.localPublishPort() ;
-
+		rop.doConnection(ribp,
+				 ReflectionConnector.class.getCanonicalName()) ;
+		
+		System.out.println("test get ports 1 : " + rop.findPortURIsFromInterface(URIConsumerLaunchInboundPort.class));
+		System.out.println("test get ports 2 : " + rop.findPortURIsFromInterface(URIConsumerLaunchInboundPort.class));
+		rop.doDisconnection();
 		// connect to the consumer (client) component
 		rop.doConnection(DynamicAssembler.CONSUMER_COMPONENT_URI,
 						 ReflectionConnector.class.getCanonicalName()) ;

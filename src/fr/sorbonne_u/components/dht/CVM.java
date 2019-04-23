@@ -2,8 +2,10 @@ package fr.sorbonne_u.components.dht;
 
 import java.util.HashMap;
 
+import fr.sorbonne_u.components.AbstractComponent;
 import fr.sorbonne_u.components.cvm.AbstractCVM;
 import fr.sorbonne_u.components.dht.components.Admin;
+import fr.sorbonne_u.components.dht.components.DynamicAdmin;
 import fr.sorbonne_u.components.dht.components.Node;
 
 
@@ -15,6 +17,8 @@ extends		AbstractCVM
 	public static String NODE2_RIP_URI = "node1-rip" ;
 	public static String NODE3_RIP_URI = "node6-rip" ;
 	
+	public DynamicAdmin dAdmin;
+	
 	public				CVM() throws Exception
 	{
 		super() ;
@@ -24,52 +28,68 @@ extends		AbstractCVM
 	public void			deploy() throws Exception
 	{
 		
-		HashMap<Integer, String[]> nodes = new HashMap<Integer, String[]>();
-		// à faire dans admin
-		Node node1 = new Node(NODE1_RIP_URI, ADMIN_RIP_URI) ;
-		this.deployedComponents.add(node1) ;
-		String[] nodePorts1=new String[2];
-		nodePorts1[0]=node1.getInboundPort().getPortURI();
-		nodePorts1[1]=node1.getOutboundPort().getPortURI();
-		nodes.put(4,nodePorts1);
-		System.out.println("node 1 : "+ nodePorts1[0]+","+nodePorts1[1]);
-		node1.toggleTracing();
-		node1.toggleLogging();
+		HashMap<Integer, String> nodes = new HashMap<Integer, String>();
 		
-		Node node2 = new Node(NODE2_RIP_URI, ADMIN_RIP_URI) ;
-		this.deployedComponents.add(node2) ;
-		String[] nodePorts2=new String[2];
-		nodePorts2[0]=node2.getInboundPort().getPortURI();
-		nodePorts2[1]=node2.getOutboundPort().getPortURI();
-		nodes.put(1,nodePorts2);
-		System.out.println("node 2 : "+ nodePorts2[0]+","+nodePorts2[1]);
-		node2.toggleTracing() ;
-		node2.toggleLogging() ;
-		
-		Node node3 = new Node(NODE3_RIP_URI, ADMIN_RIP_URI) ;
-		this.deployedComponents.add(node3) ;
-		String[] nodePorts3=new String[2];
-		nodePorts3[0]=node3.getInboundPort().getPortURI();
-		nodePorts3[1]=node3.getOutboundPort().getPortURI();
-		nodes.put(6,nodePorts3);
-		System.out.println("node 3 : "+ nodePorts3[0]+","+nodePorts3[1]);
-		node3.toggleTracing() ;
-		node3.toggleLogging() ;
-		
-		Admin admin = new Admin(ADMIN_RIP_URI, 15, nodes) ;
-		this.deployedComponents.add(admin) ;
-		admin.toggleTracing() ;
-		admin.toggleLogging() ;
+		nodes.put(4,"");
 
+		nodes.put(1,"");		
+		
+		nodes.put(6,"");
+		
+		this.dAdmin = new DynamicAdmin(ADMIN_RIP_URI, 15, nodes) ;
+		this.deployedComponents.add(this.dAdmin) ;
+		this.dAdmin.toggleTracing() ;
+		this.dAdmin.toggleLogging() ;
 		super.deploy();
+	}
+	
+	@Override
+	public void			start() throws Exception
+	{
+		super.start() ;
+
+		this.dAdmin.runTask(
+			new AbstractComponent.AbstractTask() {
+					@Override
+					public void run() {
+						try {
+							((DynamicAdmin)this.getOwner()).
+													dynamicDeploy() ;
+						} catch (Exception e) {
+							throw new RuntimeException(e) ;
+						}
+					}
+				}) ;
+	}
+
+	/**
+	 * @see fr.sorbonne_u.components.cvm.AbstractCVM#execute()
+	 */
+	@Override
+	public void			execute() throws Exception
+	{
+		super.execute() ;
+
+		/*this.dAdmin.runTask(
+				new AbstractComponent.AbstractTask() {
+						@Override
+						public void run() {
+							try {
+								((DynamicAdmin)this.getOwner()).
+														initialize() ;
+							} catch (Exception e) {
+								throw new RuntimeException(e) ;
+							}
+						}
+					}) ;*/
 	}
 
 	public static void		main(String[] args)
 	{
 		try {
 			CVM cvm = new CVM() ;
-			cvm.startStandardLifeCycle(5000L) ;
-			Thread.sleep(5000L) ;
+			cvm.startStandardLifeCycle(9000L) ;
+			Thread.sleep(9000L) ;
 			System.exit(0) ;
 		} catch (Exception e) {
 			throw new RuntimeException(e) ;

@@ -456,6 +456,7 @@ implements	ReflectionI
 	public String[]		findPortURIsFromInterface(Class<?> inter)
 	throws Exception
 	{
+		System.out.println("test findPOrts rOBP");
 		return ((ReflectionI)this.connector).findPortURIsFromInterface(inter) ;
 	}
 
