@@ -30,6 +30,7 @@ public class DynamicAdmin extends		AbstractComponent
 	protected int size;
 	protected int nbNodes;
 	protected AdminOutboundPort adminOutboundPort;
+	protected ReflectionOutboundPort rop;
 	protected String[][] ring;
 	protected HashMap<Integer, String> nodes;//string correspond au nom de la JVM de la node a creer
 	protected HashMap<Integer, DynamicComponentCreationOutboundPort> portsToNodesJVM = new HashMap<Integer, DynamicComponentCreationOutboundPort>();
@@ -51,12 +52,62 @@ public class DynamicAdmin extends		AbstractComponent
 		this.tracer.setTitle("Dynamic Admin") ;
 		this.tracer.setRelativePosition(1, 0) ;
 	}
-	public void initialize() throws Exception {
+	
+	public void join(int index, String JVMURI) throws Exception {
 		
-		
-		
+		if(ring[index] != null)
+			this.logMessage("cant join node " + index + " : node already exists !") ;
+		else {
+			nodes.put(index,  JVMURI);
+			try {
+				System.out.println("starting dccObp creation : " + index);
+				DynamicComponentCreationOutboundPort tmpCObp = new DynamicComponentCreationOutboundPort(this);
+				portsToNodesJVM.put(index, tmpCObp);
+				this.addPort(tmpCObp);
+				tmpCObp.localPublishPort();
+				tmpCObp.doConnection(nodes.get(index) + AbstractCVM.DCC_INBOUNDPORT_URI_SUFFIX, DynamicComponentCreationConnector.class.getCanonicalName());
+			} catch (Exception e) {
+				throw new Exception(e) ;
+			}
+			
+			this.logMessage("creating node : " + index);
+			String tmpReflectionIbpURI = portsToNodesJVM.get(index).createComponent(Node.class.getCanonicalName(), new Object[]{"node" + index +"-rip", "admin-rip", index});
+			nodesReflectionIbpURIS.put(index, tmpReflectionIbpURI);
+			String [] tmpRingNode = new String[2];
+			rop.doConnection(nodesReflectionIbpURIS.get(index), ReflectionConnector.class.getCanonicalName());
+			System.out.println("test RIbpURI : " + nodesReflectionIbpURIS.get(index));
+			try {
+				tmpRingNode[0] = rop.findPortURIsFromInterface(NodeManagementI.class)[0];
+				rop.toggleTracing();
+				this.doPortConnection(this.adminOutboundPort.getPortURI(), tmpRingNode[0], NodeManagementConnector.class.getCanonicalName());
+				tmpRingNode[1] = this.adminOutboundPort.getInboundPortURI();
+				this.doPortDisconnection(this.adminOutboundPort.getPortURI());
+				
+				//tmpRingNode[1] = rop.findPortURIsFromInterface(NodeInboundPort.class)[0];
+			}catch (Exception e) {
+				throw new Exception(e) ;
+			}
+			ring[index] = tmpRingNode;
+			rop.doDisconnection();
+			//TODO : SYNCHRONISATION SUR LE ROP !!
+			
+			// + do the one link for join
+			
+			//let node stabilisation do the rest... ( = connecting to the nodes)
+		}
 	}
-	public void initialize2() throws Exception {
+	
+	public void			dynamicDeploy() throws Exception
+	{
+		//call the dynamic component creator of each node to create the nodes
+		String tmpReflectionIbpURI;
+		System.out.println("starting node creation...");
+		for(int n : portsToNodesJVM.keySet()) {
+			this.logMessage("creating node : " + n);
+			tmpReflectionIbpURI = portsToNodesJVM.get(n).createComponent(Node.class.getCanonicalName(), new Object[]{"node" + n +"-rip", "admin-rip", n});
+			nodesReflectionIbpURIS.put(n, tmpReflectionIbpURI);
+			
+		}
 		ring=new String[size][2];
 		for(int i = 0; i < size; i++){
 			// /!\ on considere que size est une puissance de 2, sinon arrondir au-dessus.
@@ -65,24 +116,26 @@ public class DynamicAdmin extends		AbstractComponent
 		
 		//admin reflection outbound port
 		this.addRequiredInterface(ReflectionI.class) ;
-		ReflectionOutboundPort rop = new ReflectionOutboundPort(this) ;
+		this.rop = new ReflectionOutboundPort(this) ;
 		this.addPort(rop) ;
-		rop.localPublishPort() ;
+		this.rop.localPublishPort() ;
 		
-		String [] tmpRingNode = new String[2];
+		
 		for(int n : nodesReflectionIbpURIS.keySet()) {
+			String [] tmpRingNode = new String[2];
 			rop.doConnection(nodesReflectionIbpURIS.get(n), ReflectionConnector.class.getCanonicalName());
 			System.out.println("test RIbpURI : " + nodesReflectionIbpURIS.get(n));
 			try {
-				System.out.println("test 2 : taille " + rop.findPortURIsFromInterface(NodeManagementIbp.class).length);
+				tmpRingNode[0] = rop.findPortURIsFromInterface(NodeManagementI.class)[0];
+				rop.toggleTracing();
+				this.doPortConnection(this.adminOutboundPort.getPortURI(), tmpRingNode[0], NodeManagementConnector.class.getCanonicalName());
+				tmpRingNode[1] = this.adminOutboundPort.getInboundPortURI();
+				this.doPortDisconnection(this.adminOutboundPort.getPortURI());
+				
+				//tmpRingNode[1] = rop.findPortURIsFromInterface(NodeInboundPort.class)[0];
 			}catch (Exception e) {
-				throw new ComponentStartException(e) ;
+				throw new Exception(e) ;
 			}
-			
-			tmpRingNode[0] = rop.findPortURIsFromInterface(NodeManagementIbp.class)[0];
-			System.out.println("test 3");
-			tmpRingNode[1] = rop.findPortURIsFromInterface(NodeInboundPort.class)[0];
-			System.out.println("test 4");
 			ring[n] = tmpRingNode;
 			rop.doDisconnection();
 		}
@@ -132,104 +185,11 @@ public class DynamicAdmin extends		AbstractComponent
 		this.logMessage("initialized !");
 		//fingerTable, TODO
 		
-		/*for(int i = 0; i < ring.length; i++) {
-			if(ring[i] != null) {
-				FingerTable.initialize(this, ring[i]);
-			}
-		}*/
-	}
-
-	public void			dynamicDeploy() throws Exception
-	{
-		//call the dynamic component creator of each node to create the nodes
-		String tmpReflectionIbpURI;
-		System.out.println("starting node creation...");
-		for(int n : portsToNodesJVM.keySet()) {
-			System.out.println("creating node : " + n);
-			tmpReflectionIbpURI = portsToNodesJVM.get(n).createComponent(Node.class.getCanonicalName(), new Object[]{"node" + n +"-rip", "admin-rip", n});
-			nodesReflectionIbpURIS.put(n, tmpReflectionIbpURI);
-			
-		}	
-		ring=new String[size][2];
-		for(int i = 0; i < size; i++){
-			// /!\ on considere que size est une puissance de 2, sinon arrondir au-dessus.
-			ring[i] = null; 
-		}
-		
-		//admin reflection outbound port
-		this.addRequiredInterface(ReflectionI.class) ;
-		ReflectionOutboundPort rop = new ReflectionOutboundPort(this) ;
-		this.addPort(rop) ;
-		rop.localPublishPort() ;
-		
-		
-		for(int n : nodesReflectionIbpURIS.keySet()) {
-			String [] tmpRingNode = new String[2];
-			rop.doConnection(nodesReflectionIbpURIS.get(n), ReflectionConnector.class.getCanonicalName());
-			System.out.println("test RIbpURI : " + nodesReflectionIbpURIS.get(n));
-			try {
-				tmpRingNode[0] = rop.findPortURIsFromInterface(NodeManagementI.class)[0];
-				rop.toggleTracing();
-				this.doPortConnection(this.adminOutboundPort.getPortURI(), tmpRingNode[0], NodeManagementConnector.class.getCanonicalName());
-				tmpRingNode[1] = this.adminOutboundPort.getInboundPortURI();
-				this.doPortDisconnection(this.adminOutboundPort.getPortURI());
-				
-				//tmpRingNode[1] = rop.findPortURIsFromInterface(NodeInboundPort.class)[0];
-			}catch (Exception e) {
-				throw new Exception(e) ;
-			}
-			
-			System.out.println("test 3");
-			//tmpRingNode[1] = rop.findPortURIsFromInterface(NodeInboundPort.class)[0];
-			System.out.println("test 4");
-			
-			ring[n] = tmpRingNode;
-			rop.doDisconnection();
-		}
-		
-		String[] first = null;
-		String[] tmp = null;
-		int tmpi = 0;
-		int firsti=0;
-		for(int i = 0; i < ring.length; i++){
-			if(ring[i] != null){
-				if(first == null){
-					first = ring[i];
-					firsti=i;
-					tmp = ring[i];
-					tmpi = i;
-				}
-				else{
-					this.logMessage("connecting Outb->Inb admin - node : " + i +"...");
-					this.doPortConnection(this.adminOutboundPort.getPortURI(), ring[i][0], NodeManagementConnector.class.getCanonicalName());
-					
-					this.logMessage("settingPred node : " + i +"...");
-					this.adminOutboundPort.setPred(tmp[1], tmpi);
-					
-					this.doPortDisconnection(this.adminOutboundPort.getPortURI());
-					this.logMessage("connecting Outb->Inb admin - node : " + tmpi +"...");
-					this.doPortConnection(this.adminOutboundPort.getPortURI(), tmp[0], NodeManagementConnector.class.getCanonicalName());
-					
-					this.logMessage("settingSucc node : " + tmpi +"...");
-					this.adminOutboundPort.setSucc(ring[i][1],i);
-					this.doPortDisconnection(this.adminOutboundPort.getPortURI());
-					
-					tmp = ring[i];
-					tmpi = i;
-				}
-			}
-		}
-		if((first != null)&&(first != tmp)){//pour ne pas faire le cas ou 1 seule node
-			this.doPortConnection(this.adminOutboundPort.getPortURI(), first[0], NodeManagementConnector.class.getCanonicalName());
-			
-			this.adminOutboundPort.setPred(tmp[1],tmpi);
-			this.doPortDisconnection(this.adminOutboundPort.getPortURI());
-			this.doPortConnection(this.adminOutboundPort.getPortURI(), tmp[0], NodeManagementConnector.class.getCanonicalName());
-			
-			this.adminOutboundPort.setSucc(first[1],firsti);
-			this.doPortDisconnection(this.adminOutboundPort.getPortURI());
-		}
-		this.logMessage("initialized !");
+				/*for(int i = 0; i < ring.length; i++) {
+					if(ring[i] != null) {
+						FingerTable.initialize(this, ring[i]);
+					}
+				}*/
 	}
 	
 	@Override
