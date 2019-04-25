@@ -141,36 +141,48 @@ public class NodeInboundPort extends AbstractInboundPort implements NodeOfferedI
 	}
 
 	@Override
-	public void stab3(String predOfSucc, int succInd) throws Exception {
+	public void stab3(int succPredInd, int succInd, String predOfSucc) throws Exception {
 		this.getOwner().handleRequestAsync(
 				new AbstractComponent.AbstractService<Void>() {
 					@Override
 					public Void call() throws Exception {
-						((Node)this.getOwner()).stab3(predOfSucc, succInd) ;
+						((Node)this.getOwner()).stab3(succPredInd, succInd, predOfSucc) ;
 						return null;
 					}
 				}) ;
 	}
 
 	@Override
-	public void stab4(NodeInboundPort startNode, int succInd, String predOfSucc) throws Exception {
+	public void notifyPred1(int notifierIndex, String notifierIbpURI) throws Exception {
 		this.getOwner().handleRequestAsync(
 				new AbstractComponent.AbstractService<Void>() {
 					@Override
 					public Void call() throws Exception {
-						((Node)this.getOwner()).stab4(startNode, succInd, predOfSucc) ;
+						((Node)this.getOwner()).notifyPred1(notifierIndex,notifierIbpURI) ;
 						return null;
 					}
 				}) ;
 	}
 
 	@Override
-	public void stab5(int succPredInd, int succInd, String predOfSucc) throws Exception {
+	public void notifyPred2(int notifierIndex, String notifierIbpURI, String notifiedIbpURI) throws Exception {
 		this.getOwner().handleRequestAsync(
 				new AbstractComponent.AbstractService<Void>() {
 					@Override
 					public Void call() throws Exception {
-						((Node)this.getOwner()).stab5(succPredInd, succInd, predOfSucc) ;
+						((Node)this.getOwner()).notifyPred2(notifierIndex,notifierIbpURI, notifiedIbpURI) ;
+						return null;
+					}
+				}) ;
+	}
+
+	@Override
+	public void notifyPred3(int notifierIndex, String notifierIbpURI, int predInd) throws Exception {
+		this.getOwner().handleRequestAsync(
+				new AbstractComponent.AbstractService<Void>() {
+					@Override
+					public Void call() throws Exception {
+						((Node)this.getOwner()).notifyPred3(notifierIndex,notifierIbpURI, predInd) ;
 						return null;
 					}
 				}) ;

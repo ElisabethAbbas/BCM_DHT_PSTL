@@ -16,7 +16,8 @@ public interface NodeOfferedI extends OfferedI, RequiredI
 	public int getIndex()throws Exception;
 	public void stab1() throws Exception ;
 	public void stab2(NodeInboundPort startNode) throws Exception ;
-	public void stab3(String predOfSucc, int succInd) throws Exception ;
-	public void stab4(NodeInboundPort startNode, int succInd, String predOfSucc) throws Exception ;
-	public void stab5(int succPredInd, int succInd, String predOfSucc) throws Exception ;
+	public void stab3(int succPredInd, int succInd, String predOfSucc) throws Exception ;
+	public void notifyPred1(int notifierIndex, String notifierIbpURI) throws Exception ;
+	public void notifyPred2(int notifierIndex, String notifierIbpURI, String notifiedIbpURI) throws Exception ;
+	public void notifyPred3(int notifierIndex, String notifierIbpURI, int predInd) throws Exception ;
 }

@@ -52,17 +52,25 @@ implements	NodeOfferedI
 	}
 
 	@Override
-	public void stab3(String predOfSucc, int succInd) throws Exception {
-		((NodeInboundPort)this.offering).stab3(predOfSucc, succInd);
+	public void stab3(int succPredInd, int succInd, String predOfSucc) throws Exception {
+		((NodeInboundPort)this.offering).stab3(succPredInd, succInd, predOfSucc);
 	}
 
 	@Override
-	public void stab4(NodeInboundPort startNode, int succInd, String predOfSucc) throws Exception {
-		((NodeInboundPort)this.offering).stab4(startNode, succInd, predOfSucc);
+	public void notifyPred1(int notifierIndex, String notifierIbpURI) throws Exception {
+		((NodeInboundPort)this.offering).notifyPred1(notifierIndex, notifierIbpURI);
+		
 	}
 
 	@Override
-	public void stab5(int succPredInd, int succInd, String predOfSucc) throws Exception {
-		((NodeInboundPort)this.offering).stab5(succInd, succInd, predOfSucc);
+	public void notifyPred2(int notifierIndex, String notifierIbpURI, String notifiedIbpURI) throws Exception {
+		((NodeInboundPort)this.offering).notifyPred2(notifierIndex, notifierIbpURI, notifiedIbpURI);
+		
+	}
+
+	@Override
+	public void notifyPred3(int notifierIndex, String notifierIbpURI, int predInd) throws Exception {
+		((NodeInboundPort)this.offering).notifyPred3(notifierIndex, notifierIbpURI, predInd);
+		
 	}
 }

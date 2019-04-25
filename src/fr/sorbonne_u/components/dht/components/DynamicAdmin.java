@@ -70,7 +70,6 @@ public class DynamicAdmin extends		AbstractComponent
 			String [] tmpRingNode = new String[2];
 			
 			rop.doConnection(nodesReflectionIbpURIS.get(index), ReflectionConnector.class.getCanonicalName());
-			System.out.println("test RIbpURI : " + nodesReflectionIbpURIS.get(index));
 			try {
 				tmpRingNode[0] = rop.findPortURIsFromInterface(NodeManagementI.class)[0];
 				rop.toggleTracing();
@@ -90,15 +89,11 @@ public class DynamicAdmin extends		AbstractComponent
 			while(ring[cptFindSucc] == null){
 				cptFindSucc = (cptFindSucc + 1)%this.size;
 			}
-			
-			System.out.println("test join : "+tmpRingNode[0] + " / " + tmpRingNode[1]);
 			if(cptFindSucc != index) {
 				this.logMessage("connecting Outb->Inb admin - new joined node : " + index +"...");
 				this.doPortConnection(this.adminOutboundPort.getPortURI(), tmpRingNode[0], NodeManagementConnector.class.getCanonicalName());
 				this.logMessage("settingSucc node : " + index +"...");
-				System.out.println("test join : ");
 				this.adminOutboundPort.setSucc(ring[cptFindSucc][1], cptFindSucc);
-				System.out.println("test join : ");
 				this.doPortDisconnection(this.adminOutboundPort.getPortURI());
 			}
 			
@@ -133,7 +128,6 @@ public class DynamicAdmin extends		AbstractComponent
 		for(int n : nodesReflectionIbpURIS.keySet()) {
 			String [] tmpRingNode = new String[2];
 			rop.doConnection(nodesReflectionIbpURIS.get(n), ReflectionConnector.class.getCanonicalName());
-			System.out.println("test RIbpURI : " + nodesReflectionIbpURIS.get(n));
 			try {
 				tmpRingNode[0] = rop.findPortURIsFromInterface(NodeManagementI.class)[0];
 				rop.toggleTracing();

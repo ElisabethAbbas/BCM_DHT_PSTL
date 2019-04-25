@@ -17,6 +17,8 @@ import fr.sorbonne_u.components.exceptions.ComponentStartException;
 public class Node extends AbstractComponent{
 	protected String pred;
 	protected String succ;
+	protected int predInd;
+	protected int succInd;
 	protected int index;
 	protected NodeOutboundPort nObpPred ;
 	protected NodeOutboundPort nObpSucc ;
@@ -80,20 +82,27 @@ public class Node extends AbstractComponent{
 		return this.nIbp.getPortURI();
 	}
 
-	public NodeOutboundPort getOutboundPort() {//TODO
-		return this.nObpSucc;//TODO
+	public NodeOutboundPort getOutboundPort() {
+		return this.nObpSucc;
 	}
 
 	public void setPred(String inboundPort, int n) throws Exception {
 		this.logMessage("setting pred to "+n+"...");
 		this.pred = inboundPort;
-
+		this.predInd = n;
+		if(nObpPred.connected()) {
+			this.doPortDisconnection(this.nObpPred.getPortURI());
+		}
 		this.doPortConnection(this.nObpPred.getPortURI(), inboundPort, NodeConnector.class.getCanonicalName());
 	}
 
 	public void setSucc(String inboundPort, int n) throws Exception {
 		this.logMessage("setting succ to "+n+"...");
 		this.succ = inboundPort;
+		this.succInd = n;
+		if(nObpSucc.connected()) {
+			this.doPortDisconnection(this.nObpSucc.getPortURI());
+		}
 		this.doPortConnection(this.nObpSucc.getPortURI(), inboundPort, NodeConnector.class.getCanonicalName());
 	}
 	public void connect(String port) throws Exception {//not used
@@ -140,7 +149,7 @@ public class Node extends AbstractComponent{
 	}
 	public void stab1() throws Exception {
 		if(this.succ != null) {
-			this.logMessage("stabilisation 1...");
+			this.logMessage("stabilisation start...");
 			nObpSucc.stab2(this.nIbp);
 		}
 		else {
@@ -148,34 +157,44 @@ public class Node extends AbstractComponent{
 		}
 	}
 	public void stab2(NodeInboundPort startNode) throws Exception {
-		this.logMessage("stabilisation 2...");
+		//this.logMessage("stabilisation 2...");
+		if(this.nObpStab.connected())
+			this.doPortDisconnection(this.nObpStab.getPortURI());
 		this.doPortConnection(this.nObpStab.getPortURI(), startNode.getPortURI(), NodeConnector.class.getCanonicalName());
-		this.nObpStab.stab3(this.pred, index);
-		this.doPortDisconnection(this.nObpStab.getPortURI());
+		//this.logMessage("index : "+this.index+" predInd : " +this.predInd );
+		this.nObpStab.stab3(this.predInd, this.index, this.pred);
 	}
-	public void stab3(String predOfSucc, int succInd) throws Exception {
-		this.logMessage("stabilisation 3...");
-		this.doPortConnection(this.nObpStab.getPortURI(), predOfSucc, NodeConnector.class.getCanonicalName());
-		this.nObpStab.stab4(this.nIbp, succInd, predOfSucc);
-		this.doPortDisconnection(this.nObpStab.getPortURI());
-	}
-	public void stab4(NodeInboundPort startNode, int succInd, String predOfSucc) throws Exception {
-		this.logMessage("stabilisation 4...");
-		this.doPortConnection(this.nObpStab.getPortURI(), startNode.getPortURI(), NodeConnector.class.getCanonicalName());
-		this.nObpStab.stab5(index, succInd, predOfSucc);
-		this.doPortDisconnection(this.nObpStab.getPortURI());
-	}
-	public void stab5(int succPredInd, int succInd, String predOfSucc) throws Exception {
-		if(index != succPredInd && succPredInd > index && succPredInd < succInd) {
-			this.doPortDisconnection(this.nObpSucc.getPortURI());
-			this.doPortConnection(this.nObpSucc.getPortURI(), predOfSucc, NodeConnector.class.getCanonicalName());
-			this.succ = predOfSucc;
-			
-			//this.nObpSucc.notifyPred(this.nIbp);
-			this.logMessage("NOTIFYING PRED... (todo)");
+	
+	public void stab3(int predOfSuccInd, int succInd, String predOfSucc) throws Exception {
+		if(this.index != predOfSuccInd && predOfSuccInd > this.index && predOfSuccInd < succInd) {
+			this.setSucc(predOfSucc, predOfSuccInd);
 		}
-		this.logMessage("stabilisation 5...");
+		
+		this.logMessage("stabilisation end... ");
+		this.nObpSucc.notifyPred1(this.index, this.nIbp.getPortURI());
+		
 	}
+	public void notifyPred1(int notifierIndex, String notifierIbpURI) throws Exception {
+		if(this.pred == null)
+			this.setPred(notifierIbpURI, notifierIndex);
+		else{
+			if(notifierIndex < this.index)
+				this.nObpPred.notifyPred2(notifierIndex, notifierIbpURI, this.nIbp.getPortURI());
+		}
+	}
+	public void notifyPred2(int notifierIndex, String notifierIbpURI, String notifiedIbpURI) throws Exception {
+		if(this.nObpStab.connected())
+			this.doPortDisconnection(this.nObpStab.getPortURI());
+		this.doPortConnection(this.nObpStab.getPortURI(), notifiedIbpURI, NodeConnector.class.getCanonicalName());
+		this.nObpStab.notifyPred3(notifierIndex, notifierIbpURI, this.index);
+	}
+	public void notifyPred3(int notifierIndex, String notifierIbpURI, int predInd) throws Exception {
+		if(notifierIndex > predInd)
+		{
+			this.setPred(notifierIbpURI, notifierIndex);
+		}
+	}
+	
 	public void			execute() throws Exception
 	{
 		super.execute() ;
