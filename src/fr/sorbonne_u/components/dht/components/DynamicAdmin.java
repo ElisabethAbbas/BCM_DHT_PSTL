@@ -241,7 +241,16 @@ public class DynamicAdmin extends		AbstractComponent
 	
 	public String getRingNodeInMyJVM(String JVMURI) throws Exception {
 		if(nodes.containsValue(JVMURI)) {
-			//TODO return node client port uri
+			int nodeIndex = -1;
+			for( int n : nodes.keySet()) {
+				if(nodes.get(n) == JVMURI)
+					nodeIndex = n;
+			}
+			String tmpURI;
+			this.doPortConnection(this.adminOutboundPort.getPortURI(), ring[nodeIndex][0], NodeManagementConnector.class.getCanonicalName());//TODO
+			tmpURI = this.adminOutboundPort.getInboundPortURI();
+			this.doPortDisconnection(this.adminOutboundPort.getPortURI());
+			return tmpURI;
 		}
 		else {
 			int cpt = 0;
@@ -250,8 +259,12 @@ public class DynamicAdmin extends		AbstractComponent
 			if(cpt == size - 1 && ring[cpt] != null) 
 				this.logMessage("ring is full, and there is no node on your JVM : " + JVMURI);
 			else {
+				String tmpURI;
 				join(cpt, JVMURI);
-				//TODO return node client port
+				this.doPortConnection(this.adminOutboundPort.getPortURI(), ring[cpt][0], NodeManagementConnector.class.getCanonicalName());
+				tmpURI = this.adminOutboundPort.getClientPortURI();
+				this.doPortDisconnection(this.adminOutboundPort.getPortURI());
+				return tmpURI;
 			}
 		}
 		
