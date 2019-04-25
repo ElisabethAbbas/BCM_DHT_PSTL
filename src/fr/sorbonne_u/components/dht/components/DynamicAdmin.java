@@ -6,8 +6,10 @@ import java.util.concurrent.TimeUnit;
 import fr.sorbonne_u.components.AbstractComponent;
 import fr.sorbonne_u.components.cvm.AbstractCVM;
 import fr.sorbonne_u.components.dht.connectors.NodeManagementConnector;
+import fr.sorbonne_u.components.dht.interfaces.AdminClientI;
 import fr.sorbonne_u.components.dht.interfaces.AdminRequiredI;
 import fr.sorbonne_u.components.dht.interfaces.NodeManagementI;
+import fr.sorbonne_u.components.dht.ports.AdminClientIbp;
 import fr.sorbonne_u.components.dht.ports.AdminOutboundPort;
 import fr.sorbonne_u.components.exceptions.ComponentStartException;
 import fr.sorbonne_u.components.pre.dcc.connectors.DynamicComponentCreationConnector;
@@ -25,11 +27,12 @@ public class DynamicAdmin extends		AbstractComponent
 	protected int nbNodes;
 	protected AdminOutboundPort adminOutboundPort;
 	protected ReflectionOutboundPort rop;
+	protected AdminClientIbp adminClientIbp;
 	protected String[][] ring;
 	protected HashMap<Integer, String> nodes;//string correspond au nom de la JVM de la node a creer
 	protected HashMap<Integer, DynamicComponentCreationOutboundPort> portsToNodesJVM = new HashMap<Integer, DynamicComponentCreationOutboundPort>();
 	protected HashMap<Integer, String> nodesReflectionIbpURIS = new HashMap<Integer, String>();
-	public DynamicAdmin(String AdminInboundPortURI,int size, HashMap<Integer, String> nodes) throws Exception//hashMap nodes != de celle de l'admin précédent
+	public DynamicAdmin(String AdminInboundPortURI, String adminClientIbpURI, int size, HashMap<Integer, String> nodes) throws Exception//hashMap nodes != de celle de l'admin précédent
 	{
 		super(AdminInboundPortURI, 1, 1);
 		this.size = size;
@@ -38,8 +41,12 @@ public class DynamicAdmin extends		AbstractComponent
 		this.addRequiredInterface(AdminRequiredI.class);
 		this.addRequiredInterface(DynamicComponentCreationI.class);
 		this.addOfferedInterface(NodeManagementI.class);
+		this.addRequiredInterface(AdminClientI.class);
+		this.addOfferedInterface(AdminClientI.class);
 		
-		//TODO : créer un adminClientIBP, possiblement avec une URI donnée en paramètre du constructeur, sinon pas grave
+		this.adminClientIbp = new AdminClientIbp(adminClientIbpURI, this);
+		this.addPort(this.adminClientIbp);
+		this.adminClientIbp.localPublishPort();
 		
 		this.adminOutboundPort = new AdminOutboundPort(this);
 		this.addPort(this.adminOutboundPort);

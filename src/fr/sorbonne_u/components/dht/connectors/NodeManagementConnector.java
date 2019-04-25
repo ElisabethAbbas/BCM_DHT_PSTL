@@ -44,4 +44,9 @@ implements	NodeManagementI
 	public String getInboundPortURI() throws Exception {
 		return ((NodeManagementI)this.offering).getInboundPortURI();
 	}
+
+	@Override
+	public String getClientInboundPortURI() throws Exception {
+		return ((NodeManagementI)this.offering).getClientInboundPortURI();
+	}
 }

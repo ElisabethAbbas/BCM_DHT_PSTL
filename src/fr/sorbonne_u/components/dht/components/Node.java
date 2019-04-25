@@ -8,6 +8,7 @@ import fr.sorbonne_u.components.dht.interfaces.AdminRequiredI;
 import fr.sorbonne_u.components.dht.interfaces.NodeManagementI;
 import fr.sorbonne_u.components.dht.interfaces.NodeOfferedI;
 import fr.sorbonne_u.components.dht.interfaces.NodeRequiredI;
+import fr.sorbonne_u.components.dht.ports.NodeClientIbp;
 import fr.sorbonne_u.components.dht.ports.NodeInboundPort;
 import fr.sorbonne_u.components.dht.ports.NodeManagementIbp;
 import fr.sorbonne_u.components.dht.ports.NodeOutboundPort;
@@ -25,6 +26,7 @@ public class Node extends AbstractComponent{
 	protected NodeOutboundPort nObpStab ;
 	protected NodeInboundPort nIbp ;
 	protected NodeManagementIbp nMIbp ;
+	protected NodeClientIbp nClientIbp ;
 	protected String adminRIPURI ;
 	//protected AdminOutboundPort	adminPort ;
 
@@ -41,6 +43,8 @@ public class Node extends AbstractComponent{
 		this.addOfferedInterface(NodeOfferedI.class) ;
 		this.addOfferedInterface(NodeManagementI.class) ;
 		this.addRequiredInterface(NodeManagementI.class) ;
+		this.addOfferedInterface(NodeClientIbp.class) ;
+		this.addRequiredInterface(NodeClientIbp.class) ;
 		
 		this.nObpPred = new NodeOutboundPort(this) ;
 		this.addPort(this.nObpPred) ;
@@ -61,6 +65,10 @@ public class Node extends AbstractComponent{
 		this.nMIbp = new NodeManagementIbp(this) ;
 		this.addPort(this.nMIbp) ;
 		this.nMIbp.publishPort() ;
+		
+		this.nClientIbp = new NodeClientIbp(this) ;
+		this.addPort(this.nClientIbp) ;
+		this.nClientIbp.publishPort() ;
 
 		this.tracer.setTitle("Node "+nodeRIPURI) ;
 		this.tracer.setRelativePosition(1, 1) ;
@@ -76,6 +84,10 @@ public class Node extends AbstractComponent{
 
 	public NodeManagementIbp getInboundPort() {
 		return this.nMIbp;
+	}
+	
+	public String getClientInboundPortURI()throws Exception{
+		return this.nClientIbp.getPortURI();
 	}
 	
 	public String getInboundPortURI() throws Exception {
@@ -196,7 +208,7 @@ public class Node extends AbstractComponent{
 	}
 	
 	public void addComponent(String componentURI) throws Exception {
-		//TODO : + créer la structure dans laquelle on sauvegarde les composants
+		//TODO : + créer la structure dans laquelle on sauvegarde les composants, voire trouver la node ou add le component
 	}
 	
 	public void			execute() throws Exception

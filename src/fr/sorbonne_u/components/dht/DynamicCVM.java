@@ -12,6 +12,7 @@ import fr.sorbonne_u.components.examples.ddeployment_cs.components.DynamicAssemb
 public class DynamicCVM extends		AbstractCVM
 {
 	public static String ADMIN_RIP_URI = "admin-rip" ;
+	public static String ADMIN_CLIENT_RIP_URI = "adminClient-rip" ;
 	public static String NODE1_RIP_URI = "node4-rip" ;
 	public static String NODE2_RIP_URI = "node1-rip" ;
 	public static String NODE3_RIP_URI = "node6-rip" ;
@@ -34,7 +35,7 @@ public class DynamicCVM extends		AbstractCVM
 		
 		nodes.put(6,"");
 		
-		this.dAdmin = new DynamicAdmin(ADMIN_RIP_URI, 15, nodes) ;
+		this.dAdmin = new DynamicAdmin(ADMIN_RIP_URI, ADMIN_CLIENT_RIP_URI, 15, nodes) ;
 		this.deployedComponents.add(this.dAdmin) ;
 		this.dAdmin.toggleTracing() ;
 		this.dAdmin.toggleLogging() ;

@@ -11,5 +11,6 @@ public interface NodeManagementI  extends		 OfferedI, RequiredI
 	public String getPred()throws Exception;
 	public String getSucc()throws Exception;
 	public String getInboundPortURI()throws Exception;
+	public String getClientInboundPortURI()throws Exception;
 	public int getIndex()throws Exception;
 }
