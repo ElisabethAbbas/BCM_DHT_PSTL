@@ -4,17 +4,11 @@ import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
 import fr.sorbonne_u.components.AbstractComponent;
-import fr.sorbonne_u.components.annotations.RequiredInterfaces;
 import fr.sorbonne_u.components.cvm.AbstractCVM;
-import fr.sorbonne_u.components.dht.connectors.NodeConnector;
 import fr.sorbonne_u.components.dht.connectors.NodeManagementConnector;
 import fr.sorbonne_u.components.dht.interfaces.AdminRequiredI;
 import fr.sorbonne_u.components.dht.interfaces.NodeManagementI;
-import fr.sorbonne_u.components.dht.interfaces.NodeOfferedI;
 import fr.sorbonne_u.components.dht.ports.AdminOutboundPort;
-import fr.sorbonne_u.components.dht.ports.NodeInboundPort;
-import fr.sorbonne_u.components.dht.ports.NodeManagementIbp;
-import fr.sorbonne_u.components.examples.ddeployment_cs.interfaces.URIConsumerLaunchI;
 import fr.sorbonne_u.components.exceptions.ComponentStartException;
 import fr.sorbonne_u.components.pre.dcc.connectors.DynamicComponentCreationConnector;
 import fr.sorbonne_u.components.pre.dcc.interfaces.DynamicComponentCreationI;
@@ -74,6 +68,7 @@ public class DynamicAdmin extends		AbstractComponent
 			String tmpReflectionIbpURI = portsToNodesJVM.get(index).createComponent(Node.class.getCanonicalName(), new Object[]{"node" + index +"-rip", "admin-rip", index});
 			nodesReflectionIbpURIS.put(index, tmpReflectionIbpURI);
 			String [] tmpRingNode = new String[2];
+			
 			rop.doConnection(nodesReflectionIbpURIS.get(index), ReflectionConnector.class.getCanonicalName());
 			System.out.println("test RIbpURI : " + nodesReflectionIbpURIS.get(index));
 			try {
@@ -89,9 +84,23 @@ public class DynamicAdmin extends		AbstractComponent
 			}
 			ring[index] = tmpRingNode;
 			rop.doDisconnection();
-			//TODO : SYNCHRONISATION SUR LE ROP !!
+			//TODO : SYNCHRONISATION SUR LE ROP reflection outbound port !!
 			
-			// + do the one link for join
+			int cptFindSucc = (index + 1)%this.size;
+			while(ring[cptFindSucc] == null){
+				cptFindSucc = (cptFindSucc + 1)%this.size;
+			}
+			
+			System.out.println("test join : "+tmpRingNode[0] + " / " + tmpRingNode[1]);
+			if(cptFindSucc != index) {
+				this.logMessage("connecting Outb->Inb admin - new joined node : " + index +"...");
+				this.doPortConnection(this.adminOutboundPort.getPortURI(), tmpRingNode[0], NodeManagementConnector.class.getCanonicalName());
+				this.logMessage("settingSucc node : " + index +"...");
+				System.out.println("test join : ");
+				this.adminOutboundPort.setSucc(ring[cptFindSucc][1], cptFindSucc);
+				System.out.println("test join : ");
+				this.doPortDisconnection(this.adminOutboundPort.getPortURI());
+			}
 			
 			//let node stabilisation do the rest... ( = connecting to the nodes)
 		}
@@ -155,14 +164,13 @@ public class DynamicAdmin extends		AbstractComponent
 				else{
 					this.logMessage("connecting Outb->Inb admin - node : " + i +"...");
 					this.doPortConnection(this.adminOutboundPort.getPortURI(), ring[i][0], NodeManagementConnector.class.getCanonicalName());
-					
 					this.logMessage("settingPred node : " + i +"...");
 					this.adminOutboundPort.setPred(tmp[1], tmpi);
-					
 					this.doPortDisconnection(this.adminOutboundPort.getPortURI());
-					this.logMessage("connecting Outb->Inb admin - node : " + tmpi +"...");
-					this.doPortConnection(this.adminOutboundPort.getPortURI(), tmp[0], NodeManagementConnector.class.getCanonicalName());
 					
+					this.logMessage("connecting Outb->Inb admin - node : " + tmpi +"...");
+					
+					this.doPortConnection(this.adminOutboundPort.getPortURI(), tmp[0], NodeManagementConnector.class.getCanonicalName());
 					this.logMessage("settingSucc node : " + tmpi +"...");
 					this.adminOutboundPort.setSucc(ring[i][1],i);
 					this.doPortDisconnection(this.adminOutboundPort.getPortURI());
@@ -174,11 +182,10 @@ public class DynamicAdmin extends		AbstractComponent
 		}
 		if((first != null)&&(first != tmp)){//pour ne pas faire le cas ou 1 seule node
 			this.doPortConnection(this.adminOutboundPort.getPortURI(), first[0], NodeManagementConnector.class.getCanonicalName());
-			
 			this.adminOutboundPort.setPred(tmp[1],tmpi);
 			this.doPortDisconnection(this.adminOutboundPort.getPortURI());
-			this.doPortConnection(this.adminOutboundPort.getPortURI(), tmp[0], NodeManagementConnector.class.getCanonicalName());
 			
+			this.doPortConnection(this.adminOutboundPort.getPortURI(), tmp[0], NodeManagementConnector.class.getCanonicalName());
 			this.adminOutboundPort.setSucc(first[1],firsti);
 			this.doPortDisconnection(this.adminOutboundPort.getPortURI());
 		}
@@ -215,6 +222,18 @@ public class DynamicAdmin extends		AbstractComponent
 		}
 		
 		super.start() ; 
+		this.scheduleTaskWithFixedDelay(
+				new AbstractComponent.AbstractTask() {
+					@Override
+					public void run() {
+						try {
+							((DynamicAdmin)this.getOwner()).join(2, "");
+						} catch (Exception e) {
+							throw new RuntimeException(e) ;
+						}
+					}
+				}, 1500, 1500 // délai entre la fin d'une exécution et la suivante, à modifier 
+				, TimeUnit.MILLISECONDS) ;
 	}
 	
 	// TODO start, finalize, shutDown...

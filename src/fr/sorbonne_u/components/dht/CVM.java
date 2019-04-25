@@ -4,9 +4,7 @@ import java.util.HashMap;
 
 import fr.sorbonne_u.components.AbstractComponent;
 import fr.sorbonne_u.components.cvm.AbstractCVM;
-import fr.sorbonne_u.components.dht.components.Admin;
 import fr.sorbonne_u.components.dht.components.DynamicAdmin;
-import fr.sorbonne_u.components.dht.components.Node;
 
 
 public class				CVM
@@ -88,8 +86,8 @@ extends		AbstractCVM
 	{
 		try {
 			CVM cvm = new CVM() ;
-			cvm.startStandardLifeCycle(9000L) ;
-			Thread.sleep(9000L) ;
+			cvm.startStandardLifeCycle(20000L) ;
+			Thread.sleep(20000L) ;
 			System.exit(0) ;
 		} catch (Exception e) {
 			throw new RuntimeException(e) ;

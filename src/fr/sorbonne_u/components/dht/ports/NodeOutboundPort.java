@@ -26,20 +26,17 @@ public class NodeOutboundPort extends AbstractOutboundPort implements NodeRequir
 
 	@Override
 	public void setPred(String s, int n) throws Exception {
-		// TODO Auto-generated method stub
 		((NodeConnector)this.connector).setPred(s,n);
 		
 	}
 
 	@Override
 	public void setSucc(String s, int n) throws Exception {
-		// TODO Auto-generated method stub
 		((NodeConnector)this.connector).setSucc(s,n);
 	}
 
 	@Override
 	public void setIndex(int i) throws Exception {
-		// TODO Auto-generated method stub
 		((NodeConnector)this.connector).setIndex(i);
 	}
 	
@@ -51,51 +48,43 @@ public class NodeOutboundPort extends AbstractOutboundPort implements NodeRequir
 	
 	@Override
 	public String getPred() throws Exception {
-		// TODO Auto-generated method stub
 		return ((NodeConnector)this.connector).getPred();
 	}
 
 	@Override
 	public String getSucc() throws Exception {
-		// TODO Auto-generated method stub
 		return ((NodeConnector)this.connector).getSucc();
 
 	}
 
 	@Override
 	public int getIndex() throws Exception {
-		// TODO Auto-generated method stub
 		return ((NodeConnector)this.connector).getIndex();
 
 	}
 
 	@Override
 	public void stab1() throws Exception {
-		System.out.println("test stab2 node outbound port");
 		((NodeConnector)this.connector).stab1();
 	}
 
 	@Override
 	public void stab2(NodeInboundPort startNode) throws Exception {
-		System.out.println("test stab2 node outbound port");
 		((NodeConnector)this.connector).stab2(startNode);
 	}
 
 	@Override
 	public void stab3(String predOfSucc, int succInd) throws Exception {
-		System.out.println("test stab3 node outbound port");
 		((NodeConnector)this.connector).stab3(predOfSucc, succInd);
 	}
 
 	@Override
 	public void stab4(NodeInboundPort startNode, int succInd, String predOfSucc) throws Exception {
-		System.out.println("test stab4 node outbound port");
 		((NodeConnector)this.connector).stab4(startNode, succInd, predOfSucc);
 	}
 
 	@Override
 	public void stab5(int succPredInd, int succInd, String predOfSucc) throws Exception {
-		System.out.println("test stab5 node outbound port");
 		((NodeConnector)this.connector).stab5(succInd, succInd, predOfSucc);
 	}
 	

@@ -34,7 +34,6 @@ public class Node extends AbstractComponent{
 		assert	adminRIPURI != null ;
 		this.index = index;
 		this.adminRIPURI = adminRIPURI ;
-
 		this.addRequiredInterface(AdminRequiredI.class) ;
 		this.addRequiredInterface(NodeRequiredI.class) ;
 		this.addOfferedInterface(NodeOfferedI.class) ;
@@ -69,7 +68,7 @@ public class Node extends AbstractComponent{
 		this.addPort(this.adminPort) ;
 		this.adminPort.publishPort() ;*/
 	}
-
+	
 	public void initialize() throws Exception {
 	}
 
@@ -140,8 +139,13 @@ public class Node extends AbstractComponent{
 
 	}
 	public void stab1() throws Exception {
-		this.logMessage("stabilisation 1...");
-		nObpSucc.stab2(this.nIbp);
+		if(this.succ != null) {
+			this.logMessage("stabilisation 1...");
+			nObpSucc.stab2(this.nIbp);
+		}
+		else {
+			this.logMessage("no successor defined...");
+		}
 	}
 	public void stab2(NodeInboundPort startNode) throws Exception {
 		this.logMessage("stabilisation 2...");
@@ -168,6 +172,7 @@ public class Node extends AbstractComponent{
 			this.succ = predOfSucc;
 			
 			//this.nObpSucc.notifyPred(this.nIbp);
+			this.logMessage("NOTIFYING PRED... (todo)");
 		}
 		this.logMessage("stabilisation 5...");
 	}
