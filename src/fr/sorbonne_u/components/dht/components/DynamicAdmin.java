@@ -39,6 +39,8 @@ public class DynamicAdmin extends		AbstractComponent
 		this.addRequiredInterface(DynamicComponentCreationI.class);
 		this.addOfferedInterface(NodeManagementI.class);
 		
+		//TODO : créer un adminClientIBP, possiblement avec une URI donnée en paramètre du constructeur, sinon pas grave
+		
 		this.adminOutboundPort = new AdminOutboundPort(this);
 		this.addPort(this.adminOutboundPort);
 		this.adminOutboundPort.localPublishPort();
@@ -228,6 +230,25 @@ public class DynamicAdmin extends		AbstractComponent
 					}
 				}, 1500, 1500 // délai entre la fin d'une exécution et la suivante, à modifier 
 				, TimeUnit.MILLISECONDS) ;
+	}
+	
+	public String getRingNodeInMyJVM(String JVMURI) throws Exception {
+		if(nodes.containsValue(JVMURI)) {
+			//TODO return node client port uri
+		}
+		else {
+			int cpt = 0;
+			while(cpt < size && ring[cpt] == null)
+				cpt++;
+			if(cpt == size - 1 && ring[cpt] != null) 
+				this.logMessage("ring is full, and there is no node on your JVM : " + JVMURI);
+			else {
+				join(cpt, JVMURI);
+				//TODO return node client port
+			}
+		}
+		
+		return null;
 	}
 	
 	// TODO start, finalize, shutDown...

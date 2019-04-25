@@ -195,6 +195,10 @@ public class Node extends AbstractComponent{
 		}
 	}
 	
+	public void addComponent(String componentURI) throws Exception {
+		//TODO : + créer la structure dans laquelle on sauvegarde les composants
+	}
+	
 	public void			execute() throws Exception
 	{
 		super.execute() ;
