@@ -24,15 +24,26 @@ public class NodeClientIbp extends AbstractInboundPort implements NodeClientI{
 	}
 
 	@Override
-	public void addComponent(String componentURI) throws Exception {
+	public void put(int id, String s) throws Exception {
 		this.getOwner().handleRequestAsync(
 				new AbstractComponent.AbstractService<Void>() {
 					@Override
 					public Void call() throws Exception {
-						((Node)this.getOwner()).addComponent(componentURI) ;
+						((Node)this.getOwner()).put( id,s) ;
 						return null;
 					}
 				}) ;
-		
+	}
+
+	@Override
+	public String get(int id) throws Exception {
+		return this.getOwner().handleRequestSync(
+				new AbstractComponent.AbstractService<String>() {
+					@Override
+					public String call() throws Exception {
+						return ((Node)this.getOwner()).
+								get(id) ;
+					}
+				}) ;
 	}
 }

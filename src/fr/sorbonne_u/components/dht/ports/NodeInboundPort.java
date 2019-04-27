@@ -187,4 +187,29 @@ public class NodeInboundPort extends AbstractInboundPort implements NodeOfferedI
 					}
 				}) ;
 	}
+
+	@Override
+	public void store(String s) throws Exception {
+		this.getOwner().handleRequestAsync(
+				new AbstractComponent.AbstractService<Void>() {
+					@Override
+					public Void call() throws Exception {
+						((Node)this.getOwner()).
+									store(s) ;
+						return null;
+					}
+				}) ;
+	}
+
+	@Override
+	public String retrieve(int id) throws Exception {
+		return this.getOwner().handleRequestSync(
+				new AbstractComponent.AbstractService<String>() {
+					@Override
+					public String call() throws Exception {
+						return ((Node)this.getOwner()).
+								retrieve(id) ;
+					}
+				}) ;
+	}
 }

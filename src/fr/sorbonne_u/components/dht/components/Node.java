@@ -1,5 +1,7 @@
 package fr.sorbonne_u.components.dht.components;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import fr.sorbonne_u.components.AbstractComponent;
@@ -28,13 +30,14 @@ public class Node extends AbstractComponent{
 	protected NodeManagementIbp nMIbp ;
 	protected NodeClientIbp nClientIbp ;
 	protected String adminRIPURI ;
+	protected Map<Integer, String> components ;
+	protected int size;
 	//protected AdminOutboundPort	adminPort ;
 
-	public Node(String nodeRIPURI, String adminRIPURI, int index) throws Exception
+	public Node(String nodeRIPURI, String adminRIPURI, int index, int size) throws Exception
 	{
 		
-		super(nodeRIPURI,1, 1);//� voir combien de threads on va utiliser
-		System.out.println("NODE BEIND CREATED...");
+		super(nodeRIPURI,1, 1);
 		assert	adminRIPURI != null ;
 		this.index = index;
 		this.adminRIPURI = adminRIPURI ;
@@ -69,6 +72,9 @@ public class Node extends AbstractComponent{
 		this.nClientIbp = new NodeClientIbp(this) ;
 		this.addPort(this.nClientIbp) ;
 		this.nClientIbp.publishPort() ;
+		
+		this.components = new HashMap<Integer, String>();
+		this.size = size;
 
 		this.tracer.setTitle("Node "+nodeRIPURI) ;
 		this.tracer.setRelativePosition(1, 1) ;
@@ -207,8 +213,28 @@ public class Node extends AbstractComponent{
 		}
 	}
 	
-	public void addComponent(String componentURI) throws Exception {
-		//TODO : + créer la structure dans laquelle on sauvegarde les composants, voire trouver la node ou add le component
+	public int hashFunction(String s) {
+		return s.hashCode()%size;
+	}
+	
+	public void store( String s) throws Exception {
+		components.put(hashFunction(s), s);
+	}
+	
+	public String retrieve( int id) throws Exception {
+		if(components.containsKey(id))
+			return components.get(id);
+		else
+			return null;
+	}
+	
+	public void put( int id, String s) throws Exception {
+		//TODO (lookup)
+	}
+	
+	public String get( int id) throws Exception {
+		//TODO (lookup)
+		return null;
 	}
 	
 	public void			execute() throws Exception
@@ -218,6 +244,9 @@ public class Node extends AbstractComponent{
 	
 			
 	}
+	
+	//TODO lookup
+	
 	/*
 	public void			execute() throws Exception
 	{

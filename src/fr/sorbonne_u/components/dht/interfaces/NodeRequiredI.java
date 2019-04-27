@@ -19,4 +19,6 @@ public interface NodeRequiredI extends	RequiredI, OfferedI
 	public void notifyPred1(int notifierIndex, String notifierIbpURI) throws Exception ;
 	public void notifyPred2(int notifierIndex, String notifierIbpURI, String notifiedIbpURI) throws Exception ;
 	public void notifyPred3(int notifierIndex, String notifierIbpURI, int predInd) throws Exception;
+	public void store( String s) throws Exception ;
+	public String retrieve( int id) throws Exception ;
 }

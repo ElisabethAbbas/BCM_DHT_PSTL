@@ -74,7 +74,7 @@ public class DynamicAdmin extends		AbstractComponent
 			}
 			
 			this.logMessage("creating node : " + index);
-			String tmpReflectionIbpURI = portsToNodesJVM.get(index).createComponent(Node.class.getCanonicalName(), new Object[]{"node" + index +"-rip", "admin-rip", index});
+			String tmpReflectionIbpURI = portsToNodesJVM.get(index).createComponent(Node.class.getCanonicalName(), new Object[]{"node" + index +"-rip", "admin-rip", index, size});
 			nodesReflectionIbpURIS.put(index, tmpReflectionIbpURI);
 			String [] tmpRingNode = new String[2];
 			
@@ -117,7 +117,7 @@ public class DynamicAdmin extends		AbstractComponent
 		System.out.println("starting node creation...");
 		for(int n : portsToNodesJVM.keySet()) {
 			this.logMessage("creating node : " + n);
-			tmpReflectionIbpURI = portsToNodesJVM.get(n).createComponent(Node.class.getCanonicalName(), new Object[]{"node" + n +"-rip", "admin-rip", n});
+			tmpReflectionIbpURI = portsToNodesJVM.get(n).createComponent(Node.class.getCanonicalName(), new Object[]{"node" + n +"-rip", "admin-rip", n, size});
 			nodesReflectionIbpURIS.put(n, tmpReflectionIbpURI);
 			
 		}
@@ -247,7 +247,7 @@ public class DynamicAdmin extends		AbstractComponent
 					nodeIndex = n;
 			}
 			String tmpURI;
-			this.doPortConnection(this.adminOutboundPort.getPortURI(), ring[nodeIndex][0], NodeManagementConnector.class.getCanonicalName());//TODO
+			this.doPortConnection(this.adminOutboundPort.getPortURI(), ring[nodeIndex][0], NodeManagementConnector.class.getCanonicalName());
 			tmpURI = this.adminOutboundPort.getInboundPortURI();
 			this.doPortDisconnection(this.adminOutboundPort.getPortURI());
 			return tmpURI;
@@ -255,7 +255,7 @@ public class DynamicAdmin extends		AbstractComponent
 		else {
 			int cpt = 0;
 			while(cpt < size && ring[cpt] == null)
-				cpt++;
+				cpt++;//TODO make it random, not the 1st
 			if(cpt == size - 1 && ring[cpt] != null) 
 				this.logMessage("ring is full, and there is no node on your JVM : " + JVMURI);
 			else {

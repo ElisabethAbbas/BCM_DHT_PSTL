@@ -73,4 +73,15 @@ implements	NodeOfferedI
 		((NodeInboundPort)this.offering).notifyPred3(notifierIndex, notifierIbpURI, predInd);
 		
 	}
+
+	@Override
+	public void store(String s) throws Exception {
+		((NodeInboundPort)this.offering).store(s);
+		
+	}
+
+	@Override
+	public String retrieve(int id) throws Exception {
+		return ((NodeInboundPort)this.offering).retrieve(id);
+	}
 }

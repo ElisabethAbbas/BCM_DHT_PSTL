@@ -5,5 +5,6 @@ import fr.sorbonne_u.components.interfaces.RequiredI;
 
 public interface NodeClientI extends		 OfferedI, RequiredI
 {
-	public void addComponent(String componentURI) throws Exception;
+	public void put( int id, String s) throws Exception ;
+	public String get( int id) throws Exception ;
 }

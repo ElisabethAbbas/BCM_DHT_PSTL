@@ -95,6 +95,17 @@ public class NodeOutboundPort extends AbstractOutboundPort implements NodeRequir
 		((NodeConnector)this.connector).notifyPred3(notifierIndex, notifierIbpURI, predInd);
 		
 	}
+
+	@Override
+	public void store(String s) throws Exception {
+		((NodeConnector)this.connector).store(s);
+		
+	}
+
+	@Override
+	public String retrieve(int id) throws Exception {
+		return ((NodeConnector)this.connector).retrieve(id);
+	}
 	
 	/*@Override
 	public void stab1() throws Exception {
