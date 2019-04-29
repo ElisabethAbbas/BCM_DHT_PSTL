@@ -1,5 +1,6 @@
 package fr.sorbonne_u.components.dht.interfaces;
 
+import fr.sorbonne_u.components.dht.components.Node;
 import fr.sorbonne_u.components.dht.connectors.NodeConnector;
 import fr.sorbonne_u.components.dht.ports.NodeInboundPort;
 import fr.sorbonne_u.components.interfaces.OfferedI;
@@ -22,4 +23,9 @@ public interface NodeOfferedI extends OfferedI, RequiredI
 	public void notifyPred3(int notifierIndex, String notifierIbpURI, int predInd) throws Exception ;
 	public void store( String s) throws Exception ;
 	public String retrieve( int id) throws Exception ;
+	public Node findSuccessor(int id) throws Exception;
+	public Node closestPrecedingNode(int id) throws Exception;
+	public void fixFingers() throws Exception;
+	public String get(int id) throws Exception;
+	public void put(int id, String value) throws Exception;
 }

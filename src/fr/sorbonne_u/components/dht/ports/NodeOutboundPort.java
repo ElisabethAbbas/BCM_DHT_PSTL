@@ -1,9 +1,8 @@
 package fr.sorbonne_u.components.dht.ports;
 
 import fr.sorbonne_u.components.ComponentI;
-import fr.sorbonne_u.components.dht.interfaces.NodeOfferedI;
 import fr.sorbonne_u.components.dht.interfaces.NodeRequiredI;
-import fr.sorbonne_u.components.dht.interfaces.NodeRequiredI;
+import fr.sorbonne_u.components.dht.components.Node;
 import fr.sorbonne_u.components.dht.connectors.*;
 import fr.sorbonne_u.components.ports.AbstractOutboundPort;
 
@@ -107,53 +106,28 @@ public class NodeOutboundPort extends AbstractOutboundPort implements NodeRequir
 		return ((NodeConnector)this.connector).retrieve(id);
 	}
 	
-	/*@Override
-	public void stab1() throws Exception {
-		this.getOwner().handleRequestAsync(
-				new AbstractComponent.AbstractService<Void>() {
-					@Override
-					public Void call() throws Exception {
-						((Node)this.getOwner()).getNObpSucc().stab2((Node) this.getOwner());
-						return null ;
-					}
-				}) ;
-		
+	@Override
+	public Node findSuccessor(int id) throws Exception {
+		return ((NodeConnector)this.connector).findSuccessor(id);
 	}
 	
 	@Override
-	public void stab2(Node n) throws Exception {
-		this.getOwner().handleRequestAsync(
-				new AbstractComponent.AbstractService<Void>() {
-					@Override
-					public Void call() throws Exception {
-						((Node)this.getOwner()).getNObpPred().stab3(n);
-						return null ;
-					}
-				}) ;
-		
+	public Node closestPrecedingNode(int id) throws Exception {
+		return ((NodeConnector)this.connector).closestPrecedingNode(id);
 	}
 	
 	@Override
-	public void stab3(Node n) throws Exception {
-		this.getOwner().handleRequestAsync(
-				new AbstractComponent.AbstractService<Void>() {
-					@Override
-					public Void call() throws Exception {
-						((Node)this.getOwner()).getNObpPred(); // ???????? à modifier
-						return null ;
-					}
-				}) ;
-		
+	public void fixFingers() throws Exception {
+		((NodeConnector)this.connector).fixFingers();
 	}
-
-	public void stab4(Node n) {
-		this.getOwner().handleRequestAsync(
-				new AbstractComponent.AbstractService<Void>() {
-					@Override
-					public Void call() throws Exception {
-					 // ?????? à remplir
-						return null ;
-					}
-				}) ;
-	}*/
+	
+	@Override
+	public String get(int id) throws Exception {
+		return ((NodeConnector)this.connector).get(id);
+	}
+	
+	@Override
+	public void put(int id, String value) throws Exception {
+		((NodeConnector)this.connector).put(id, value);
+	}
 }

@@ -212,4 +212,61 @@ public class NodeInboundPort extends AbstractInboundPort implements NodeOfferedI
 					}
 				}) ;
 	}
+	
+	@Override
+	public Node findSuccessor(int id) throws Exception {
+		return this.getOwner().handleRequestSync(
+				new AbstractComponent.AbstractService<Node>() {
+					@Override
+					public Node call() throws Exception {
+						return ((Node)this.getOwner()).findSuccessor(id) ;
+					}
+				});
+	}
+	
+	@Override
+	public Node closestPrecedingNode(int id) throws Exception {
+		return this.getOwner().handleRequestSync(
+				new AbstractComponent.AbstractService<Node>() {
+					@Override
+					public Node call() throws Exception {
+						return ((Node)this.getOwner()).closestPrecedingNode(id) ;
+					}
+				}) ;
+	}
+	
+	@Override
+	public void fixFingers() throws Exception {
+		this.getOwner().handleRequestAsync(
+				new AbstractComponent.AbstractService<Void>() {
+					@Override
+					public Void call() throws Exception {
+						((Node)this.getOwner()).fixFingers() ;
+						return null;
+					}
+				}) ;
+	}
+	
+	@Override
+	public String get(int id) throws Exception {
+		return this.getOwner().handleRequestSync(
+				new AbstractComponent.AbstractService<String>() {
+					@Override
+					public String call() throws Exception {
+						return ((Node)this.getOwner()).get(id) ;
+					}
+				}) ;
+	}
+	
+	@Override
+	public void put(int id, String value) throws Exception {
+		this.getOwner().handleRequestAsync(
+				new AbstractComponent.AbstractService<Void>() {
+					@Override
+					public Void call() throws Exception {
+						((Node)this.getOwner()).put(id, value) ;
+						return null;
+					}
+				}) ;
+	}
 }

@@ -1,6 +1,7 @@
 package fr.sorbonne_u.components.dht.connectors;
 
 import fr.sorbonne_u.components.connectors.AbstractConnector;
+import fr.sorbonne_u.components.dht.components.Node;
 import fr.sorbonne_u.components.dht.interfaces.NodeI;
 import fr.sorbonne_u.components.dht.interfaces.NodeOfferedI;
 import fr.sorbonne_u.components.dht.ports.NodeInboundPort;
@@ -83,5 +84,30 @@ implements	NodeOfferedI
 	@Override
 	public String retrieve(int id) throws Exception {
 		return ((NodeInboundPort)this.offering).retrieve(id);
+	}
+	
+	@Override
+	public Node findSuccessor(int id) throws Exception {
+		return ((NodeInboundPort)this.offering).findSuccessor(id);
+	}
+	
+	@Override
+	public Node closestPrecedingNode(int id) throws Exception {
+		return ((NodeInboundPort)this.offering).closestPrecedingNode(id);
+	}
+	
+	@Override
+	public void fixFingers() throws Exception {
+		((NodeInboundPort)this.offering).fixFingers();
+	}
+	
+	@Override
+	public String get(int id) throws Exception {
+		return ((NodeInboundPort)this.offering).get(id);
+	}
+	
+	@Override
+	public void put(int id, String value) throws Exception {
+		((NodeInboundPort)this.offering).put(id, value);
 	}
 }

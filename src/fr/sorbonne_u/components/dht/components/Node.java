@@ -2,6 +2,7 @@ package fr.sorbonne_u.components.dht.components;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Vector;
 import java.util.concurrent.TimeUnit;
 
 import fr.sorbonne_u.components.AbstractComponent;
@@ -23,6 +24,7 @@ public class Node extends AbstractComponent{
 	protected int predInd;
 	protected int succInd;
 	protected int index;
+	protected int next;
 	protected NodeOutboundPort nObpPred ;
 	protected NodeOutboundPort nObpSucc ;
 	protected NodeOutboundPort nObpStab ;
@@ -31,6 +33,7 @@ public class Node extends AbstractComponent{
 	protected NodeClientIbp nClientIbp ;
 	protected String adminRIPURI ;
 	protected Map<Integer, String> components ;
+	protected Vector<Node> finger ;
 	protected int size;
 	//protected AdminOutboundPort	adminPort ;
 
@@ -40,6 +43,10 @@ public class Node extends AbstractComponent{
 		super(nodeRIPURI,1, 1);
 		assert	adminRIPURI != null ;
 		this.index = index;
+		this.next=0;
+		this.predInd=-1;
+		this.succInd=-1;
+		
 		this.adminRIPURI = adminRIPURI ;
 		this.addRequiredInterface(AdminRequiredI.class) ;
 		this.addRequiredInterface(NodeRequiredI.class) ;
@@ -228,142 +235,57 @@ public class Node extends AbstractComponent{
 			return null;
 	}
 	
-	public void put( int id, String s) throws Exception {
-		//TODO (lookup)
+	public void put(int id, String value) throws Exception {
+		Node s = findSuccessor(id);
+		s.store(value);
 	}
 	
-	public String get( int id) throws Exception {
-		//TODO (lookup)
-		return null;
+	public String get(int id) throws Exception {
+		Node s = findSuccessor(id);
+		return s.retrieve(id);
 	}
 	
 	public void			execute() throws Exception
 	{
 		super.execute() ;
-		
-	
-			
 	}
 	
-	//TODO lookup
-	
-	/*
-	public void			execute() throws Exception
-	{
-		super.execute() ;
-		
-		//  exécution de la stabilisation toutes les 3 secondes
-		this.scheduleTaskWithFixedDelay(
-				new AbstractComponent.AbstractTask() {
-					@Override
-					public void run() {
-						try {
-							((Node)this.getOwner()).stab1();
-						} catch (Exception e) {
-							throw new RuntimeException(e) ;
-						}
-					}
-				}, 0, 3000, // délai entre la fin d'une exécution et la suivante, à modifier 
-				, TimeUnit.MILLISECONDS) ;
-
-		this.traceMessage("La node "+index+" fait la stabilisation.\n") ;
-	}
-
-
-	public void stab1() {
-		// rajouter le doPortConnexion et déconnexion !!
-
-		// rajouter le doPortConnexion !!
-		this.doPortConnection(
-				this.nObp.getPortURI(),
-				this.adminRIPURI,
-				ReflectionConnector.class.getCanonicalName());
-
-		
-		this.scheduleTask(
-				new AbstractComponent.AbstractTask() {
-					@Override
-					public void run() {
-						try {
-							((Node)this.getOwner()).nObpSucc.stab2((Node)this.getOwner());
-						} catch (Exception e) {
-							throw new RuntimeException(e) ;
-						}
-					}
-				}, 0, 
-				TimeUnit.MILLISECONDS) ;
-	}
-	
-	public void stab2(Node n) {
-		// rajouter le doPortConnexion et déconnexion  !!
-
-		this.scheduleTask(
-				new AbstractComponent.AbstractTask() {
-					@Override
-					public void run() {
-						try {
-							NodeOutboundPort nobp = ((Node)this.getOwner()).nObpPred;
-							if(nobp!=null) // ?? ou inutile? 
-								nobp.stab3(n);
-						} catch (Exception e) {
-							throw new RuntimeException(e) ;
-						}
-					}
-				}, 0, 
-				TimeUnit.MILLISECONDS) ;
-	}
-
-	public void stab3(Node n) {
-		// rajouter le doPortConnexion et déconnexion !!
-
-		this.scheduleTask(
-				new AbstractComponent.AbstractTask() {
-					@Override
-					public void run() {
-						try {
-							if(((Node)this.getOwner()).getIndex()>n.getIndex())
-								n.nObpSucc.stab4((Node)this.getOwner());
-						} catch (Exception e) {
-							throw new RuntimeException(e) ;
-						}
-					}
-				}, 0,  
-				TimeUnit.MILLISECONDS) ;
-	}
-	
-	public void stab4(Node succ) {
-		// rajouter le doPortConnexion et déconnexion  !!
-
-		this.scheduleTask(
-				new AbstractComponent.AbstractTask() {
-					@Override
-					public void run() {
-						try {
-							if(((Node)this.getOwner()).getIndex()<succ.getIndex())
-								((Node)this.getOwner()).setSucc(, n);
-						} catch (Exception e) {
-							throw new RuntimeException(e) ;
-						}
-					}
-				}, 0,  
-				TimeUnit.MILLISECONDS) ;
-	}*/
-
-	
-/*	public void stabilisation(){//called periodically --> stabilisation
-		String uriPred = nObpSucc.getPred();
-		if((v!=this)&&((v.getIndex()>index)&&(v.getIndex()<succ.getIndex()))){//remplacer v!=this par this.equals(v)
-			succ=v;
+	// lookup
+	public Node findSuccessor(int id) {
+		if (predInd != -1 && id > predInd && predInd <= index) 
+			return this;
+		else if (id > index && id <= succInd) {
+			try {
+				return (Node)nObpSucc.getOwner();
+			} catch (Exception e) {
+				e.printStackTrace();
+				return null;
+			}
 		}
-		succ.notifyPred(this);
-	}
-	public void notifyPred(DHT_node n){
-		if((pred==null)||((n.getIndex()<index)&&(n.getIndex()>pred.getIndex()))){
-			pred=n;
+		else { // forward the query around the circle
+			Node m = closestPrecedingNode(id);			
+			return m.findSuccessor(id);
 		}
-	}*/
+	}
+		
+	public Node closestPrecedingNode(int id) {
+		for(int i = size ; i > 0 ; i--) {
+			if (finger.get(i).getIndex() > index && finger.get(i).getIndex() < id)
+				return finger.get(i);
+		}
+		return this;
+	}	
 
-
+	// finger
+	public void fixFingers() {
+		next = next+1;
+		if (next > size)
+			next = 1;
+		if(next>finger.size())
+			finger.setSize(next);
+		finger.set(next, findSuccessor(index ^ (1<<(next-1))));
+	}
+	
 	/*@Override
 	public void			execute() throws Exception
 	{
