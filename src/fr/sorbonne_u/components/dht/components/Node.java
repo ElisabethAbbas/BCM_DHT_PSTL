@@ -33,7 +33,8 @@ public class Node extends AbstractComponent{
 	protected NodeClientIbp nClientIbp ;
 	protected String adminRIPURI ;
 	protected Map<Integer, String> components ;
-	protected Vector<Node> finger ;
+	protected Vector<Integer> fingerInd ;
+	protected HashMap<Integer, String> fingerIbpFromInd;
 	protected int size;
 	//protected AdminOutboundPort	adminPort ;
 
@@ -228,7 +229,7 @@ public class Node extends AbstractComponent{
 		components.put(hashFunction(s), s);
 	}
 	
-	public String retrieve( int id) throws Exception {
+	public String retrieve( int id) throws Exception {//TODO, change to void and add the uri of the requesting node/client and send him the answer instead of return. 
 		if(components.containsKey(id))
 			return components.get(id);
 		else
@@ -236,8 +237,22 @@ public class Node extends AbstractComponent{
 	}
 	
 	public void put(int id, String value) throws Exception {
-		Node s = findSuccessor(id);
-		s.store(value);
+		if (predInd != -1 && id > predInd && predInd <= index) 
+			store(value);
+		else if (id > index && id <= succInd) {
+			try {
+				nObpSucc.store(value);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		else { // forward the query around the circle
+			//nObpSucc.put(id, value);
+			if(this.nObpStab.connected())
+				this.doPortDisconnection(this.nObpStab.getPortURI());
+			this.doPortConnection(this.nObpStab.getPortURI(), fingerIbpFromInd.get(closestPrecedingNode(id)), NodeConnector.class.getCanonicalName());
+			this.nObpStab.put(id,  value);
+		}
 	}
 	
 	public String get(int id) throws Exception {
@@ -251,7 +266,7 @@ public class Node extends AbstractComponent{
 	}
 	
 	// lookup
-	public Node findSuccessor(int id) {
+	public Node findSuccessor(int id) throws Exception {//TODO change to void and add the uri of the requesting node/client and send him the answer instead of return
 		if (predInd != -1 && id > predInd && predInd <= index) 
 			return this;
 		else if (id > index && id <= succInd) {
@@ -263,17 +278,19 @@ public class Node extends AbstractComponent{
 			}
 		}
 		else { // forward the query around the circle
-			Node m = closestPrecedingNode(id);			
-			return m.findSuccessor(id);
+			if(this.nObpStab.connected())
+				this.doPortDisconnection(this.nObpStab.getPortURI());
+			this.doPortConnection(this.nObpStab.getPortURI(), fingerIbpFromInd.get(closestPrecedingNode(id)), NodeConnector.class.getCanonicalName());
+			return this.nObpStab.findSuccessor(id);
 		}
 	}
-		
-	public Node closestPrecedingNode(int id) {
+	
+	public int closestPrecedingNode(int id) {
 		for(int i = size ; i > 0 ; i--) {
-			if (finger.get(i).getIndex() > index && finger.get(i).getIndex() < id)
-				return finger.get(i);
+			if (fingerInd.get(i) > index && fingerInd.get(i) < id)
+				return fingerInd.get(i);
 		}
-		return this;
+		return index;
 	}	
 
 	// finger
