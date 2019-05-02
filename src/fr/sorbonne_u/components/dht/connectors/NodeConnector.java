@@ -102,6 +102,11 @@ implements	NodeOfferedI
 	}
 	
 	@Override
+	public void fixFingers1() throws Exception {
+		((NodeInboundPort)this.offering).fixFingers1();
+	}
+	
+	@Override
 	public String get(int id) throws Exception {
 		return ((NodeInboundPort)this.offering).get(id);
 	}

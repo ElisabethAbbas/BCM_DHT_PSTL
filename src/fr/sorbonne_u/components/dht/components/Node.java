@@ -40,14 +40,14 @@ public class Node extends AbstractComponent{
 
 	public Node(String nodeRIPURI, String adminRIPURI, int index, int size) throws Exception
 	{
-		
+
 		super(nodeRIPURI,1, 1);
 		assert	adminRIPURI != null ;
 		this.index = index;
 		this.next=0;
 		this.predInd=-1;
 		this.succInd=-1;
-		
+
 		this.adminRIPURI = adminRIPURI ;
 		this.addRequiredInterface(AdminRequiredI.class) ;
 		this.addRequiredInterface(NodeRequiredI.class) ;
@@ -56,7 +56,7 @@ public class Node extends AbstractComponent{
 		this.addRequiredInterface(NodeManagementI.class) ;
 		this.addOfferedInterface(NodeClientIbp.class) ;
 		this.addRequiredInterface(NodeClientIbp.class) ;
-		
+
 		this.nObpPred = new NodeOutboundPort(this) ;
 		this.addPort(this.nObpPred) ;
 		this.nObpPred.localPublishPort() ;
@@ -64,7 +64,7 @@ public class Node extends AbstractComponent{
 		this.nObpSucc = new NodeOutboundPort(this) ;
 		this.addPort(this.nObpSucc) ;
 		this.nObpSucc.localPublishPort() ;
-		
+
 		this.nObpStab = new NodeOutboundPort(this) ;
 		this.addPort(this.nObpStab) ;
 		this.nObpStab.localPublishPort() ;
@@ -72,15 +72,15 @@ public class Node extends AbstractComponent{
 		this.nIbp = new NodeInboundPort(this) ;
 		this.addPort(this.nIbp) ;
 		this.nIbp.publishPort() ;
-		
+
 		this.nMIbp = new NodeManagementIbp(this) ;
 		this.addPort(this.nMIbp) ;
 		this.nMIbp.publishPort() ;
-		
+
 		this.nClientIbp = new NodeClientIbp(this) ;
 		this.addPort(this.nClientIbp) ;
 		this.nClientIbp.publishPort() ;
-		
+
 		this.components = new HashMap<Integer, String>();
 		this.size = size;
 
@@ -92,18 +92,18 @@ public class Node extends AbstractComponent{
 		this.addPort(this.adminPort) ;
 		this.adminPort.publishPort() ;*/
 	}
-	
+
 	public void initialize() throws Exception {
 	}
 
 	public NodeManagementIbp getInboundPort() {
 		return this.nMIbp;
 	}
-	
+
 	public String getClientInboundPortURI()throws Exception{
 		return this.nClientIbp.getPortURI();
 	}
-	
+
 	public String getInboundPortURI() throws Exception {
 		return this.nIbp.getPortURI();
 	}
@@ -190,15 +190,15 @@ public class Node extends AbstractComponent{
 		//this.logMessage("index : "+this.index+" predInd : " +this.predInd );
 		this.nObpStab.stab3(this.predInd, this.index, this.pred);
 	}
-	
+
 	public void stab3(int predOfSuccInd, int succInd, String predOfSucc) throws Exception {
 		if(this.index != predOfSuccInd && predOfSuccInd > this.index && predOfSuccInd < succInd) {
 			this.setSucc(predOfSucc, predOfSuccInd);
 		}
-		
+
 		this.logMessage("stabilisation end... ");
 		this.nObpSucc.notifyPred1(this.index, this.nIbp.getPortURI());
-		
+
 	}
 	public void notifyPred1(int notifierIndex, String notifierIbpURI) throws Exception {
 		if(this.pred == null)
@@ -220,22 +220,22 @@ public class Node extends AbstractComponent{
 			this.setPred(notifierIbpURI, notifierIndex);
 		}
 	}
-	
+
 	public int hashFunction(String s) {
 		return s.hashCode()%size;
 	}
-	
+
 	public void store( String s) throws Exception {
 		components.put(hashFunction(s), s);
 	}
-	
+
 	public String retrieve( int id) throws Exception {//TODO, change to void and add the uri of the requesting node/client and send him the answer instead of return. 
 		if(components.containsKey(id))
 			return components.get(id);
 		else
 			return null;
 	}
-	
+
 	public void put(int id, String value) throws Exception {
 		if (predInd != -1 && id > predInd && predInd <= index) 
 			store(value);
@@ -254,23 +254,26 @@ public class Node extends AbstractComponent{
 			this.nObpStab.put(id,  value);
 		}
 	}
-	
+
 	public String get(int id) throws Exception {
 		Node s = findSuccessor(id);
 		return s.retrieve(id);
 	}
-	
+
 	public void			execute() throws Exception
 	{
 		super.execute() ;
 	}
-	
+
 	// lookup
 	public Node findSuccessor(int id) throws Exception {//TODO change to void and add the uri of the requesting node/client and send him the answer instead of return
 		if (predInd != -1 && id > predInd && predInd <= index) 
 			return this;
 		else if (id > index && id <= succInd) {
 			try {
+				if(this.nObpSucc.connected())
+					this.doPortDisconnection(this.nObpSucc.getPortURI());
+				this.doPortConnection(this.nObpSucc.getPortURI(), fingerIbpFromInd.get(closestPrecedingNode(id)), NodeConnector.class.getCanonicalName());
 				return (Node)nObpSucc.getOwner();
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -284,7 +287,7 @@ public class Node extends AbstractComponent{
 			return this.nObpStab.findSuccessor(id);
 		}
 	}
-	
+
 	public int closestPrecedingNode(int id) {
 		for(int i = size ; i > 0 ; i--) {
 			if (fingerInd.get(i) > index && fingerInd.get(i) < id)
@@ -295,14 +298,49 @@ public class Node extends AbstractComponent{
 
 	// finger
 	public void fixFingers() {
+		this.logMessage("starting fixFingers().") ;
+		//  exécution de la stabilisation toutes les 3 secondes
+		this.scheduleTaskWithFixedDelay(
+				new AbstractComponent.AbstractTask() {
+					@Override
+					public void run() {
+						try {
+							((Node)this.getOwner()).fixFingers1();
+						} catch (Exception e) {
+							throw new RuntimeException(e) ;
+						}
+					}
+				}, 4000, 3000 // délai entre la fin d'une exécution et la suivante, à modifier 
+				, TimeUnit.MILLISECONDS) ;
+	}
+
+	public void fixFingers1() {
+		this.logMessage("starting fixFingers1().") ;
 		next = next+1;
 		if (next > size)
 			next = 1;
-		if(next>finger.size())
-			finger.setSize(next);
-		finger.set(next, findSuccessor(index ^ (1<<(next-1))));
+		/*if(next>fingerInd.size())
+			fingerInd.setSize(next);*/
+
+		int id = index ^ (1<<(next-1));
+
+		if (predInd != -1 && id > predInd && predInd <= index) 
+			fingerInd.set(next, index);
+		else if (id > index && id <= succInd) {
+			fingerInd.set(next, succInd);
+		}
+		else { // forward the query around the circle	
+			try {
+				if(this.nObpStab.connected())
+					this.doPortDisconnection(this.nObpStab.getPortURI());
+				this.doPortConnection(this.nObpStab.getPortURI(), fingerIbpFromInd.get(closestPrecedingNode(id)), NodeConnector.class.getCanonicalName());
+				this.nObpStab.fixFingers1();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 	}
-	
+
 	/*@Override
 	public void			execute() throws Exception
 	{
@@ -324,7 +362,7 @@ public class Node extends AbstractComponent{
 		this.adminPort.test() ;
 		System.out.println("-------------------------------------------") ;
 	}*/
-	
+
 
 	/**
 	 * @see fr.sorbonne_u.components.AbstractComponent#finalise()
@@ -337,7 +375,7 @@ public class Node extends AbstractComponent{
 		this.nObpPred.doDisconnection() ;
 		this.nObpSucc.doDisconnection() ;
 		//this.nObpStab.doDisconnection() ;
-		
+
 		super.finalise();
 	}
 

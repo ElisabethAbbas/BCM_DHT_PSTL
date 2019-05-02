@@ -27,4 +27,5 @@ public interface NodeRequiredI extends	RequiredI, OfferedI
 	public Node findSuccessor(int id) throws Exception;
 	public String get(int id) throws Exception;
 	public void put(int id, String value) throws Exception;
+	public void fixFingers1() throws Exception;
 }
