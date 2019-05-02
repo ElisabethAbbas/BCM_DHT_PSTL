@@ -28,5 +28,4 @@ public interface NodeOfferedI extends OfferedI, RequiredI
 	public void fixFingers() throws Exception;
 	public String get(int id) throws Exception;
 	public void put(int id, String value) throws Exception;
-	public void fixFingers1() throws Exception;
 }

@@ -122,11 +122,6 @@ public class NodeOutboundPort extends AbstractOutboundPort implements NodeRequir
 	}
 	
 	@Override
-	public void fixFingers1() throws Exception {
-		((NodeConnector)this.connector).fixFingers1();
-	}
-	
-	@Override
 	public String get(int id) throws Exception {
 		return ((NodeConnector)this.connector).get(id);
 	}

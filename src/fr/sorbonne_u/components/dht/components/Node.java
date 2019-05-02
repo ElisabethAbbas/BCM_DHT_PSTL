@@ -172,6 +172,21 @@ public class Node extends AbstractComponent{
 				}, 3000, 3000 // délai entre la fin d'une exécution et la suivante, à modifier 
 				, TimeUnit.MILLISECONDS) ;
 
+		this.logMessage("starting fixFingers().") ;
+		//  exécution de fixFingers() toutes les 3 secondes
+		this.scheduleTaskWithFixedDelay(		
+				new AbstractComponent.AbstractTask() {
+					@Override
+					public void run() {
+						try {
+							((Node)this.getOwner()).fixFingers();
+						} catch (Exception e) {
+							throw new RuntimeException(e) ;
+						}
+					}
+				}, 4000, 3000 // délai entre la fin d'une exécution et la suivante, à modifier 
+				, TimeUnit.MILLISECONDS) ;
+
 	}
 	public void stab1() throws Exception {
 		if(this.succ != null) {
@@ -297,24 +312,8 @@ public class Node extends AbstractComponent{
 	}	
 
 	// finger
-	public void fixFingers() {
-		this.logMessage("starting fixFingers().") ;
-		//  exécution de la stabilisation toutes les 3 secondes
-		this.scheduleTaskWithFixedDelay(
-				new AbstractComponent.AbstractTask() {
-					@Override
-					public void run() {
-						try {
-							((Node)this.getOwner()).fixFingers1();
-						} catch (Exception e) {
-							throw new RuntimeException(e) ;
-						}
-					}
-				}, 4000, 3000 // délai entre la fin d'une exécution et la suivante, à modifier 
-				, TimeUnit.MILLISECONDS) ;
-	}
 
-	public void fixFingers1() {
+	public void fixFingers() {
 		this.logMessage("starting fixFingers1().") ;
 		next = next+1;
 		if (next > size)
@@ -334,7 +333,7 @@ public class Node extends AbstractComponent{
 				if(this.nObpStab.connected())
 					this.doPortDisconnection(this.nObpStab.getPortURI());
 				this.doPortConnection(this.nObpStab.getPortURI(), fingerIbpFromInd.get(closestPrecedingNode(id)), NodeConnector.class.getCanonicalName());
-				this.nObpStab.fixFingers1();
+				this.nObpStab.fixFingers();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
