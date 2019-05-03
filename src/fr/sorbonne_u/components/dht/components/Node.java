@@ -181,7 +181,7 @@ public class Node extends AbstractComponent{
 
 		this.logMessage("starting fixFingers().") ;
 		//  exécution de fixFingers() toutes les 3 secondes
-		this.scheduleTaskWithFixedDelay(		
+		/*this.scheduleTaskWithFixedDelay(		
 				new AbstractComponent.AbstractTask() {
 					@Override
 					public void run() {
@@ -192,7 +192,7 @@ public class Node extends AbstractComponent{
 						}
 					}
 				}, 4000, 3000 // délai entre la fin d'une exécution et la suivante, à modifier 
-				, TimeUnit.MILLISECONDS) ;
+				, TimeUnit.MILLISECONDS) ;*/
 
 	}
 	public void stab1() throws Exception {

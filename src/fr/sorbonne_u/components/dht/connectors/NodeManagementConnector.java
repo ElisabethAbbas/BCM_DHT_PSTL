@@ -2,7 +2,6 @@ package fr.sorbonne_u.components.dht.connectors;
 
 import fr.sorbonne_u.components.connectors.AbstractConnector;
 import fr.sorbonne_u.components.dht.interfaces.NodeManagementI;
-import fr.sorbonne_u.components.dht.interfaces.NodeOfferedI;
 
 public class NodeManagementConnector extends		AbstractConnector
 implements	NodeManagementI

@@ -11,6 +11,7 @@ import fr.sorbonne_u.components.dht.interfaces.AdminRequiredI;
 import fr.sorbonne_u.components.dht.interfaces.NodeManagementI;
 import fr.sorbonne_u.components.dht.ports.AdminClientIbp;
 import fr.sorbonne_u.components.dht.ports.AdminOutboundPort;
+import fr.sorbonne_u.components.exceptions.ComponentShutdownException;
 import fr.sorbonne_u.components.exceptions.ComponentStartException;
 import fr.sorbonne_u.components.pre.dcc.connectors.DynamicComponentCreationConnector;
 import fr.sorbonne_u.components.pre.dcc.interfaces.DynamicComponentCreationI;
@@ -271,5 +272,43 @@ public class DynamicAdmin extends		AbstractComponent
 		return null;
 	}
 	
-	// TODO start, finalize, shutDown...
+	/**
+	 * @see fr.sorbonne_u.components.AbstractComponent#finalise()
+	 */
+	@Override
+	public void			finalise() throws Exception
+	{
+		for(DynamicComponentCreationOutboundPort reflectionPort : portsToNodesJVM.values()) {
+			if (reflectionPort.connected()) {
+				reflectionPort.doDisconnection() ;
+			}
+		}
+		if(this.adminOutboundPort.connected())
+			this.adminOutboundPort.doDisconnection();
+		if(this.rop.connected())
+			this.rop.doDisconnection();
+			
+		super.finalise() ;
+	}
+
+	/**
+	 * @see fr.sorbonne_u.components.AbstractComponent#shutdown()
+	 */
+	@Override
+	public void			shutdown() throws ComponentShutdownException
+	{
+		try {
+			for(DynamicComponentCreationOutboundPort reflectionPort : portsToNodesJVM.values()) {
+				reflectionPort.unpublishPort() ;
+			}
+			this.rop.unpublishPort() ;
+			this.adminOutboundPort.unpublishPort() ;
+			this.adminClientIbp.unpublishPort() ;
+		} catch (Exception e) {
+			throw new ComponentShutdownException(e) ;
+		}
+
+		super.shutdown();
+	}
+
 }

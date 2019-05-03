@@ -3,7 +3,6 @@ package fr.sorbonne_u.components.dht.ports;
 import fr.sorbonne_u.components.AbstractComponent;
 import fr.sorbonne_u.components.ComponentI;
 import fr.sorbonne_u.components.dht.components.Node;
-import fr.sorbonne_u.components.dht.interfaces.NodeI;
 import fr.sorbonne_u.components.dht.interfaces.NodeOfferedI;
 import fr.sorbonne_u.components.ports.AbstractInboundPort;
 

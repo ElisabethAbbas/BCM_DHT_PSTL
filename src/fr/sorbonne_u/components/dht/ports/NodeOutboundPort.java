@@ -2,7 +2,6 @@ package fr.sorbonne_u.components.dht.ports;
 
 import fr.sorbonne_u.components.ComponentI;
 import fr.sorbonne_u.components.dht.interfaces.NodeRequiredI;
-import fr.sorbonne_u.components.dht.components.Node;
 import fr.sorbonne_u.components.dht.connectors.*;
 import fr.sorbonne_u.components.ports.AbstractOutboundPort;
 

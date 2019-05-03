@@ -4,7 +4,6 @@ import fr.sorbonne_u.components.AbstractComponent;
 import fr.sorbonne_u.components.ComponentI;
 import fr.sorbonne_u.components.dht.components.Node;
 import fr.sorbonne_u.components.dht.interfaces.NodeManagementI;
-import fr.sorbonne_u.components.dht.interfaces.NodeOfferedI;
 import fr.sorbonne_u.components.ports.AbstractInboundPort;
 
 public class NodeManagementIbp extends AbstractInboundPort implements NodeManagementI{
