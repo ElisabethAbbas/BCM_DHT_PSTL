@@ -1,5 +1,8 @@
 package fr.sorbonne_u.components.dht.ports;
 
+import java.util.HashMap;
+import java.util.Vector;
+
 import fr.sorbonne_u.components.ComponentI;
 import fr.sorbonne_u.components.dht.connectors.NodeManagementConnector;
 import fr.sorbonne_u.components.dht.interfaces.AdminRequiredI;
@@ -54,6 +57,12 @@ public class AdminOutboundPort extends AbstractOutboundPort implements AdminRequ
 	@Override
 	public String getInboundPortURI() throws Exception {
 		return ((NodeManagementConnector)this.connector).getInboundPortURI();
+	}
+
+	@Override
+	public void setFingers(Vector<Integer> fingerInd, HashMap<Integer, String> fingerIbpFromInd) throws Exception {
+		((NodeManagementConnector)this.connector).setFingers( fingerInd, fingerIbpFromInd);
+		
 	}
 	
 }

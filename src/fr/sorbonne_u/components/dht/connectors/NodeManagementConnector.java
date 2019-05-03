@@ -1,5 +1,8 @@
 package fr.sorbonne_u.components.dht.connectors;
 
+import java.util.HashMap;
+import java.util.Vector;
+
 import fr.sorbonne_u.components.connectors.AbstractConnector;
 import fr.sorbonne_u.components.dht.interfaces.NodeManagementI;
 
@@ -47,5 +50,11 @@ implements	NodeManagementI
 	@Override
 	public String getClientInboundPortURI() throws Exception {
 		return ((NodeManagementI)this.offering).getClientInboundPortURI();
+	}
+
+	@Override
+	public void setFingers(Vector<Integer> fingerInd, HashMap<Integer, String> fingerIbpFromInd) throws Exception {
+		((NodeManagementI)this.offering).setFingers(fingerInd, fingerIbpFromInd);
+		
 	}
 }

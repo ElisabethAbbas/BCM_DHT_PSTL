@@ -1,6 +1,7 @@
 package fr.sorbonne_u.components.dht.components;
 
 import java.util.HashMap;
+import java.util.Vector;
 import java.util.concurrent.TimeUnit;
 
 import fr.sorbonne_u.components.AbstractComponent;
@@ -152,6 +153,9 @@ public class DynamicAdmin extends		AbstractComponent
 			ring[n] = tmpRingNode;
 			rop.doDisconnection();
 		}
+		Vector<Integer> fingerInd ;
+		HashMap<Integer, String> fingerIbpFromInd;
+		int fingerIndex;
 		
 		String[] first = null;
 		String[] tmp = null;
@@ -166,10 +170,25 @@ public class DynamicAdmin extends		AbstractComponent
 					tmpi = i;
 				}
 				else{
+					//initializing hashTable
+					fingerInd = new Vector<Integer>();
+					fingerIbpFromInd = new HashMap<Integer, String>();
+					fingerIndex = 0;
+					while(i + Math.pow(2, fingerIndex) < size) {
+						int tmpInd = 0;
+						while(ring[(int) (i + Math.pow(2, fingerIndex) + tmpInd) % size] == null)
+							tmpInd++;
+						int succOf2Pow = (int) (i + Math.pow(2, fingerIndex) + tmpInd) % size;
+						fingerInd.set(fingerIndex,succOf2Pow);
+						fingerIbpFromInd.put(fingerIndex, ring[succOf2Pow][1]);
+						fingerIndex++;
+					}
+					
 					this.logMessage("connecting Outb->Inb admin - node : " + i +"...");
 					this.doPortConnection(this.adminOutboundPort.getPortURI(), ring[i][0], NodeManagementConnector.class.getCanonicalName());
 					this.logMessage("settingPred node : " + i +"...");
 					this.adminOutboundPort.setPred(tmp[1], tmpi);
+					this.adminOutboundPort.setFingers(fingerInd, fingerIbpFromInd);
 					this.doPortDisconnection(this.adminOutboundPort.getPortURI());
 					
 					this.logMessage("connecting Outb->Inb admin - node : " + tmpi +"...");

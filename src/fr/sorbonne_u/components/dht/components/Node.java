@@ -118,6 +118,11 @@ public class Node extends AbstractComponent{
 	public NodeOutboundPort getOutboundPort() {
 		return this.nObpSucc;
 	}
+	
+	public void setFingers(Vector<Integer> fingerInd ,HashMap<Integer, String> fingerIbpFromInd) {
+		this.fingerInd = fingerInd;
+		this.fingerIbpFromInd = fingerIbpFromInd;
+	}
 
 	public void setPred(String inboundPort, int n) throws Exception {
 		this.logMessage("setting pred to "+n+"...");

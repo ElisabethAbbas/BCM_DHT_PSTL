@@ -1,5 +1,8 @@
 package fr.sorbonne_u.components.dht.ports;
 
+import java.util.HashMap;
+import java.util.Vector;
+
 import fr.sorbonne_u.components.AbstractComponent;
 import fr.sorbonne_u.components.ComponentI;
 import fr.sorbonne_u.components.dht.components.Node;
@@ -120,6 +123,18 @@ public class NodeManagementIbp extends AbstractInboundPort implements NodeManage
 					public String call() throws Exception {
 						return ((Node)this.getOwner()).
 								getClientInboundPortURI() ;
+					}
+				}) ;
+	}
+
+	@Override
+	public void setFingers(Vector<Integer> fingerInd, HashMap<Integer, String> fingerIbpFromInd) throws Exception {
+		this.getOwner().handleRequestAsync(
+				new AbstractComponent.AbstractService<Boolean>() {
+					@Override
+					public Boolean call() throws Exception {
+						((Node)this.getOwner()).setFingers(fingerInd, fingerIbpFromInd);
+						return true;
 					}
 				}) ;
 	}
