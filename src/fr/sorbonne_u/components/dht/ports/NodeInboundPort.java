@@ -225,11 +225,11 @@ public class NodeInboundPort extends AbstractInboundPort implements NodeOfferedI
 	}
 	
 	@Override
-	public Node closestPrecedingNode(int id) throws Exception {
+	public int closestPrecedingNode(int id) throws Exception {
 		return this.getOwner().handleRequestSync(
-				new AbstractComponent.AbstractService<Node>() {
+				new AbstractComponent.AbstractService<Integer>() {
 					@Override
-					public Node call() throws Exception {
+					public Integer call() throws Exception {
 						return ((Node)this.getOwner()).closestPrecedingNode(id) ;
 					}
 				}) ;
@@ -248,12 +248,13 @@ public class NodeInboundPort extends AbstractInboundPort implements NodeOfferedI
 	}
 	
 	@Override
-	public String get(int id) throws Exception {
-		return this.getOwner().handleRequestSync(
-				new AbstractComponent.AbstractService<String>() {
+	public void get(String clientIbpURI, int id) throws Exception {
+		this.getOwner().handleRequestAsync(
+				new AbstractComponent.AbstractService<Void>() {
 					@Override
-					public String call() throws Exception {
-						return ((Node)this.getOwner()).get(id) ;
+					public Void call() throws Exception {
+						((Node)this.getOwner()).get(clientIbpURI, id) ;
+						return null;
 					}
 				}) ;
 	}
@@ -265,6 +266,19 @@ public class NodeInboundPort extends AbstractInboundPort implements NodeOfferedI
 					@Override
 					public Void call() throws Exception {
 						((Node)this.getOwner()).put(id, value) ;
+						return null;
+					}
+				}) ;
+	}
+
+	@Override
+	public void connectAndSendToClient(String ClientIbpURI, int id) throws Exception {
+		this.getOwner().handleRequestAsync(
+				new AbstractComponent.AbstractService<Void>() {
+					@Override
+					public Void call() throws Exception {
+						((Node)this.getOwner()).
+									connectAndSendToClient( ClientIbpURI,  id);
 						return null;
 					}
 				}) ;

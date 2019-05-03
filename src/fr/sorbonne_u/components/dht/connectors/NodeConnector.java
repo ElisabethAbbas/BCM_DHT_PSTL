@@ -92,7 +92,7 @@ implements	NodeOfferedI
 	}
 	
 	@Override
-	public Node closestPrecedingNode(int id) throws Exception {
+	public int closestPrecedingNode(int id) throws Exception {
 		return ((NodeInboundPort)this.offering).closestPrecedingNode(id);
 	}
 	
@@ -102,12 +102,18 @@ implements	NodeOfferedI
 	}
 	
 	@Override
-	public String get(int id) throws Exception {
-		return ((NodeInboundPort)this.offering).get(id);
+	public void get(String clientIbpURI, int id) throws Exception{
+		((NodeInboundPort)this.offering).get(clientIbpURI,id);
 	}
 	
 	@Override
 	public void put(int id, String value) throws Exception {
 		((NodeInboundPort)this.offering).put(id, value);
+	}
+
+	@Override
+	public void connectAndSendToClient(String ClientIbpURI, int id) throws Exception {
+		((NodeInboundPort)this.offering).connectAndSendToClient(ClientIbpURI,id);
+		
 	}
 }

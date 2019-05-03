@@ -112,7 +112,7 @@ public class NodeOutboundPort extends AbstractOutboundPort implements NodeRequir
 	}
 	
 	@Override
-	public Node closestPrecedingNode(int id) throws Exception {
+	public int closestPrecedingNode(int id) throws Exception {
 		return ((NodeConnector)this.connector).closestPrecedingNode(id);
 	}
 	
@@ -122,12 +122,18 @@ public class NodeOutboundPort extends AbstractOutboundPort implements NodeRequir
 	}
 	
 	@Override
-	public String get(int id) throws Exception {
-		return ((NodeConnector)this.connector).get(id);
+	public void get(String clientIbpURI, int id) throws Exception {
+		((NodeConnector)this.connector).get(clientIbpURI,id);
 	}
 	
 	@Override
 	public void put(int id, String value) throws Exception {
 		((NodeConnector)this.connector).put(id, value);
+	}
+
+	@Override
+	public void connectAndSendToClient(String ClientIbpURI, int id) throws Exception {
+		((NodeConnector)this.connector).connectAndSendToClient( ClientIbpURI, id);
+		
 	}
 }

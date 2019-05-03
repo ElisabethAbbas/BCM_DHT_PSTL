@@ -11,7 +11,13 @@ public class NodeClientConnector extends AbstractConnector implements NodeClient
 	}
 
 	@Override
-	public String get(int id) throws Exception {
-		return ((NodeClientI)this.offering).get(id);
+	public void get(String clientIbpURI, int id) throws Exception {
+		((NodeClientI)this.offering).get(clientIbpURI, id);
+	}
+
+	@Override
+	public void reveiveResultOfGet(String result) throws Exception {
+		// not used
+		
 	}
 }

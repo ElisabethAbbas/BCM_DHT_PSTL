@@ -7,6 +7,7 @@ import java.util.concurrent.TimeUnit;
 
 import fr.sorbonne_u.components.AbstractComponent;
 import fr.sorbonne_u.components.dht.connectors.NodeConnector;
+import fr.sorbonne_u.components.dht.connectors.NodeToClientConnector;
 import fr.sorbonne_u.components.dht.interfaces.AdminRequiredI;
 import fr.sorbonne_u.components.dht.interfaces.NodeManagementI;
 import fr.sorbonne_u.components.dht.interfaces.NodeOfferedI;
@@ -15,6 +16,7 @@ import fr.sorbonne_u.components.dht.ports.NodeClientIbp;
 import fr.sorbonne_u.components.dht.ports.NodeInboundPort;
 import fr.sorbonne_u.components.dht.ports.NodeManagementIbp;
 import fr.sorbonne_u.components.dht.ports.NodeOutboundPort;
+import fr.sorbonne_u.components.dht.ports.NodeToClientObp;
 import fr.sorbonne_u.components.exceptions.ComponentShutdownException;
 import fr.sorbonne_u.components.exceptions.ComponentStartException;
 
@@ -25,6 +27,7 @@ public class Node extends AbstractComponent{
 	protected int succInd;
 	protected int index;
 	protected int next;
+	protected NodeToClientObp towardsClient;
 	protected NodeOutboundPort nObpPred ;
 	protected NodeOutboundPort nObpSucc ;
 	protected NodeOutboundPort nObpStab ;
@@ -64,6 +67,10 @@ public class Node extends AbstractComponent{
 		this.nObpSucc = new NodeOutboundPort(this) ;
 		this.addPort(this.nObpSucc) ;
 		this.nObpSucc.localPublishPort() ;
+		
+		this.towardsClient = new NodeToClientObp(this) ;
+		this.addPort(this.towardsClient) ;
+		this.towardsClient.localPublishPort() ;
 
 		this.nObpStab = new NodeOutboundPort(this) ;
 		this.addPort(this.nObpStab) ;
@@ -270,9 +277,32 @@ public class Node extends AbstractComponent{
 		}
 	}
 
-	public String get(int id) throws Exception {
-		Node s = findSuccessor(id);
-		return s.retrieve(id);
+	public void get(String ClientIbpURI, int id) throws Exception {
+		if (predInd != -1 && id > predInd && predInd <= index) 
+			connectAndSendToClient( ClientIbpURI, id);
+		else if (id > index && id <= succInd) {
+			try {
+				nObpSucc.connectAndSendToClient( ClientIbpURI, id);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		else { // forward the query around the circle
+			//nObpSucc.get(ClientIbpURI, id);
+			if(this.nObpStab.connected())
+				this.doPortDisconnection(this.nObpStab.getPortURI());
+			this.doPortConnection(this.nObpStab.getPortURI(), fingerIbpFromInd.get(closestPrecedingNode(id)), NodeConnector.class.getCanonicalName());
+			nObpStab.get(ClientIbpURI, id);
+		}
+	}
+	
+	public void connectAndSendToClient(String ClientIbpURI, int id) throws Exception {
+		if(components.containsKey(id)) {
+			if(this.towardsClient.connected())
+				this.doPortDisconnection(this.towardsClient.getPortURI());
+			this.doPortConnection(this.towardsClient.getPortURI(), ClientIbpURI, NodeToClientConnector.class.getCanonicalName());
+			this.towardsClient.reveiveResultOfGet(components.get(id));
+		}
 	}
 
 	public void			execute() throws Exception
