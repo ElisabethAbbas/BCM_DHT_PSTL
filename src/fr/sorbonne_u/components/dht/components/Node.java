@@ -119,7 +119,7 @@ public class Node extends AbstractComponent{
 		return this.nObpSucc;
 	}
 	
-	public void setFingers(Vector<Integer> fingerInd ,HashMap<Integer, String> fingerIbpFromInd) {
+	public void setFingers(Vector<Integer> fingerInd ,HashMap<Integer, String> fingerIbpFromInd) throws Exception {
 		this.fingerInd = fingerInd;
 		this.fingerIbpFromInd = fingerIbpFromInd;
 	}
