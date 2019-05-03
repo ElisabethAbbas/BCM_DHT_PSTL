@@ -240,6 +240,12 @@ public class Node extends AbstractComponent{
 		if(notifierIndex > predInd)
 		{
 			this.setPred(notifierIbpURI, notifierIndex);
+			for(int ind : components.keySet()) {
+				if(notifierIndex >= ind) {
+					nObpPred.store(components.get(ind));
+					components.remove(ind);
+				}
+			}
 		}
 	}
 
