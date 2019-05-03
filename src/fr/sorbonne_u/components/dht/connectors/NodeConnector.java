@@ -87,8 +87,8 @@ implements	NodeOfferedI
 	}
 	
 	@Override
-	public Node findSuccessor(int id) throws Exception {
-		return ((NodeInboundPort)this.offering).findSuccessor(id);
+	public void findSuccessor(String ClientIbpURI, int id) throws Exception {
+		((NodeInboundPort)this.offering).findSuccessor(ClientIbpURI, id);
 	}
 	
 	@Override

@@ -23,10 +23,11 @@ public interface NodeOfferedI extends OfferedI, RequiredI
 	public void notifyPred3(int notifierIndex, String notifierIbpURI, int predInd) throws Exception ;
 	public void store( String s) throws Exception ;
 	public String retrieve( int id) throws Exception ;
-	public Node findSuccessor(int id) throws Exception;
+	public void findSuccessor(String ClientIbpURI, int id) throws Exception ;
 	public int closestPrecedingNode(int id) throws Exception;
 	public void fixFingers() throws Exception;
 	public void get(String clientIbpURI, int id) throws Exception;
 	public void put(int id, String value) throws Exception;
 	public void connectAndSendToClient(String ClientIbpURI, int id) throws Exception;
+	
 }

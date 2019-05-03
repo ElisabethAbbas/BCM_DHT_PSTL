@@ -214,12 +214,13 @@ public class NodeInboundPort extends AbstractInboundPort implements NodeOfferedI
 	}
 	
 	@Override
-	public Node findSuccessor(int id) throws Exception {
-		return this.getOwner().handleRequestSync(
-				new AbstractComponent.AbstractService<Node>() {
+	public void findSuccessor(String ClientIbpURI, int id) throws Exception {
+		this.getOwner().handleRequestAsync(
+				new AbstractComponent.AbstractService<Void>() {
 					@Override
-					public Node call() throws Exception {
-						return ((Node)this.getOwner()).findSuccessor(id) ;
+					public Void call() throws Exception {
+						((Node)this.getOwner()).findSuccessor(ClientIbpURI, id) ;
+						return null;
 					}
 				});
 	}

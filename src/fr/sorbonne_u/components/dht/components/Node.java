@@ -317,25 +317,24 @@ public class Node extends AbstractComponent{
 	}
 
 	// lookup
-	public Node findSuccessor(int id) throws Exception {//TODO change to void and add the uri of the requesting node/client and send him the answer instead of return
+	public void findSuccessor(String ClientIbpURI, int id) throws Exception {
 		if (predInd != -1 && id > predInd && predInd <= index) 
-			return this;
+			connectAndSendToClient( ClientIbpURI, id);
 		else if (id > index && id <= succInd) {
 			try {
 				if(this.nObpSucc.connected())
 					this.doPortDisconnection(this.nObpSucc.getPortURI());
 				this.doPortConnection(this.nObpSucc.getPortURI(), fingerIbpFromInd.get(closestPrecedingNode(id)), NodeConnector.class.getCanonicalName());
-				return (Node)nObpSucc.getOwner();
+				nObpSucc.connectAndSendToClient( ClientIbpURI, id);
 			} catch (Exception e) {
 				e.printStackTrace();
-				return null;
 			}
 		}
 		else { // forward the query around the circle
 			if(this.nObpStab.connected())
 				this.doPortDisconnection(this.nObpStab.getPortURI());
 			this.doPortConnection(this.nObpStab.getPortURI(), fingerIbpFromInd.get(closestPrecedingNode(id)), NodeConnector.class.getCanonicalName());
-			return this.nObpStab.findSuccessor(id);
+			this.nObpStab.findSuccessor(ClientIbpURI, id);
 		}
 	}
 

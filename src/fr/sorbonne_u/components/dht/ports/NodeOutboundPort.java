@@ -107,8 +107,8 @@ public class NodeOutboundPort extends AbstractOutboundPort implements NodeRequir
 	}
 	
 	@Override
-	public Node findSuccessor(int id) throws Exception {
-		return ((NodeConnector)this.connector).findSuccessor(id);
+	public void findSuccessor(String ClientIbpURI, int id) throws Exception {
+		((NodeConnector)this.connector).findSuccessor(ClientIbpURI, id);
 	}
 	
 	@Override
