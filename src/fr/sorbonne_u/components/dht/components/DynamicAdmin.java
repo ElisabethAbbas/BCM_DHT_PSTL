@@ -1,6 +1,8 @@
 package fr.sorbonne_u.components.dht.components;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Vector;
 import java.util.concurrent.TimeUnit;
 
@@ -64,6 +66,27 @@ public class DynamicAdmin extends		AbstractComponent
 			this.logMessage("cant join node " + index + " : node already exists !") ;
 		else {
 			nodes.put(index,  JVMURI);
+			//initializing fingerTable
+			List<Integer> fingerInd ;
+			HashMap<Integer, String> fingerIbpFromInd;
+			int fingerIndex;
+			
+			fingerInd = new ArrayList<Integer>();
+			fingerIbpFromInd = new HashMap<Integer, String>();
+			fingerIndex = 0;
+			while(Math.pow(2, fingerIndex) < size) {
+				int tmpFingerInd = 0;
+				while(ring[(int) (index + Math.pow(2, fingerIndex) + tmpFingerInd) % size] == null) {
+					tmpFingerInd++;
+					
+				}
+				
+				int succOf2Pow = (int) (index + Math.pow(2, fingerIndex) + tmpFingerInd) % size;
+				fingerInd.add(fingerIndex,succOf2Pow);
+				fingerIbpFromInd.put(fingerIndex, ring[succOf2Pow][1]);
+				fingerIndex++;
+			}
+			System.out.println("admin -> node "+index+" : finger size : "+fingerInd.size());
 			try {
 				System.out.println("starting dccObp creation : " + index);
 				DynamicComponentCreationOutboundPort tmpCObp = new DynamicComponentCreationOutboundPort(this);
@@ -105,6 +128,7 @@ public class DynamicAdmin extends		AbstractComponent
 				this.doPortConnection(this.adminOutboundPort.getPortURI(), tmpRingNode[0], NodeManagementConnector.class.getCanonicalName());
 				this.logMessage("settingSucc node : " + index +"...");
 				this.adminOutboundPort.setSucc(ring[cptFindSucc][1], cptFindSucc);
+				this.adminOutboundPort.setFingers(fingerInd, fingerIbpFromInd);
 				this.doPortDisconnection(this.adminOutboundPort.getPortURI());
 			}
 			
@@ -153,7 +177,7 @@ public class DynamicAdmin extends		AbstractComponent
 			ring[n] = tmpRingNode;
 			rop.doDisconnection();
 		}
-		Vector<Integer> fingerInd ;
+		List<Integer> fingerInd ;
 		HashMap<Integer, String> fingerIbpFromInd;
 		int fingerIndex;
 		
@@ -170,19 +194,23 @@ public class DynamicAdmin extends		AbstractComponent
 					tmpi = i;
 				}
 				else{
-					//initializing hashTable
-					fingerInd = new Vector<Integer>();
+					//initializing fingerTable
+					fingerInd = new ArrayList<Integer>();
 					fingerIbpFromInd = new HashMap<Integer, String>();
 					fingerIndex = 0;
-					while(i + Math.pow(2, fingerIndex) < size) {
-						int tmpInd = 0;
-						while(ring[(int) (i + Math.pow(2, fingerIndex) + tmpInd) % size] == null)
-							tmpInd++;
-						int succOf2Pow = (int) (i + Math.pow(2, fingerIndex) + tmpInd) % size;
-						fingerInd.set(fingerIndex,succOf2Pow);
+					while(Math.pow(2, fingerIndex) < size) {
+						int tmpFingerInd = 0;
+						while(ring[(int) (i + Math.pow(2, fingerIndex) + tmpFingerInd) % size] == null) {
+							tmpFingerInd++;
+							
+						}
+						
+						int succOf2Pow = (int) (i + Math.pow(2, fingerIndex) + tmpFingerInd) % size;
+						fingerInd.add(fingerIndex,succOf2Pow);
 						fingerIbpFromInd.put(fingerIndex, ring[succOf2Pow][1]);
 						fingerIndex++;
 					}
+					System.out.println("admin -> node "+i+" : finger size : "+fingerInd.size());
 					
 					this.logMessage("connecting Outb->Inb admin - node : " + i +"...");
 					this.doPortConnection(this.adminOutboundPort.getPortURI(), ring[i][0], NodeManagementConnector.class.getCanonicalName());
@@ -204,8 +232,26 @@ public class DynamicAdmin extends		AbstractComponent
 			}
 		}
 		if((first != null)&&(first != tmp)){//pour ne pas faire le cas ou 1 seule node
+			//initializing fingerTable
+			fingerInd = new ArrayList<Integer>();
+			fingerIbpFromInd = new HashMap<Integer, String>();
+			fingerIndex = 0;
+			while(Math.pow(2, fingerIndex) < size) {
+				int tmpFingerInd = 0;
+				while(ring[(int) (firsti + Math.pow(2, fingerIndex) + tmpFingerInd) % size] == null) {
+					tmpFingerInd++;
+					
+				}
+				
+				int succOf2Pow = (int) (firsti + Math.pow(2, fingerIndex) + tmpFingerInd) % size;
+				fingerInd.add(fingerIndex,succOf2Pow);
+				fingerIbpFromInd.put(fingerIndex, ring[succOf2Pow][1]);
+				fingerIndex++;
+			}
+			System.out.println("admin -> node "+firsti+" : finger size : "+fingerInd.size());
 			this.doPortConnection(this.adminOutboundPort.getPortURI(), first[0], NodeManagementConnector.class.getCanonicalName());
 			this.adminOutboundPort.setPred(tmp[1],tmpi);
+			this.adminOutboundPort.setFingers(fingerInd, fingerIbpFromInd);
 			this.doPortDisconnection(this.adminOutboundPort.getPortURI());
 			
 			this.doPortConnection(this.adminOutboundPort.getPortURI(), tmp[0], NodeManagementConnector.class.getCanonicalName());

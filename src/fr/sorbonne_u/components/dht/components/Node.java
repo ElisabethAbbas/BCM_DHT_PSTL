@@ -1,6 +1,8 @@
 package fr.sorbonne_u.components.dht.components;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Vector;
 import java.util.concurrent.TimeUnit;
@@ -36,7 +38,7 @@ public class Node extends AbstractComponent{
 	protected NodeClientIbp nClientIbp ;
 	protected String adminRIPURI ;
 	protected Map<Integer, String> components ;
-	protected Vector<Integer> fingerInd ;
+	protected List<Integer> fingerInd ;
 	protected HashMap<Integer, String> fingerIbpFromInd;
 	protected int size;
 	//protected AdminOutboundPort	adminPort ;
@@ -119,7 +121,7 @@ public class Node extends AbstractComponent{
 		return this.nObpSucc;
 	}
 	
-	public void setFingers(Vector<Integer> fingerInd ,HashMap<Integer, String> fingerIbpFromInd) throws Exception {
+	public void setFingers(List<Integer> fingerInd ,HashMap<Integer, String> fingerIbpFromInd) throws Exception {
 		this.fingerInd = fingerInd;
 		this.fingerIbpFromInd = fingerIbpFromInd;
 	}
@@ -186,7 +188,7 @@ public class Node extends AbstractComponent{
 
 		this.logMessage("starting fixFingers().") ;
 		//  exécution de fixFingers() toutes les 3 secondes
-		/*this.scheduleTaskWithFixedDelay(		
+		this.scheduleTaskWithFixedDelay(		
 				new AbstractComponent.AbstractTask() {
 					@Override
 					public void run() {
@@ -197,7 +199,7 @@ public class Node extends AbstractComponent{
 						}
 					}
 				}, 4000, 3000 // délai entre la fin d'une exécution et la suivante, à modifier 
-				, TimeUnit.MILLISECONDS) ;*/
+				, TimeUnit.MILLISECONDS) ;
 
 	}
 	public void stab1() throws Exception {
@@ -262,7 +264,7 @@ public class Node extends AbstractComponent{
 		components.put(hashFunction(s), s);
 	}
 
-	public String retrieve( int id) throws Exception {//TODO, change to void and add the uri of the requesting node/client and send him the answer instead of return. 
+	public String retrieve( int id) throws Exception {//not used
 		if(components.containsKey(id))
 			return components.get(id);
 		else
@@ -344,7 +346,7 @@ public class Node extends AbstractComponent{
 	}
 
 	public int closestPrecedingNode(int id) {
-		for(int i = size ; i > 0 ; i--) {
+		for(int i = fingerInd.size() - 1 ; i > 0 ; i--) {
 			if (fingerInd.get(i) > index && fingerInd.get(i) < id)
 				return fingerInd.get(i);
 		}
@@ -378,6 +380,7 @@ public class Node extends AbstractComponent{
 				e.printStackTrace();
 			}
 		}
+		this.logMessage("fixFingers1() done.") ;
 	}
 
 	/*@Override

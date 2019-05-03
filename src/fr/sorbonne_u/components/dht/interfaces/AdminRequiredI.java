@@ -1,6 +1,6 @@
 package fr.sorbonne_u.components.dht.interfaces;
 import java.util.HashMap;
-import java.util.Vector;
+import java.util.List;
 
 import fr.sorbonne_u.components.interfaces.RequiredI;
 
@@ -14,5 +14,5 @@ RequiredI
 	public String getSucc() throws Exception;
 	public String getInboundPortURI()throws Exception;
 	public int getIndex() throws Exception;
-	public void setFingers(Vector<Integer> fingerInd ,HashMap<Integer, String> fingerIbpFromInd) throws Exception ;
+	public void setFingers(List<Integer> fingerInd ,HashMap<Integer, String> fingerIbpFromInd) throws Exception ;
 }

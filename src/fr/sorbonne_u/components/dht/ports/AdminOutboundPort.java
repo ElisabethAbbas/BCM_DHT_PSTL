@@ -1,6 +1,7 @@
 package fr.sorbonne_u.components.dht.ports;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Vector;
 
 import fr.sorbonne_u.components.ComponentI;
@@ -60,7 +61,7 @@ public class AdminOutboundPort extends AbstractOutboundPort implements AdminRequ
 	}
 
 	@Override
-	public void setFingers(Vector<Integer> fingerInd, HashMap<Integer, String> fingerIbpFromInd) throws Exception {
+	public void setFingers(List<Integer> fingerInd, HashMap<Integer, String> fingerIbpFromInd) throws Exception {
 		((NodeManagementConnector)this.connector).setFingers( fingerInd, fingerIbpFromInd);
 		
 	}

@@ -1,5 +1,6 @@
 package fr.sorbonne_u.components.dht.ports;
 
+import java.util.List;
 import java.util.HashMap;
 import java.util.Vector;
 
@@ -128,7 +129,7 @@ public class NodeManagementIbp extends AbstractInboundPort implements NodeManage
 	}
 
 	@Override
-	public void setFingers(Vector<Integer> fingerInd, HashMap<Integer, String> fingerIbpFromInd) throws Exception {
+	public void setFingers(List<Integer> fingerInd, HashMap<Integer, String> fingerIbpFromInd) throws Exception {
 		this.getOwner().handleRequestAsync(
 				new AbstractComponent.AbstractService<Boolean>() {
 					@Override

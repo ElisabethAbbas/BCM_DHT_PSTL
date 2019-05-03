@@ -1,6 +1,7 @@
 package fr.sorbonne_u.components.dht.connectors;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Vector;
 
 import fr.sorbonne_u.components.connectors.AbstractConnector;
@@ -53,7 +54,7 @@ implements	NodeManagementI
 	}
 
 	@Override
-	public void setFingers(Vector<Integer> fingerInd, HashMap<Integer, String> fingerIbpFromInd) throws Exception {
+	public void setFingers(List<Integer> fingerInd, HashMap<Integer, String> fingerIbpFromInd) throws Exception {
 		((NodeManagementI)this.offering).setFingers(fingerInd, fingerIbpFromInd);
 		
 	}
