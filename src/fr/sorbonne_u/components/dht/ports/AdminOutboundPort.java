@@ -65,5 +65,11 @@ public class AdminOutboundPort extends AbstractOutboundPort implements AdminRequ
 		((NodeManagementConnector)this.connector).setFingers( fingerInd, fingerIbpFromInd);
 		
 	}
+
+	@Override
+	public void nodeJoined() throws Exception {
+		((NodeManagementConnector)this.connector).nodeJoined();
+		
+	}
 	
 }

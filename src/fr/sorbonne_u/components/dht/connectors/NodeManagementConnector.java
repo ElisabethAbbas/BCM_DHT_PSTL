@@ -58,4 +58,10 @@ implements	NodeManagementI
 		((NodeManagementI)this.offering).setFingers(fingerInd, fingerIbpFromInd);
 		
 	}
+
+	@Override
+	public void nodeJoined() throws Exception {
+		((NodeManagementI)this.offering).nodeJoined();
+		
+	}
 }

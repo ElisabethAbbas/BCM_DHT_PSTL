@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Vector;
 import java.util.concurrent.TimeUnit;
 
 import fr.sorbonne_u.components.AbstractComponent;
@@ -131,6 +130,15 @@ public class DynamicAdmin extends		AbstractComponent
 				this.adminOutboundPort.setSucc(ring[cptFindSucc][1], cptFindSucc);
 				this.adminOutboundPort.setFingers(fingerInd, fingerIbpFromInd);
 				this.doPortDisconnection(this.adminOutboundPort.getPortURI());
+			}
+			
+			for(int i = 0; i < ring.length; i++){
+				if(ring[i] != null && i != index){
+					
+					this.doPortConnection(this.adminOutboundPort.getPortURI(), ring[i][0], NodeManagementConnector.class.getCanonicalName());
+					this.adminOutboundPort.nodeJoined();
+					this.doPortDisconnection(this.adminOutboundPort.getPortURI());
+				}
 			}
 			
 			//let node stabilisation do the rest... ( = connecting to the nodes)
@@ -260,13 +268,7 @@ public class DynamicAdmin extends		AbstractComponent
 			this.doPortDisconnection(this.adminOutboundPort.getPortURI());
 		}
 		this.logMessage("initialized !");
-		//fingerTable, TODO
 		
-				/*for(int i = 0; i < ring.length; i++) {
-					if(ring[i] != null) {
-						FingerTable.initialize(this, ring[i]);
-					}
-				}*/
 	}
 	
 	@Override

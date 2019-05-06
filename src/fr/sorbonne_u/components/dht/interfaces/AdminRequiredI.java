@@ -15,4 +15,5 @@ RequiredI
 	public String getInboundPortURI()throws Exception;
 	public int getIndex() throws Exception;
 	public void setFingers(List<Integer> fingerInd ,HashMap<Integer, String> fingerIbpFromInd) throws Exception ;
+	public void nodeJoined() throws Exception;
 }

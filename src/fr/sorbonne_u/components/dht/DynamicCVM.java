@@ -82,8 +82,8 @@ public class DynamicCVM extends		AbstractCVM
 	{
 		try {
 			CVM cvm = new CVM() ;
-			cvm.startStandardLifeCycle(9000L) ;
-			Thread.sleep(9000L) ;
+			cvm.startStandardLifeCycle(20000L) ;
+			Thread.sleep(20000L) ;
 			System.exit(0) ;
 		} catch (Exception e) {
 			throw new RuntimeException(e) ;

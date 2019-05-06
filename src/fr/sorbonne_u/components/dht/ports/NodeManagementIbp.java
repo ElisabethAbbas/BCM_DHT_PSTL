@@ -139,5 +139,17 @@ public class NodeManagementIbp extends AbstractInboundPort implements NodeManage
 					}
 				}) ;
 	}
+
+	@Override
+	public void nodeJoined() throws Exception {
+		this.getOwner().handleRequestAsync(
+				new AbstractComponent.AbstractService<Boolean>() {
+					@Override
+					public Boolean call() throws Exception {
+						((Node)this.getOwner()).nodeJoined();
+						return true;
+					}
+				}) ;
+	}
 }
 

@@ -282,25 +282,23 @@ public class Node extends AbstractComponent{
 	}
 	
 	public void checkPred() throws Exception {
-		if(this.nObpStab.connected())
-			this.doPortDisconnection(this.nObpStab.getPortURI());
-		try {
-			this.doPortConnection(this.nObpStab.getPortURI(), pred, NodeConnector.class.getCanonicalName());
-		} catch (Exception e) {
+		if(!nObpPred.connected()) {
+			System.out.println("pred failed in node " + this.index);
 			this.pred = null;
 			this.predInd = -1;
 		}
 	}
 	
 	public void checkSucc() throws Exception {
-		if(this.nObpStab.connected())
-			this.doPortDisconnection(this.nObpStab.getPortURI());
-		try {
-			this.doPortConnection(this.nObpStab.getPortURI(), succ, NodeConnector.class.getCanonicalName());
-		} catch (Exception e) {
+		if (!nObpSucc.connected()) {
+			System.out.println("succ failed in node " + this.index);
 			succInd = -1;
 			setNewSuccessor();
 		}
+	}
+	
+	public void nodeJoined() throws Exception {
+		initiateUpdateSuccessorList();
 	}
 	
 	public void setNewSuccessor() throws Exception {
@@ -475,8 +473,10 @@ public class Node extends AbstractComponent{
 	{ 
 		// déconnexion des outboundPort : 
 		//this.adminPort.doDisconnection() ;
-		this.nObpPred.doDisconnection() ;
-		this.nObpSucc.doDisconnection() ;
+		if(this.nObpPred.connected())
+			this.nObpPred.doDisconnection() ;
+		if(this.nObpSucc.connected())
+			this.nObpSucc.doDisconnection() ;
 		//this.nObpStab.doDisconnection() ;
 
 		super.finalise();
