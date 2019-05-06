@@ -283,4 +283,45 @@ public class NodeInboundPort extends AbstractInboundPort implements NodeOfferedI
 					}
 				}) ;
 	}
+
+	@Override
+	public void updateSuccessorList(String askingNodeIbpURI, int successorsToVisit) throws Exception {
+		this.getOwner().handleRequestAsync(
+				new AbstractComponent.AbstractService<Void>() {
+					@Override
+					public Void call() throws Exception {
+						((Node)this.getOwner()).
+						updateSuccessorList( askingNodeIbpURI,  successorsToVisit);
+						return null;
+					}
+				}) ;
+	}
+
+	@Override
+	public void receiveUpdateSuccessorList(String succIbpURI, int succIndex) throws Exception {
+		this.getOwner().handleRequestAsync(
+				new AbstractComponent.AbstractService<Void>() {
+					@Override
+					public Void call() throws Exception {
+						((Node)this.getOwner()).
+						receiveUpdateSuccessorList( succIbpURI,  succIndex) ;
+						return null;
+					}
+				}) ;
+	}
+
+	@Override
+	public void initiateUpdateSuccessorList() throws Exception {
+		this.getOwner().handleRequestAsync(
+				new AbstractComponent.AbstractService<Void>() {
+					@Override
+					public Void call() throws Exception {
+						((Node)this.getOwner()).
+						initiateUpdateSuccessorList();
+						return null;
+					}
+				}) ;
+		
+	}
+					
 }

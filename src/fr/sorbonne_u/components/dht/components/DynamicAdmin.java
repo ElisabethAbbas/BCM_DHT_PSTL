@@ -1,6 +1,7 @@
 package fr.sorbonne_u.components.dht.components;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Vector;
@@ -320,13 +321,17 @@ public class DynamicAdmin extends		AbstractComponent
 		}
 		else {
 			int cpt = 0;
-			while(cpt < size && ring[cpt] == null)
-				cpt++;//TODO make it random, not the 1st
-			if(cpt == size - 1 && ring[cpt] != null) 
+			List<Integer> availableIndexes = new ArrayList<Integer>();
+			while(cpt < size)
+				if(ring[cpt] == null)
+					availableIndexes.add(cpt);
+				cpt++;
+			if(availableIndexes.size() == 0) 
 				this.logMessage("ring is full, and there is no node on your JVM : " + JVMURI);
 			else {
+				Collections.shuffle(availableIndexes);
 				String tmpURI;
-				join(cpt, JVMURI);
+				join(availableIndexes.get(0), JVMURI);
 				this.doPortConnection(this.adminOutboundPort.getPortURI(), ring[cpt][0], NodeManagementConnector.class.getCanonicalName());
 				tmpURI = this.adminOutboundPort.getClientPortURI();
 				this.doPortDisconnection(this.adminOutboundPort.getPortURI());

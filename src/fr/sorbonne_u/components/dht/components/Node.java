@@ -1,6 +1,7 @@
 package fr.sorbonne_u.components.dht.components;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -40,6 +41,7 @@ public class Node extends AbstractComponent{
 	protected Map<Integer, String> components ;
 	protected List<Integer> fingerInd ;
 	protected HashMap<Integer, String> fingerIbpFromInd;
+	protected HashMap<Integer, String> successorsList;
 	protected int size;
 	//protected AdminOutboundPort	adminPort ;
 
@@ -203,6 +205,8 @@ public class Node extends AbstractComponent{
 
 	}
 	public void stab1() throws Exception {
+		checkSucc();
+		checkPred();
 		if(this.succ != null) {
 			this.logMessage("stabilisation start...");
 			nObpSucc.stab2(this.nIbp);
@@ -227,6 +231,7 @@ public class Node extends AbstractComponent{
 
 		this.logMessage("stabilisation end... ");
 		this.nObpSucc.notifyPred1(this.index, this.nIbp.getPortURI());
+		this.nObpSucc.initiateUpdateSuccessorList();
 
 	}
 	public void notifyPred1(int notifierIndex, String notifierIbpURI) throws Exception {
@@ -253,6 +258,62 @@ public class Node extends AbstractComponent{
 					components.remove(ind);
 				}
 			}
+		}
+	}
+	
+	public void initiateUpdateSuccessorList() throws Exception {
+		successorsList = new HashMap<Integer, String>();
+		nObpSucc.updateSuccessorList(this.nIbp.getPortURI(),(int)Math.floor(Math.log(size)));
+	}
+	
+	public void updateSuccessorList(String askingNodeIbpURI, int successorsToVisit) throws Exception {
+		if(successorsToVisit > 0)
+			nObpSucc.updateSuccessorList(askingNodeIbpURI, successorsToVisit - 1);
+		
+		if(this.nObpStab.connected())
+			this.doPortDisconnection(this.nObpStab.getPortURI());
+		this.doPortConnection(this.nObpStab.getPortURI(), askingNodeIbpURI, NodeConnector.class.getCanonicalName());
+		this.nObpStab.receiveUpdateSuccessorList(this.nIbp.getPortURI(), this.index);
+	}
+	
+	public void receiveUpdateSuccessorList(String succIbpURI, int succIndex) throws Exception {
+		if(succIndex != this.succInd)
+			successorsList.put(succIndex, succIbpURI);
+	}
+	
+	public void checkPred() throws Exception {
+		if(this.nObpStab.connected())
+			this.doPortDisconnection(this.nObpStab.getPortURI());
+		try {
+			this.doPortConnection(this.nObpStab.getPortURI(), pred, NodeConnector.class.getCanonicalName());
+		} catch (Exception e) {
+			this.pred = null;
+			this.predInd = -1;
+		}
+	}
+	
+	public void checkSucc() throws Exception {
+		if(this.nObpStab.connected())
+			this.doPortDisconnection(this.nObpStab.getPortURI());
+		try {
+			this.doPortConnection(this.nObpStab.getPortURI(), succ, NodeConnector.class.getCanonicalName());
+		} catch (Exception e) {
+			succInd = -1;
+			setNewSuccessor();
+		}
+	}
+	
+	public void setNewSuccessor() throws Exception {
+		if(successorsList.size() > 0) {
+			ArrayList<Integer> successorsIndexes = new ArrayList<Integer>(successorsList.keySet());
+			Collections.sort(successorsIndexes);
+			int tmp_index = 0;
+			while(tmp_index < successorsIndexes.size() && successorsIndexes.get(tmp_index) < this.index)
+				tmp_index++;
+			if(tmp_index == successorsIndexes.size())
+				setSucc(successorsList.get(successorsIndexes.get(0)), successorsIndexes.get(0));
+			else
+				setSucc(successorsList.get(successorsIndexes.get(tmp_index)), successorsIndexes.get(tmp_index));
 		}
 	}
 

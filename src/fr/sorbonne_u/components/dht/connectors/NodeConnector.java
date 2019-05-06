@@ -114,4 +114,22 @@ implements	NodeOfferedI
 		((NodeInboundPort)this.offering).connectAndSendToClient(ClientIbpURI,id);
 		
 	}
+
+	@Override
+	public void updateSuccessorList(String askingNodeIbpURI, int successorsToVisit) throws Exception {
+		 ((NodeInboundPort)this.offering).updateSuccessorList( askingNodeIbpURI,  successorsToVisit);
+		
+	}
+
+	@Override
+	public void receiveUpdateSuccessorList(String succIbpURI, int succIndex) throws Exception {
+		((NodeInboundPort)this.offering).receiveUpdateSuccessorList( succIbpURI,  succIndex);
+		
+	}
+
+	@Override
+	public void initiateUpdateSuccessorList() throws Exception {
+		((NodeInboundPort)this.offering).initiateUpdateSuccessorList();
+		
+	}
 }

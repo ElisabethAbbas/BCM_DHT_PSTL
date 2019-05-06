@@ -135,4 +135,22 @@ public class NodeOutboundPort extends AbstractOutboundPort implements NodeRequir
 		((NodeConnector)this.connector).connectAndSendToClient( ClientIbpURI, id);
 		
 	}
+
+	@Override
+	public void updateSuccessorList(String askingNodeIbpURI, int successorsToVisit) throws Exception {
+		((NodeConnector)this.connector).updateSuccessorList( askingNodeIbpURI,  successorsToVisit);
+		
+	}
+
+	@Override
+	public void receiveUpdateSuccessorList(String succIbpURI, int succIndex) throws Exception {
+		((NodeConnector)this.connector).receiveUpdateSuccessorList( succIbpURI,  succIndex);
+		
+	}
+
+	@Override
+	public void initiateUpdateSuccessorList() throws Exception {
+		((NodeConnector)this.connector).initiateUpdateSuccessorList();
+		
+	}
 }

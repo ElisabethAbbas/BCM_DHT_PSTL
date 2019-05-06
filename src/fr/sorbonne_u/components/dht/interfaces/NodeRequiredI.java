@@ -27,4 +27,7 @@ public interface NodeRequiredI extends	RequiredI, OfferedI
 	public void get(String clientIbpURI, int id) throws Exception;
 	public void put(int id, String value) throws Exception;
 	public void connectAndSendToClient(String ClientIbpURI, int id) throws Exception;
+	public void initiateUpdateSuccessorList() throws Exception ;
+	public void updateSuccessorList(String askingNodeIbpURI, int successorsToVisit) throws Exception ;
+	public void receiveUpdateSuccessorList(String succIbpURI, int succIndex) throws Exception ;
 }
