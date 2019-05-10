@@ -205,7 +205,7 @@ public class Node extends AbstractComponent{
 							throw new RuntimeException(e) ;
 						}
 					}
-				}, 4000, 3000 // délai entre la fin d'une exécution et la suivante, à modifier 
+				}, 4000, 10000 // délai entre la fin d'une exécution et la suivante, à modifier 
 				, TimeUnit.MILLISECONDS) ;
 
 	}
@@ -429,11 +429,13 @@ public class Node extends AbstractComponent{
 
 		int id = index ^ (1<<(next-1));
 
+		System.out.println(index+" = index");
+		System.out.println(id+" = id");
+		
 		if (predInd != -1 && id > predInd && predInd <= index) { 
 			fingerInd.set(next, index);
 			if(fingerIbpFromInd.containsKey(index)) {
 				System.out.println("if 1");
-				System.out.println(fingerIbpFromInd);
 				try {
 					fingerIbpFromInd.replace(index, nIbp.getPortURI());
 				} catch (Exception e) {
@@ -444,7 +446,6 @@ public class Node extends AbstractComponent{
 			}
 			else {
 				System.out.println("else 1");
-				System.out.println(fingerIbpFromInd);
 				try {
 					fingerIbpFromInd.put(index, nIbp.getPortURI());
 				} catch (Exception e) {
@@ -483,9 +484,8 @@ public class Node extends AbstractComponent{
 				this.doPortDisconnection(inbpURI);
 			this.doPortConnection(this.nObpFingers.getPortURI(), inbpURI, NodeConnector.class.getCanonicalName());
 
-			if(fingerIbpFromInd.containsKey(succInd)) {
+			if(fI.containsKey(succInd)) {
 				System.out.println("if 2");
-				System.out.println(fI);
 				try {
 					fI.replace(index, nIbp.getPortURI());
 				} catch (Exception e) {
@@ -495,7 +495,6 @@ public class Node extends AbstractComponent{
 			}
 			else {
 				System.out.println("else 2");
-				System.out.println(fI);
 				try {
 					fI.put(succInd, nIbp.getPortURI());
 				} catch (Exception e) {
