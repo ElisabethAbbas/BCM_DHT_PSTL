@@ -34,6 +34,7 @@ public class Node extends AbstractComponent{
 	protected NodeOutboundPort nObpPred ;
 	protected NodeOutboundPort nObpSucc ;
 	protected NodeOutboundPort nObpStab ;
+	protected NodeOutboundPort nObpFingers ;
 	protected NodeInboundPort nIbp ;
 	protected NodeManagementIbp nMIbp ;
 	protected NodeClientIbp nClientIbp ;
@@ -98,6 +99,10 @@ public class Node extends AbstractComponent{
 		this.tracer.setTitle("Node "+nodeRIPURI) ;
 		this.tracer.setRelativePosition(1, 1) ;
 
+		this.nObpFingers = new NodeOutboundPort(this) ;
+		this.addPort(this.nObpFingers) ;
+		this.nObpFingers.localPublishPort() ;
+		
 		/*this.addRequiredInterface(AdminI.class) ;
 		this.adminPort = new AdminOutboundPort(this) ;
 		this.addPort(this.adminPort) ;
@@ -373,7 +378,7 @@ public class Node extends AbstractComponent{
 			if(this.towardsClient.connected())
 				this.doPortDisconnection(this.towardsClient.getPortURI());
 			this.doPortConnection(this.towardsClient.getPortURI(), ClientIbpURI, NodeToClientConnector.class.getCanonicalName());
-			this.towardsClient.reveiveResultOfGet(components.get(id));
+			this.towardsClient.receiveResultOfGet(components.get(id));
 		}
 	}
 
@@ -415,7 +420,7 @@ public class Node extends AbstractComponent{
 	// finger
 
 	public void fixFingers() {
-		this.logMessage("starting fixFingers1().") ;
+		this.logMessage("starting fixFingers().") ;
 		next = next+1;
 		if (next > size)
 			next = 1;
@@ -424,22 +429,84 @@ public class Node extends AbstractComponent{
 
 		int id = index ^ (1<<(next-1));
 
-		if (predInd != -1 && id > predInd && predInd <= index) 
+		if (predInd != -1 && id > predInd && predInd <= index) { 
 			fingerInd.set(next, index);
+			if(fingerIbpFromInd.containsKey(index)) {
+				System.out.println("if 1");
+				System.out.println(fingerIbpFromInd);
+				try {
+					fingerIbpFromInd.replace(index, nIbp.getPortURI());
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+
+				System.out.println(fingerIbpFromInd);
+			}
+			else {
+				System.out.println("else 1");
+				System.out.println(fingerIbpFromInd);
+				try {
+					fingerIbpFromInd.put(index, nIbp.getPortURI());
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+
+				System.out.println(fingerIbpFromInd);
+			}
+			System.out.println("là");
+		}
 		else if (id > index && id <= succInd) {
 			fingerInd.set(next, succInd);
+			System.out.println("là 2");
+			try {
+				fixFingers2(nIbp.getPortURI(), fingerIbpFromInd);
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		}
 		else { // forward the query around the circle	
 			try {
-				if(this.nObpStab.connected())
-					this.doPortDisconnection(this.nObpStab.getPortURI());
-				this.doPortConnection(this.nObpStab.getPortURI(), fingerIbpFromInd.get(closestPrecedingNode(id)), NodeConnector.class.getCanonicalName());
-				this.nObpStab.fixFingers();
+				if(this.nObpFingers.connected())
+					this.doPortDisconnection(this.nObpFingers.getPortURI());
+				this.doPortConnection(this.nObpFingers.getPortURI(), fingerIbpFromInd.get(closestPrecedingNode(id)), NodeConnector.class.getCanonicalName());
+				this.nObpFingers.fixFingers();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
-		this.logMessage("fixFingers1() done.") ;
+	}
+	
+	public void fixFingers2(String inbpURI, HashMap<Integer, String> fI) {
+		try {
+			if(this.nObpFingers.connected())
+				this.doPortDisconnection(inbpURI);
+			this.doPortConnection(this.nObpFingers.getPortURI(), inbpURI, NodeConnector.class.getCanonicalName());
+
+			if(fingerIbpFromInd.containsKey(succInd)) {
+				System.out.println("if 2");
+				System.out.println(fI);
+				try {
+					fI.replace(index, nIbp.getPortURI());
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				System.out.println(fI);
+			}
+			else {
+				System.out.println("else 2");
+				System.out.println(fI);
+				try {
+					fI.put(succInd, nIbp.getPortURI());
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	/*@Override
