@@ -36,7 +36,7 @@ public class NodeToClientObp extends AbstractOutboundPort implements NodeClientI
 	}
 
 	@Override
-	public void reveiveResultOfGet(String result) throws Exception {
+	public void receiveResultOfGet(String result) throws Exception {
 		((NodeToClientConnector)this.connector).reveiveResultOfGet( result);
 		
 	}

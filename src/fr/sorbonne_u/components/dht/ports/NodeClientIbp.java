@@ -49,7 +49,7 @@ public class NodeClientIbp extends AbstractInboundPort implements NodeClientI{
 	}
 
 	@Override
-	public void reveiveResultOfGet(String result) throws Exception {
+	public void receiveResultOfGet(String result) throws Exception {
 		// not used
 		
 	}

@@ -16,7 +16,7 @@ public class NodeClientConnector extends AbstractConnector implements NodeClient
 	}
 
 	@Override
-	public void reveiveResultOfGet(String result) throws Exception {
+	public void receiveResultOfGet(String result) throws Exception {
 		// not used
 		
 	}

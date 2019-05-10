@@ -6,12 +6,12 @@
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="/home/dizzz11/Downloads/commons-math3-3.6.1.jar"/>
-	<classpathentry kind="lib" path="/home/dizzz11/Downloads/commons-math3-3.6.1-javadoc.jar"/>
-	<classpathentry kind="lib" path="/home/dizzz11/Downloads/commons-math3-3.6.1-sources.jar"/>
-	<classpathentry kind="lib" path="/home/dizzz11/Downloads/commons-math3-3.6.1-tests.jar"/>
-	<classpathentry kind="lib" path="/home/dizzz11/Downloads/commons-math3-3.6.1-test-sources.jar"/>
-	<classpathentry kind="lib" path="/home/dizzz11/Downloads/commons-math3-3.6.1-tools.jar"/>
-	<classpathentry kind="lib" path="/home/dizzz11/Downloads/javassist.jar"/>
+	<classpathentry kind="lib" path="/home/elisabeth/Téléchargements/commons-math3-3.6.1-bin/commons-math3-3.6.1/commons-math3-3.6.1-javadoc.jar"/>
+	<classpathentry kind="lib" path="/home/elisabeth/Téléchargements/commons-math3-3.6.1-bin/commons-math3-3.6.1/commons-math3-3.6.1.jar"/>
+	<classpathentry kind="lib" path="/home/elisabeth/Téléchargements/commons-math3-3.6.1-bin/commons-math3-3.6.1/commons-math3-3.6.1-tools.jar"/>
+	<classpathentry kind="lib" path="/home/elisabeth/Téléchargements/commons-math3-3.6.1-bin/commons-math3-3.6.1/commons-math3-3.6.1-tests.jar"/>
+	<classpathentry kind="lib" path="/home/elisabeth/Téléchargements/commons-math3-3.6.1-bin/commons-math3-3.6.1/commons-math3-3.6.1-test-sources.jar"/>
+	<classpathentry kind="lib" path="/home/elisabeth/Téléchargements/commons-math3-3.6.1-bin/commons-math3-3.6.1/commons-math3-3.6.1-sources.jar"/>
+	<classpathentry kind="lib" path="/home/elisabeth/Téléchargements/jboss-javassist-javassist-rel_3_24_1_ga-17-geff2f4b/jboss-javassist-javassist-eff2f4b/javassist.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
