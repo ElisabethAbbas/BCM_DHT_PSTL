@@ -200,7 +200,7 @@ public class Node extends AbstractComponent{
 					@Override
 					public void run() {
 						try {
-							((Node)this.getOwner()).fixFingers();
+							((Node)this.getOwner()).fixFingers1();
 						} catch (Exception e) {
 							throw new RuntimeException(e) ;
 						}
@@ -213,7 +213,6 @@ public class Node extends AbstractComponent{
 		synchronized(this) {
 			checkSucc();
 			checkPred();
-			this.logMessage("stab1() - node "+index);
 			if(this.succ != null) {
 				this.logMessage("stabilisation start...");
 				nObpSucc.stab2(this.nIbp);
@@ -403,23 +402,25 @@ public class Node extends AbstractComponent{
 
 	// lookup
 	public void findSuccessor(String ClientIbpURI, int id) throws Exception {
-		if (predInd != -1 && id > predInd && predInd <= index) 
-			connectAndSendToClient( ClientIbpURI, id);
-		else if (id > index && id <= succInd) {
-			try {
-				if(this.nObpSucc.connected())
-					this.doPortDisconnection(this.nObpSucc.getPortURI());
-				this.doPortConnection(this.nObpSucc.getPortURI(), fingerIbpFromInd.get(closestPrecedingNode(id)), NodeConnector.class.getCanonicalName());
-				nObpSucc.connectAndSendToClient( ClientIbpURI, id);
-			} catch (Exception e) {
-				e.printStackTrace();
+		synchronized(this) {
+			if (predInd != -1 && id > predInd && predInd <= index) 
+				connectAndSendToClient( ClientIbpURI, id);
+			else if (id > index && id <= succInd) {
+				try {
+					if(this.nObpSucc.connected())
+						this.doPortDisconnection(this.nObpSucc.getPortURI());
+					this.doPortConnection(this.nObpSucc.getPortURI(), fingerIbpFromInd.get(closestPrecedingNode(id)), NodeConnector.class.getCanonicalName());
+					nObpSucc.connectAndSendToClient( ClientIbpURI, id);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
-		}
-		else { // forward the query around the circle
-			if(this.nObpStab.connected())
-				this.doPortDisconnection(this.nObpStab.getPortURI());
-			this.doPortConnection(this.nObpStab.getPortURI(), fingerIbpFromInd.get(closestPrecedingNode(id)), NodeConnector.class.getCanonicalName());
-			this.nObpStab.findSuccessor(ClientIbpURI, id);
+			else { // forward the query around the circle
+				if(this.nObpStab.connected())
+					this.doPortDisconnection(this.nObpStab.getPortURI());
+				this.doPortConnection(this.nObpStab.getPortURI(), fingerIbpFromInd.get(closestPrecedingNode(id)), NodeConnector.class.getCanonicalName());
+				this.nObpStab.findSuccessor(ClientIbpURI, id);
+			}
 		}
 	}
 
@@ -433,51 +434,41 @@ public class Node extends AbstractComponent{
 
 	// finger
 
-	public void fixFingers() {
+	public void fixFingers1() {
 		synchronized(this) {
-			this.logMessage("starting fixFingers().") ;
+			this.logMessage("fixFingers1()") ;
+
+			System.out.println(index + " : " + fingerIbpFromInd);
 			next = next+1;
 			if (next > size)
 				next = 1;
-			/*if(next>fingerInd.size())
-			fingerInd.setSize(next);*/
 
 			int id = index ^ (1<<(next-1));
-
-			System.out.println(index+" = index");
-			System.out.println(id+" = id");
 
 			if (predInd != -1 && id > predInd && predInd <= index) { 
 				fingerInd.set(next, index);
 				if(fingerIbpFromInd.containsKey(index)) {
-					System.out.println("if 1");
 					try {
 						fingerIbpFromInd.replace(index, nIbp.getPortURI());
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
-
-					System.out.println(fingerIbpFromInd);
 				}
 				else {
-					System.out.println("else 1");
 					try {
 						fingerIbpFromInd.put(index, nIbp.getPortURI());
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
 
-					System.out.println(fingerIbpFromInd);
+					System.out.println("après : "+index + " : " + fingerIbpFromInd);
 				}
-				System.out.println("là");
 			}
 			else if (id > index && id <= succInd) {
 				fingerInd.set(next, succInd);
-				System.out.println("là 2");
 				try {
 					nObpSucc.fixFingers2(nIbp.getPortURI());
 				} catch (Exception e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 			}
@@ -485,8 +476,10 @@ public class Node extends AbstractComponent{
 				try {
 					if(this.nObpFingers.connected())
 						this.doPortDisconnection(this.nObpFingers.getPortURI());
-					this.doPortConnection(this.nObpFingers.getPortURI(), fingerIbpFromInd.get(closestPrecedingNode(id)), NodeConnector.class.getCanonicalName());
-					this.nObpFingers.fixFingers();
+					int s;
+					this.doPortConnection(this.nObpFingers.getPortURI(), fingerIbpFromInd.get(s=closestPrecedingNode(id)), NodeConnector.class.getCanonicalName());
+					System.out.println("index: "+index+" s= "+s + " id = "+id);
+					this.nObpFingers.fixFingers1();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -496,6 +489,7 @@ public class Node extends AbstractComponent{
 
 	public void fixFingers2(String inbpURI) {
 		synchronized(this) {
+			this.logMessage("fixFingers2()") ;
 			try {
 				if(this.nObpFingers.connected())
 					this.doPortDisconnection(inbpURI);
@@ -511,22 +505,20 @@ public class Node extends AbstractComponent{
 
 	public void fixFingers3(String inbpURI) {
 		synchronized(this) {
+			this.logMessage("fixFingers3()") ;
 			try {
 				if(this.nObpFingers.connected())
 					this.doPortDisconnection(inbpURI);
 				this.doPortConnection(this.nObpFingers.getPortURI(), inbpURI, NodeConnector.class.getCanonicalName());
 
 				if(fingerIbpFromInd.containsKey(succInd)) {
-					System.out.println("if 2");
 					try {
 						fingerIbpFromInd.replace(succInd, inbpURI);
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
-					System.out.println(fingerIbpFromInd);
 				}
 				else {
-					System.out.println("else 2");
 					try {
 						fingerIbpFromInd.put(succInd, inbpURI);
 					} catch (Exception e) {
@@ -537,6 +529,7 @@ public class Node extends AbstractComponent{
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
+			System.out.println("après : "+index + " : " + fingerIbpFromInd);
 		}
 	}	
 
