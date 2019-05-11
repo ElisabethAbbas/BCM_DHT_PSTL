@@ -95,8 +95,18 @@ implements	NodeOfferedI
 	}
 	
 	@Override
-	public void fixFingers() throws Exception {
-		((NodeInboundPort)this.offering).fixFingers();
+	public void fixFingers1() throws Exception {
+		((NodeInboundPort)this.offering).fixFingers1();
+	}
+	
+	@Override
+	public void fixFingers2(String ibpURI, int next) throws Exception {
+		((NodeInboundPort)this.offering).fixFingers2(ibpURI, next);
+	}
+	
+	@Override
+	public void fixFingers3(String ibpURI, int next) throws Exception {
+		((NodeInboundPort)this.offering).fixFingers3(ibpURI, next);
 	}
 	
 	@Override

@@ -236,12 +236,36 @@ public class NodeInboundPort extends AbstractInboundPort implements NodeOfferedI
 	}
 	
 	@Override
-	public void fixFingers() throws Exception {
+	public void fixFingers1() throws Exception {
 		this.getOwner().handleRequestAsync(
 				new AbstractComponent.AbstractService<Void>() {
 					@Override
 					public Void call() throws Exception {
-						((Node)this.getOwner()).fixFingers() ;
+						((Node)this.getOwner()).fixFingers1() ;
+						return null;
+					}
+				}) ;
+	}
+	
+	@Override
+	public void fixFingers2(String ibpURI, int next) throws Exception {
+		this.getOwner().handleRequestAsync(
+				new AbstractComponent.AbstractService<Void>() {
+					@Override
+					public Void call() throws Exception {
+						((Node)this.getOwner()).fixFingers2(ibpURI, next) ;
+						return null;
+					}
+				}) ;
+	}
+	
+	@Override
+	public void fixFingers3(String ibpURI, int next) throws Exception {
+		this.getOwner().handleRequestAsync(
+				new AbstractComponent.AbstractService<Void>() {
+					@Override
+					public Void call() throws Exception {
+						((Node)this.getOwner()).fixFingers3(ibpURI, next) ;
 						return null;
 					}
 				}) ;

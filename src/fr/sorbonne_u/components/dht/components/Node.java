@@ -449,7 +449,7 @@ public class Node extends AbstractComponent{
 				fingerInd.set(next, index);
 				if(fingerIbpFromInd.containsKey(index)) {
 					try {
-						fingerIbpFromInd.replace(index, nIbp.getPortURI());
+						fingerIbpFromInd.replace(next, nIbp.getPortURI());
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
@@ -467,7 +467,7 @@ public class Node extends AbstractComponent{
 			else if (id > index && id <= succInd) {
 				fingerInd.set(next, succInd);
 				try {
-					nObpSucc.fixFingers2(nIbp.getPortURI());
+					nObpSucc.fixFingers2(nIbp.getPortURI(), next);
 				} catch (Exception e1) {
 					e1.printStackTrace();
 				}
@@ -478,7 +478,7 @@ public class Node extends AbstractComponent{
 						this.doPortDisconnection(this.nObpFingers.getPortURI());
 					int s;
 					this.doPortConnection(this.nObpFingers.getPortURI(), fingerIbpFromInd.get(s=closestPrecedingNode(id)), NodeConnector.class.getCanonicalName());
-					System.out.println("index: "+index+" s= "+s + " id = "+id);
+					System.out.println("index: "+index+" s= "+s + " id = "+id+ " next="+next);
 					this.nObpFingers.fixFingers1();
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -487,7 +487,7 @@ public class Node extends AbstractComponent{
 		}
 	}
 
-	public void fixFingers2(String inbpURI) {
+	public void fixFingers2(String inbpURI, int next) {
 		synchronized(this) {
 			this.logMessage("fixFingers2()") ;
 			try {
@@ -495,7 +495,7 @@ public class Node extends AbstractComponent{
 					this.doPortDisconnection(inbpURI);
 				this.doPortConnection(this.nObpFingers.getPortURI(), inbpURI, NodeConnector.class.getCanonicalName());
 
-				nObpSucc.fixFingers3(nIbp.getPortURI());
+				nObpSucc.fixFingers3(nIbp.getPortURI(), next);
 
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -503,7 +503,7 @@ public class Node extends AbstractComponent{
 		}
 	}
 
-	public void fixFingers3(String inbpURI) {
+	public void fixFingers3(String inbpURI, int next) {
 		synchronized(this) {
 			this.logMessage("fixFingers3()") ;
 			try {
@@ -511,16 +511,16 @@ public class Node extends AbstractComponent{
 					this.doPortDisconnection(inbpURI);
 				this.doPortConnection(this.nObpFingers.getPortURI(), inbpURI, NodeConnector.class.getCanonicalName());
 
-				if(fingerIbpFromInd.containsKey(succInd)) {
+				if(fingerIbpFromInd.containsKey(next)) {
 					try {
-						fingerIbpFromInd.replace(succInd, inbpURI);
+						fingerIbpFromInd.replace(next, inbpURI);
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
 				}
 				else {
 					try {
-						fingerIbpFromInd.put(succInd, inbpURI);
+						fingerIbpFromInd.put(next, inbpURI);
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
