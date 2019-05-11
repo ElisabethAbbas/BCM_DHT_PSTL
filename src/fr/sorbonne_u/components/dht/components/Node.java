@@ -474,7 +474,7 @@ public class Node extends AbstractComponent{
 				fingerInd.set(next, succInd);
 				System.out.println("là 2");
 				try {
-					fixFingers2(nIbp.getPortURI(), fingerIbpFromInd);
+					nObpSucc.fixFingers2(nIbp.getPortURI());
 				} catch (Exception e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -493,14 +493,14 @@ public class Node extends AbstractComponent{
 		}
 	}
 
-	public void fixFingers2(String inbpURI, HashMap<Integer, String> fI) {
+	public void fixFingers2(String inbpURI) {
 		synchronized(this) {
 			try {
 				if(this.nObpFingers.connected())
 					this.doPortDisconnection(inbpURI);
 				this.doPortConnection(this.nObpFingers.getPortURI(), inbpURI, NodeConnector.class.getCanonicalName());
 
-				fixFingers3(nIbp.getPortURI());
+				nObpSucc.fixFingers3(nIbp.getPortURI());
 
 			} catch (Exception e) {
 				e.printStackTrace();
