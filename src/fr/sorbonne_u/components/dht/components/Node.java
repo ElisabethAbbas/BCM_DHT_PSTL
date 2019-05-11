@@ -213,6 +213,7 @@ public class Node extends AbstractComponent{
 		synchronized(this) {
 			checkSucc();
 			checkPred();
+			this.logMessage("stab1() - node "+index);
 			if(this.succ != null) {
 				this.logMessage("stabilisation start...");
 				nObpSucc.stab2(this.nIbp);
@@ -507,7 +508,7 @@ public class Node extends AbstractComponent{
 			}
 		}
 	}
-	
+
 	public void fixFingers3(String inbpURI) {
 		synchronized(this) {
 			try {

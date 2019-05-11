@@ -294,7 +294,8 @@ public class DynamicAdmin extends		AbstractComponent
 		}
 		
 		super.start() ; 
-		this.scheduleTaskWithFixedDelay(
+				
+		this.scheduleTask(
 				new AbstractComponent.AbstractTask() {
 					@Override
 					public void run() {
@@ -304,7 +305,7 @@ public class DynamicAdmin extends		AbstractComponent
 							throw new RuntimeException(e) ;
 						}
 					}
-				}, 1500, 1500 // délai entre la fin d'une exécution et la suivante, à modifier 
+				}, 1500 // délai avant d'exécuter le join du noeud 2
 				, TimeUnit.MILLISECONDS) ;
 	}
 	
