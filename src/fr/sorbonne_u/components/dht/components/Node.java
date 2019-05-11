@@ -500,19 +500,34 @@ public class Node extends AbstractComponent{
 					this.doPortDisconnection(inbpURI);
 				this.doPortConnection(this.nObpFingers.getPortURI(), inbpURI, NodeConnector.class.getCanonicalName());
 
-				if(fI.containsKey(succInd)) {
+				fixFingers3(nIbp.getPortURI());
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	public void fixFingers3(String inbpURI) {
+		synchronized(this) {
+			try {
+				if(this.nObpFingers.connected())
+					this.doPortDisconnection(inbpURI);
+				this.doPortConnection(this.nObpFingers.getPortURI(), inbpURI, NodeConnector.class.getCanonicalName());
+
+				if(fingerIbpFromInd.containsKey(succInd)) {
 					System.out.println("if 2");
 					try {
-						fI.replace(index, nIbp.getPortURI());
+						fingerIbpFromInd.replace(succInd, inbpURI);
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
-					System.out.println(fI);
+					System.out.println(fingerIbpFromInd);
 				}
 				else {
 					System.out.println("else 2");
 					try {
-						fI.put(succInd, nIbp.getPortURI());
+						fingerIbpFromInd.put(succInd, inbpURI);
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
@@ -522,7 +537,7 @@ public class Node extends AbstractComponent{
 				e.printStackTrace();
 			}
 		}
-	}
+	}	
 
 	/*@Override
 	public void			execute() throws Exception
