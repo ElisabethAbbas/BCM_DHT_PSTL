@@ -443,11 +443,13 @@ public class Node extends AbstractComponent{
 			if (next > size)
 				next = 1;
 
+			System.out.println(next);
+
 			int id = index ^ (1<<(next-1));
 
 			if (predInd != -1 && id > predInd && predInd <= index) { 
 				fingerInd.set(next, index);
-				if(fingerIbpFromInd.containsKey(index)) {
+				if(fingerIbpFromInd.containsKey(next)) {
 					try {
 						fingerIbpFromInd.replace(next, nIbp.getPortURI());
 					} catch (Exception e) {
@@ -456,7 +458,7 @@ public class Node extends AbstractComponent{
 				}
 				else {
 					try {
-						fingerIbpFromInd.put(index, nIbp.getPortURI());
+						fingerIbpFromInd.put(next, nIbp.getPortURI());
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
