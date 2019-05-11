@@ -21,7 +21,9 @@ public interface NodeRequiredI extends	RequiredI, OfferedI
 	public void notifyPred3(int notifierIndex, String notifierIbpURI, int predInd) throws Exception;
 	public void store( String s) throws Exception ;
 	public String retrieve( int id) throws Exception ;
-	public void fixFingers() throws Exception;
+	public void fixFingers1() throws Exception;
+	public void fixFingers2(String ibpURI, int next) throws Exception;
+	public void fixFingers3(String ibpURI, int next) throws Exception;
 	public int closestPrecedingNode(int id) throws Exception;
 	public void findSuccessor(String ClientIbpURI, int id) throws Exception ;
 	public void get(String clientIbpURI, int id) throws Exception;
