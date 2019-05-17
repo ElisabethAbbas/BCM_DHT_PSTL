@@ -110,6 +110,26 @@ implements	NodeOfferedI
 	}
 	
 	@Override
+	public void fixFingers4(String ibpURI) throws Exception {
+		((NodeInboundPort)this.offering).fixFingers4(ibpURI);
+	}
+	
+	@Override
+	public void fixFingers5(String ibpURI, int indice) throws Exception {
+		((NodeInboundPort)this.offering).fixFingers5(ibpURI, indice);
+	}
+	
+	@Override
+	public void fixFingers6(String ibpURI) throws Exception {
+		((NodeInboundPort)this.offering).fixFingers6(ibpURI);
+	}
+	
+	@Override
+	public void fixFingers7(String ibpURI, int indice) throws Exception {
+		((NodeInboundPort)this.offering).fixFingers7(ibpURI, indice);
+	}
+	
+	@Override
 	public void get(String clientIbpURI, int id) throws Exception{
 		((NodeInboundPort)this.offering).get(clientIbpURI,id);
 	}
