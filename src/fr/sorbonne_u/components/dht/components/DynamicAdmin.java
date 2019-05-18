@@ -211,8 +211,8 @@ public class DynamicAdmin extends		AbstractComponent
 			ring[n] = tmpRingNode;
 			rop.doDisconnection();
 		}
-		List<Integer> fingerInd ;
-		HashMap<Integer, String> fingerIbpFromInd;
+		List<Integer> fingerInd =null;
+		HashMap<Integer, String> fingerIbpFromInd=null;
 		int fingerIndex;
 		
 		String[] first = null;
@@ -262,9 +262,11 @@ public class DynamicAdmin extends		AbstractComponent
 					
 					tmp = ring[i];
 					tmpi = i;
+					System.out.println("à l'init : "+((DynamicAdmin.HashMapAffiche)fingerIbpFromInd).affiche_i(fingerInd));
 				}
 			}
 		}
+		
 		if((first != null)&&(first != tmp)){//pour ne pas faire le cas ou 1 seule node
 			//initializing fingerTable
 			fingerInd = new ArrayList<Integer>();
@@ -283,6 +285,7 @@ public class DynamicAdmin extends		AbstractComponent
 				fingerIndex++;
 			}
 			System.out.println("admin -> node "+firsti+" : finger size : "+fingerInd.size());
+			System.out.println("à l'init : "+((DynamicAdmin.HashMapAffiche)fingerIbpFromInd).affiche_i(fingerInd));
 			this.doPortConnection(this.adminOutboundPort.getPortURI(), first[0], NodeManagementConnector.class.getCanonicalName());
 			this.adminOutboundPort.setPred(tmp[1],tmpi);
 			this.adminOutboundPort.setFingers(fingerInd, fingerIbpFromInd);
@@ -293,7 +296,6 @@ public class DynamicAdmin extends		AbstractComponent
 			this.doPortDisconnection(this.adminOutboundPort.getPortURI());
 		}
 		this.logMessage("initialized !");
-		
 	}
 	
 	@Override
