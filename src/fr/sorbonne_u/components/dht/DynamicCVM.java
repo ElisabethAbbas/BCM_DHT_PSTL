@@ -32,7 +32,6 @@ public class DynamicCVM extends		AbstractCVM
 		nodes.put(6,"");
 		
 		this.dAdmin = new DynamicAdmin(ADMIN_RIP_URI, ADMIN_CLIENT_RIP_URI, 16, nodes) ;
-		//this.dAdmin = new DynamicAdmin(ADMIN_RIP_URI, ADMIN_CLIENT_RIP_URI, 15, nodes) ;
 		this.deployedComponents.add(this.dAdmin) ;
 		this.dAdmin.toggleTracing() ;
 		this.dAdmin.toggleLogging() ;

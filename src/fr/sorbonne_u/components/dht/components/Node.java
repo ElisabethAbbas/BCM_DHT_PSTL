@@ -404,7 +404,7 @@ public class Node extends AbstractComponent{
 	// lookup
 	public void findSuccessor(String ClientIbpURI, int id) throws Exception {
 		synchronized(this) {
-			if (predInd != -1 && id > predInd && id <= index)  // !!!!!!!!!! j'ai changé id<=index et non predInd
+			if (predInd != -1 && id > predInd && id <= index) 
 				connectAndSendToClient( ClientIbpURI, id);
 			else if (id > index && id <= succInd) {
 				try {
