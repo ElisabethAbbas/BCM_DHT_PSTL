@@ -438,17 +438,17 @@ public class Node extends AbstractComponent{
 	public void fixFingers1() {
 		synchronized(this) {
 			this.logMessage("fixFingers1()") ;
-
+			System.out.println("fixFingers1()");
 			next = next+1;
 			if (next > fingerInd.size()-1) // remplacer fingerInd.size(à par un truc plus propre
 				next = 0;
-
+			
 			int id = index + (1<<(next));
 
 
 			//System.out.println("((((pred : "+predInd+" succ : "+succInd+" id : "+id+ " index : "+index+" next="+next);
 			if (predInd != -1 && id > predInd && id <= index) { 
-				//System.out.println("1er cas : id="+id+" predInd="+predInd+" index:"+index);
+				System.out.println("1er cas : id="+id+" predInd="+predInd+" index:"+index);
 				
 				//System.out.println("On en est au noeud "+index + " on VA rajouter next : " +next);
 				//System.out.println(((DynamicAdmin.HashMapAffiche)fingerIbpFromInd).affiche_i(fingerInd));
@@ -503,6 +503,7 @@ public class Node extends AbstractComponent{
 	public void fixFingers4(String inbpURI) {
 		synchronized(this) {
 			this.logMessage("fixFingers4()") ;
+			System.out.println("fixFingers4()");
 			next = next+1;
 			if ((next) > fingerInd.size()-1)
 				next = 0;
@@ -510,7 +511,7 @@ public class Node extends AbstractComponent{
 			int id = index + (1<<(next));
 
 			if (predInd != -1 && id > predInd && id <= index) {
-				//System.out.println("1er cas : id="+id+" predInd="+predInd+" index:"+index);
+				System.out.println("1er cas : id="+id+" predInd="+predInd+" index:"+index);
 				
 				try {
 					if(this.nObpFingers.connected())

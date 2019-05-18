@@ -271,6 +271,55 @@ public class NodeInboundPort extends AbstractInboundPort implements NodeOfferedI
 				}) ;
 	}
 	
+
+	@Override
+	public void fixFingers4(String ibpURI) throws Exception {
+		this.getOwner().handleRequestAsync(
+				new AbstractComponent.AbstractService<Void>() {
+					@Override
+					public Void call() throws Exception {
+						((Node)this.getOwner()).fixFingers4(ibpURI) ;
+						return null;
+					}
+				}) ;
+	}
+
+	@Override
+	public void fixFingers5(String ibpURI, int indice) throws Exception {
+		this.getOwner().handleRequestAsync(
+				new AbstractComponent.AbstractService<Void>() {
+					@Override
+					public Void call() throws Exception {
+						((Node)this.getOwner()).fixFingers5(ibpURI, indice) ;
+						return null;
+					}
+				}) ;
+	}
+
+	@Override
+	public void fixFingers6(String ibpURI) throws Exception {
+		this.getOwner().handleRequestAsync(
+				new AbstractComponent.AbstractService<Void>() {
+					@Override
+					public Void call() throws Exception {
+						((Node)this.getOwner()).fixFingers6(ibpURI) ;
+						return null;
+					}
+				}) ;
+	}
+
+	@Override
+	public void fixFingers7(String ibpURI, int indice) throws Exception {
+		this.getOwner().handleRequestAsync(
+				new AbstractComponent.AbstractService<Void>() {
+					@Override
+					public Void call() throws Exception {
+						((Node)this.getOwner()).fixFingers7(ibpURI, indice) ;
+						return null;
+					}
+				}) ;
+	}
+	
 	@Override
 	public void get(String clientIbpURI, int id) throws Exception {
 		this.getOwner().handleRequestAsync(
@@ -346,6 +395,5 @@ public class NodeInboundPort extends AbstractInboundPort implements NodeOfferedI
 					}
 				}) ;
 		
-	}
-					
+	}				
 }
