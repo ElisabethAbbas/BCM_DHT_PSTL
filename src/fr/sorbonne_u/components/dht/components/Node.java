@@ -403,11 +403,44 @@ public class Node extends AbstractComponent{
 	// lookup
 	public void findSuccessor(String ClientIbpURI, int id) throws Exception {
 		synchronized(this) {
-			if (predInd != -1 && id > predInd && id <= index) 
+			
+			// initialisation des variables de tests
+			int indextmp, idtmp, succIndtmp;
+						
+			if(predInd>index) {
+				if (predInd>id)
+					idtmp=id+size;
+				else
+					idtmp=id;
+				indextmp=index+size;
+				succIndtmp=succInd+size;
+
+			}
+			else {
+				indextmp=index;
+				
+				if(id<index)
+					idtmp=id+size;
+				else
+					idtmp=id;
+
+				if(succInd<index)
+					succIndtmp=succInd+size;
+				else
+					succIndtmp=succInd;
+			}
+			//if (predInd != -1 && id > predInd && id <= index) 
+			if ((predInd != -1 && idtmp > predInd && idtmp <= indextmp)
+					/*|| ((predInd > index) &&
+							(id <= index || id > predInd))*/)
 				connectAndSendToClient( ClientIbpURI, id);
-			else if (id > index && id <= succInd) {
-				try {
-					if(this.nObpSucc.connected())
+			//else if((id > index && id <= succInd) || (succInd<index && id < index && id<=succInd)) {//(id > index && /*(*/id <= succInd /*|| (succInd<index))*/) {//(id > index && id <= succInd) { VERIFIER !!
+			/*else if ((id > index && id <= succInd) || 
+					(index > succInd && id > succInd) ||
+					(id < index && index > succInd && id < succInd)) {*/
+			else if (idtmp > indextmp && idtmp <= succIndtmp) {
+			try {
+					if(this.nObpSucc.connected()) 
 						this.doPortDisconnection(this.nObpSucc.getPortURI());
 					this.doPortConnection(this.nObpSucc.getPortURI(), fingerIbpFromInd.get(fingerInd.indexOf(closestPrecedingNode(id))), NodeConnector.class.getCanonicalName());
 					nObpSucc.connectAndSendToClient( ClientIbpURI, id);
@@ -426,9 +459,12 @@ public class Node extends AbstractComponent{
 
 	public int closestPrecedingNode(int id) {
 		for(int i = fingerInd.size() - 1 ; i >= 0 ; i--) { 
-			if (fingerInd.get(i) > index && fingerInd.get(i) < id)
+			if ((fingerInd.get(i) > index && fingerInd.get(i) < id)) // corriger ça pour les cas id<index
+					//|| (id < index && (fingerInd.get(i) < index && fingerInd.get(i) < id+size)))  // vérifier !! je pense pas que ce soit exhautif
+					//|| (id < index && fingerInd.get(i) < id) ) // rajouts, vérifier : id<index, pas sûre du tout !! regarder l'ordre des precnodes il est pas forcément décroisasnt 
 				return fingerInd.get(i);
 		}
+		
 		return index;
 	}	
 
@@ -436,17 +472,44 @@ public class Node extends AbstractComponent{
 
 	public void fixFingers1() {
 		synchronized(this) {
+			// initialisation des variables de tests
+			int indextmp, idtmp, succIndtmp;
+						
 			this.logMessage("fixFingers1()") ;
 			System.out.println("fixFingers1()");
 			next = next+1;
 			if (next > fingerInd.size()-1) // remplacer fingerInd.size(à par un truc plus propre
 				next = 0;
-			
-			int id = index + (1<<(next));
 
+			int id = (index + (1<<(next)))%size;
 
+			if(predInd>index) {
+				if (predInd>id)
+					idtmp=id+size;
+				else
+					idtmp=id;
+				indextmp=index+size;
+				succIndtmp=succInd+size;
+
+			}
+			else {
+				indextmp=index;
+				
+				if(id<index)
+					idtmp=id+size;
+				else
+					idtmp=id;
+
+				if(succInd<index)
+					succIndtmp=succInd+size;
+				else
+					succIndtmp=succInd;
+			}
 			//System.out.println("((((pred : "+predInd+" succ : "+succInd+" id : "+id+ " index : "+index+" next="+next);
-			if (predInd != -1 && id > predInd && id <= index) { 
+			//if (predInd != -1 && id > predInd && id <= index) {
+			if ((predInd != -1 && idtmp > predInd && idtmp <= indextmp)
+					/*|| ((predInd > index) &&
+							(id <= index || id > predInd))*/) {
 				//System.out.println("1er cas : id="+id+" predInd="+predInd+" index:"+index);
 				
 				//System.out.println("On en est au noeud "+index + " on VA rajouter next : " +next);
@@ -473,7 +536,11 @@ public class Node extends AbstractComponent{
 					System.out.println(((DynamicAdmin.HashMapAffiche)fingerIbpFromInd).affiche_i(fingerInd));
 				}
 			}
-			else if (id > index && (id <= succInd || (succInd<index))) { //  rajout
+			//else if ((id > index && id <= succInd) || (succInd<index && id < index && id<=succInd)) {//(id > index && /*(*/id <= succInd/* || (succInd<index))*/) { //  rajout
+			/*else if ((id > index && id <= succInd) ||
+					(index > succInd && id > succInd) || 
+					(id < index && index > succInd && id < succInd)) {*/
+			else if (idtmp > indextmp && idtmp <= succIndtmp) {
 				//System.out.println("2e cas : id="+id+" succInd="+succInd+" index:"+index);
 				try {
 					nObpSucc.fixFingers2(nIbp.getPortURI());
@@ -487,7 +554,7 @@ public class Node extends AbstractComponent{
 						this.doPortDisconnection(this.nObpFingers.getPortURI());
 					int noeud_avant_id=closestPrecedingNode(id);
 					//System.out.println("index: "+index+" s= "+ noeud_avant_id + " id = "+id+ " next="+next);
-					System.out.println("on va au closestPrecedingNode :"+noeud_avant_id);
+					System.out.println(index+" on va au closestPrecedingNode :"+noeud_avant_id);
 					this.doPortConnection(this.nObpFingers.getPortURI(), fingerIbpFromInd.get(fingerInd.indexOf(noeud_avant_id)), NodeConnector.class.getCanonicalName());
 					this.nObpFingers.fixFingers4(nIbp.getPortURI(), id);
 				} catch (Exception e) {
@@ -501,13 +568,41 @@ public class Node extends AbstractComponent{
 		synchronized(this) {
 			this.logMessage("fixFingers4()") ;
 			System.out.println("fixFingers4()");
+			
+			// initialisation des variables de tests
+			int indextmp, idtmp, succIndtmp;
+						
+			if(predInd>index) {
+				if (predInd>id)
+					idtmp=id+size;
+				else
+					idtmp=id;
+				indextmp=index+size;
+				succIndtmp=succInd+size;
+
+			}
+			else {
+				indextmp=index;
+				
+				if(id<index)
+					idtmp=id+size;
+				else
+					idtmp=id;
+
+				if(succInd<index)
+					succIndtmp=succInd+size;
+				else
+					succIndtmp=succInd;
+			}			
 			/*next = next+1;
 			if ((next) > fingerInd.size()-1)
 				next = 0;
 
 			int id = index + (1<<(next));*/
 
-			if (predInd != -1 && id > predInd && id <= index) {
+			if ((predInd != -1 && id > predInd && id <= indextmp)
+					/*|| ((predInd > index) &&
+							(id <= index || id > predInd))*/) {
 				//System.out.println("1er cas : id="+id+" predInd="+predInd+" index:"+index);
 				
 				try {
@@ -522,8 +617,12 @@ public class Node extends AbstractComponent{
 				}
 				
 			}
-			else if (id > index && (id <= succInd || (succInd<index))) { //  rajout
-				//System.out.println("2e cas : id="+id+" succInd="+succInd+" index:"+index);
+			//else if ((id > index && id <= succInd) || (succInd<index && id < index && id<=succInd)/*|| (succInd<index && (id)%<))*/) { //  rajout
+			/*else if ((id > index && id <= succInd) ||
+					(index > succInd && id > succInd) ||
+					(id < index && index > succInd && id < succInd)) {*/
+			else if (idtmp > indextmp && idtmp <= succIndtmp) {
+			//System.out.println("2e cas : id="+id+" succInd="+succInd+" index:"+index);
 				
 				try {
 					nObpSucc.fixFingers2(inbpURI);
@@ -537,7 +636,7 @@ public class Node extends AbstractComponent{
 						this.doPortDisconnection(this.nObpFingers.getPortURI());
 					int noeud_avant_id=closestPrecedingNode(id);
 					//System.out.println("index: "+index+" s= "+noeud_avant_id + " id = "+id+ " next="+next);
-					System.out.println("on va au closestPrecedingNode : " + noeud_avant_id);
+					System.out.println(index+" on va au closestPrecedingNode : " + noeud_avant_id);
 					this.doPortConnection(this.nObpFingers.getPortURI(), fingerIbpFromInd.get(fingerInd.indexOf(noeud_avant_id)), NodeConnector.class.getCanonicalName());
 					this.nObpFingers.fixFingers4(inbpURI, id);
 				} catch (Exception e) {
