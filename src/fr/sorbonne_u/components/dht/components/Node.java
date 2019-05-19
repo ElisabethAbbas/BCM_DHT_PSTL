@@ -456,17 +456,29 @@ public class Node extends AbstractComponent{
 			}
 		}
 	}
-
+	
 	public int closestPrecedingNode(int id) {
 		for(int i = fingerInd.size() - 1 ; i >= 0 ; i--) { 
-			if ((fingerInd.get(i) > index && fingerInd.get(i) < id)) // corriger ça pour les cas id<index
-					//|| (id < index && (fingerInd.get(i) < index && fingerInd.get(i) < id+size)))  // vérifier !! je pense pas que ce soit exhautif
-					//|| (id < index && fingerInd.get(i) < id) ) // rajouts, vérifier : id<index, pas sûre du tout !! regarder l'ordre des precnodes il est pas forcément décroisasnt 
-				return fingerInd.get(i);
+			System.out.print(i+"="+fingerInd.get(i)+" ");
+			System.out.flush();
+
+			if(id > index){
+				if ((fingerInd.get(i) > index && fingerInd.get(i) < id))
+					return fingerInd.get(i);
+			}
+			else if(id < index ){
+				if((size - 1 - fingerInd.get(i) <= index) && fingerInd.get(i) < id) 
+					return fingerInd.get(i);
+			}
 		}
-		
+		System.out.println();
 		return index;
-	}	
+	}
+	
+	/*if ((fingerInd.get(i) > index && fingerInd.get(i) < id)) // corriger ça pour les cas id<index
+	//|| (id < index && (fingerInd.get(i) < index && fingerInd.get(i) < id+size)))  // vérifier !! je pense pas que ce soit exhautif
+	//|| (id < index && fingerInd.get(i) < id) ) // rajouts, vérifier : id<index, pas sûre du tout !! regarder l'ordre des precnodes il est pas forcément décroisasnt 
+	//return fingerInd.get(i);*/
 
 	// finger
 
@@ -554,7 +566,7 @@ public class Node extends AbstractComponent{
 						this.doPortDisconnection(this.nObpFingers.getPortURI());
 					int noeud_avant_id=closestPrecedingNode(id);
 					//System.out.println("index: "+index+" s= "+ noeud_avant_id + " id = "+id+ " next="+next);
-					System.out.println(index+" on va au closestPrecedingNode :"+noeud_avant_id);
+					System.out.println(index+" (index), id="+id+" on va au closestPrecedingNode :"+noeud_avant_id);
 					this.doPortConnection(this.nObpFingers.getPortURI(), fingerIbpFromInd.get(fingerInd.indexOf(noeud_avant_id)), NodeConnector.class.getCanonicalName());
 					this.nObpFingers.fixFingers4(nIbp.getPortURI(), id);
 				} catch (Exception e) {
@@ -636,7 +648,7 @@ public class Node extends AbstractComponent{
 						this.doPortDisconnection(this.nObpFingers.getPortURI());
 					int noeud_avant_id=closestPrecedingNode(id);
 					//System.out.println("index: "+index+" s= "+noeud_avant_id + " id = "+id+ " next="+next);
-					System.out.println(index+" on va au closestPrecedingNode : " + noeud_avant_id);
+					System.out.println(index+" (index), id="+id+" on va au closestPrecedingNode : " + noeud_avant_id);
 					this.doPortConnection(this.nObpFingers.getPortURI(), fingerIbpFromInd.get(fingerInd.indexOf(noeud_avant_id)), NodeConnector.class.getCanonicalName());
 					this.nObpFingers.fixFingers4(inbpURI, id);
 				} catch (Exception e) {
