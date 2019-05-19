@@ -248,12 +248,12 @@ public class NodeInboundPort extends AbstractInboundPort implements NodeOfferedI
 	}
 	
 	@Override
-	public void fixFingers2(String ibpURI, int next) throws Exception {
+	public void fixFingers2(String ibpURI) throws Exception {
 		this.getOwner().handleRequestAsync(
 				new AbstractComponent.AbstractService<Void>() {
 					@Override
 					public Void call() throws Exception {
-						((Node)this.getOwner()).fixFingers2(ibpURI, next) ;
+						((Node)this.getOwner()).fixFingers2(ibpURI) ;
 						return null;
 					}
 				}) ;
@@ -273,12 +273,12 @@ public class NodeInboundPort extends AbstractInboundPort implements NodeOfferedI
 	
 
 	@Override
-	public void fixFingers4(String ibpURI) throws Exception {
+	public void fixFingers4(String ibpURI, int id) throws Exception {
 		this.getOwner().handleRequestAsync(
 				new AbstractComponent.AbstractService<Void>() {
 					@Override
 					public Void call() throws Exception {
-						((Node)this.getOwner()).fixFingers4(ibpURI) ;
+						((Node)this.getOwner()).fixFingers4(ibpURI, id) ;
 						return null;
 					}
 				}) ;
@@ -291,30 +291,6 @@ public class NodeInboundPort extends AbstractInboundPort implements NodeOfferedI
 					@Override
 					public Void call() throws Exception {
 						((Node)this.getOwner()).fixFingers5(ibpURI, indice) ;
-						return null;
-					}
-				}) ;
-	}
-
-	@Override
-	public void fixFingers6(String ibpURI) throws Exception {
-		this.getOwner().handleRequestAsync(
-				new AbstractComponent.AbstractService<Void>() {
-					@Override
-					public Void call() throws Exception {
-						((Node)this.getOwner()).fixFingers6(ibpURI) ;
-						return null;
-					}
-				}) ;
-	}
-
-	@Override
-	public void fixFingers7(String ibpURI, int indice) throws Exception {
-		this.getOwner().handleRequestAsync(
-				new AbstractComponent.AbstractService<Void>() {
-					@Override
-					public Void call() throws Exception {
-						((Node)this.getOwner()).fixFingers7(ibpURI, indice) ;
 						return null;
 					}
 				}) ;

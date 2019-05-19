@@ -121,8 +121,8 @@ public class NodeOutboundPort extends AbstractOutboundPort implements NodeRequir
 	}
 	
 	@Override
-	public void fixFingers2(String ibpURI, int next) throws Exception {
-		((NodeConnector)this.connector).fixFingers2(ibpURI, next);
+	public void fixFingers2(String ibpURI) throws Exception {
+		((NodeConnector)this.connector).fixFingers2(ibpURI);
 	}
 	
 	@Override
@@ -131,8 +131,8 @@ public class NodeOutboundPort extends AbstractOutboundPort implements NodeRequir
 	}
 	
 	@Override
-	public void fixFingers4(String ibpURI) throws Exception {
-		((NodeConnector)this.connector).fixFingers4(ibpURI);
+	public void fixFingers4(String ibpURI, int id) throws Exception {
+		((NodeConnector)this.connector).fixFingers4(ibpURI, id);
 	}
 	
 	
@@ -140,19 +140,6 @@ public class NodeOutboundPort extends AbstractOutboundPort implements NodeRequir
 	public void fixFingers5(String ibpURI, int index) throws Exception {
 		((NodeConnector)this.connector).fixFingers5(ibpURI, index);
 	}
-	
-	
-	@Override
-	public void fixFingers6(String ibpURI) throws Exception {
-		((NodeConnector)this.connector).fixFingers6(ibpURI);
-	}
-	
-	
-	@Override
-	public void fixFingers7(String ibpURI, int indice) throws Exception {
-		((NodeConnector)this.connector).fixFingers7(ibpURI, indice);
-	}
-	
 	
 	@Override
 	public void get(String clientIbpURI, int id) throws Exception {

@@ -5,7 +5,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Vector;
 import java.util.concurrent.TimeUnit;
 
 import fr.sorbonne_u.components.AbstractComponent;
@@ -448,7 +447,7 @@ public class Node extends AbstractComponent{
 
 			//System.out.println("((((pred : "+predInd+" succ : "+succInd+" id : "+id+ " index : "+index+" next="+next);
 			if (predInd != -1 && id > predInd && id <= index) { 
-				System.out.println("1er cas : id="+id+" predInd="+predInd+" index:"+index);
+				//System.out.println("1er cas : id="+id+" predInd="+predInd+" index:"+index);
 				
 				//System.out.println("On en est au noeud "+index + " on VA rajouter next : " +next);
 				//System.out.println(((DynamicAdmin.HashMapAffiche)fingerIbpFromInd).affiche_i(fingerInd));
@@ -476,10 +475,8 @@ public class Node extends AbstractComponent{
 			}
 			else if (id > index && (id <= succInd || (succInd<index))) { //  rajout
 				//System.out.println("2e cas : id="+id+" succInd="+succInd+" index:"+index);
-				
-				fingerInd.set(next, succInd);
 				try {
-					nObpSucc.fixFingers2(nIbp.getPortURI(), next);
+					nObpSucc.fixFingers2(nIbp.getPortURI());
 				} catch (Exception e1) {
 					e1.printStackTrace();
 				}
@@ -492,7 +489,7 @@ public class Node extends AbstractComponent{
 					//System.out.println("index: "+index+" s= "+ noeud_avant_id + " id = "+id+ " next="+next);
 					System.out.println("on va au closestPrecedingNode :"+noeud_avant_id);
 					this.doPortConnection(this.nObpFingers.getPortURI(), fingerIbpFromInd.get(fingerInd.indexOf(noeud_avant_id)), NodeConnector.class.getCanonicalName());
-					this.nObpFingers.fixFingers4(nIbp.getPortURI());
+					this.nObpFingers.fixFingers4(nIbp.getPortURI(), id);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -500,18 +497,18 @@ public class Node extends AbstractComponent{
 		}
 	}
 
-	public void fixFingers4(String inbpURI) {
+	public void fixFingers4(String inbpURI, int id) {
 		synchronized(this) {
 			this.logMessage("fixFingers4()") ;
 			System.out.println("fixFingers4()");
-			next = next+1;
+			/*next = next+1;
 			if ((next) > fingerInd.size()-1)
 				next = 0;
 
-			int id = index + (1<<(next));
+			int id = index + (1<<(next));*/
 
 			if (predInd != -1 && id > predInd && id <= index) {
-				System.out.println("1er cas : id="+id+" predInd="+predInd+" index:"+index);
+				//System.out.println("1er cas : id="+id+" predInd="+predInd+" index:"+index);
 				
 				try {
 					if(this.nObpFingers.connected())
@@ -529,7 +526,7 @@ public class Node extends AbstractComponent{
 				//System.out.println("2e cas : id="+id+" succInd="+succInd+" index:"+index);
 				
 				try {
-					nObpSucc.fixFingers6(inbpURI);
+					nObpSucc.fixFingers2(inbpURI);
 				} catch (Exception e1) {
 					e1.printStackTrace();
 				}
@@ -542,7 +539,7 @@ public class Node extends AbstractComponent{
 					//System.out.println("index: "+index+" s= "+noeud_avant_id + " id = "+id+ " next="+next);
 					System.out.println("on va au closestPrecedingNode : " + noeud_avant_id);
 					this.doPortConnection(this.nObpFingers.getPortURI(), fingerIbpFromInd.get(fingerInd.indexOf(noeud_avant_id)), NodeConnector.class.getCanonicalName());
-					this.nObpFingers.fixFingers4(inbpURI);
+					this.nObpFingers.fixFingers4(inbpURI, id);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -580,7 +577,7 @@ public class Node extends AbstractComponent{
 		}
 	}
 	
-	public void fixFingers2(String inbpURI, int next) {
+	public void fixFingers2(String inbpURI) {
 		synchronized(this) {
 			this.logMessage("fixFingers2()") ;
 			try {
@@ -588,7 +585,7 @@ public class Node extends AbstractComponent{
 					this.doPortDisconnection(nObpFingers.getPortURI());
 				this.doPortConnection(this.nObpFingers.getPortURI(), inbpURI, NodeConnector.class.getCanonicalName());
 
-				nObpFingers.fixFingers3(nIbp.getPortURI(), next);
+				nObpFingers.fixFingers3(nIbp.getPortURI(), index);
 
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -596,25 +593,9 @@ public class Node extends AbstractComponent{
 		}
 	}
 	
-	public void fixFingers6(String inbpURI) {
+	public void fixFingers3(String inbpURI, int indice) {
 		synchronized(this) {
-			this.logMessage("fixFingers6()") ;
-			try {
-				if(this.nObpFingers.connected())
-					this.doPortDisconnection(nObpFingers.getPortURI());
-				this.doPortConnection(this.nObpFingers.getPortURI(), inbpURI, NodeConnector.class.getCanonicalName());
-
-				nObpFingers.fixFingers7(nIbp.getPortURI(), index);
-
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-	}
-	
-	public void fixFingers7(String inbpURI, int indice) {
-		synchronized(this) {
-			this.logMessage("fixFingers7()") ;
+			this.logMessage("fixFingers3()") ;
 			fingerInd.set(next, indice);
 			if(fingerIbpFromInd.containsKey(next)) {
 				try {
@@ -633,32 +614,6 @@ public class Node extends AbstractComponent{
 				}
 
 				System.out.println("succ On en est au noeud "+index + " on a ajouté next: " +next);
-				System.out.println(((DynamicAdmin.HashMapAffiche)fingerIbpFromInd).affiche_i(fingerInd));
-			}
-		}
-	}	
-
-
-	public void fixFingers3(String inbpURI, int next) {
-		synchronized(this) {
-			this.logMessage("fixFingers3()") ;
-			if(fingerIbpFromInd.containsKey(next)) {
-				try {
-					fingerIbpFromInd.replace(next, inbpURI);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-				System.out.println("On en est au noeud "+index + " on a ajouté next: " +next);
-				System.out.println(((DynamicAdmin.HashMapAffiche)fingerIbpFromInd).affiche_i(fingerInd));
-			}
-			else {
-				try {
-					fingerIbpFromInd.put(next, inbpURI);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-
-				System.out.println("On en est au noeud "+index + " on a ajouté next: " +next);
 				System.out.println(((DynamicAdmin.HashMapAffiche)fingerIbpFromInd).affiche_i(fingerInd));
 			}
 		}
