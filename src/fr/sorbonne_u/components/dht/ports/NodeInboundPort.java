@@ -25,44 +25,49 @@ public class NodeInboundPort extends AbstractInboundPort implements NodeOfferedI
 
 	@Override
 	public void setPred(String s, int n) throws Exception {
-		this.getOwner().handleRequestAsync(
-				new AbstractComponent.AbstractService<Void>() {
-					@Override
-					public Void call() throws Exception {
-						((Node)this.getOwner()).
-									setPred(s,n) ;
-						return null;
-					}
-				}) ;
+		synchronized(this) {
+			this.getOwner().handleRequestAsync(
+					new AbstractComponent.AbstractService<Void>() {
+						@Override
+						public Void call() throws Exception {
+							((Node)this.getOwner()).
+										setPred(s,n) ;
+							return null;
+						}
+					}) ;
+		}
 		
 	}
 
 	@Override
 	public void setSucc(String s, int n) throws Exception {
-		this.getOwner().handleRequestAsync(
-				new AbstractComponent.AbstractService<Void>() {
-					@Override
-					public Void call() throws Exception {
-						((Node)this.getOwner()).
-								setSucc(s,n) ;
-						return null ;
-					}
-				}) ;
+		synchronized(this) {
+			this.getOwner().handleRequestAsync(
+					new AbstractComponent.AbstractService<Void>() {
+						@Override
+						public Void call() throws Exception {
+							((Node)this.getOwner()).
+									setSucc(s,n) ;
+							return null ;
+						}
+					}) ;
+		}
 		
 	}
 
 	@Override
 	public void setIndex(int i) throws Exception {
-		this.getOwner().handleRequestAsync(
-				new AbstractComponent.AbstractService<Void>() {
-					@Override
-					public Void call() throws Exception {
-						((Node)this.getOwner()).
-								setIndex(i) ;
-						return null;
-					}
-				}) ;
-		
+		synchronized(this) {
+			this.getOwner().handleRequestAsync(
+					new AbstractComponent.AbstractService<Void>() {
+						@Override
+						public Void call() throws Exception {
+							((Node)this.getOwner()).
+									setIndex(i) ;
+							return null;
+						}
+					}) ;
+		}
 	}
 	
 	/*@Override
@@ -81,271 +86,315 @@ public class NodeInboundPort extends AbstractInboundPort implements NodeOfferedI
 
 	@Override
 	public String getPred() throws Exception {
-		return this.getOwner().handleRequestSync(
-				new AbstractComponent.AbstractService<String>() {
-					@Override
-					public String call() throws Exception {
-						return ((Node)this.getOwner()).
-								getPred() ;
-					}
-				}) ;
+		synchronized(this) {
+			return this.getOwner().handleRequestSync(
+					new AbstractComponent.AbstractService<String>() {
+						@Override
+						public String call() throws Exception {
+							return ((Node)this.getOwner()).
+									getPred() ;
+						}
+					}) ;
+		}
 	}
 
 	@Override
 	public String getSucc() throws Exception {
-		return this.getOwner().handleRequestSync(
-				new AbstractComponent.AbstractService<String>() {
-					@Override
-					public String call() throws Exception {
-						return ((Node)this.getOwner()).
-								getSucc() ;
-					}
-				}) ;
+		synchronized(this) {
+			return this.getOwner().handleRequestSync(
+					new AbstractComponent.AbstractService<String>() {
+						@Override
+						public String call() throws Exception {
+							return ((Node)this.getOwner()).
+									getSucc() ;
+						}
+					}) ;
+		}
 	}
 
 	@Override
 	public int getIndex() throws Exception {
-		return this.getOwner().handleRequestSync(
-				new AbstractComponent.AbstractService<Integer>() {
-					@Override
-					public Integer call() throws Exception {
-						return ((Node)this.getOwner()).
-								getIndex() ;
-					}
-				}) ;
+		synchronized(this) {
+			return this.getOwner().handleRequestSync(
+					new AbstractComponent.AbstractService<Integer>() {
+						@Override
+						public Integer call() throws Exception {
+							return ((Node)this.getOwner()).
+									getIndex() ;
+						}
+					}) ;
+		}
 	}
 
 	@Override
 	public void stab1() throws Exception {
-		this.getOwner().handleRequestAsync(
-				new AbstractComponent.AbstractService<Void>() {
-					@Override
-					public Void call() throws Exception {
-						((Node)this.getOwner()).stab1() ;
-						return null;
-					}
-				}) ;
+		synchronized(this) {
+			this.getOwner().handleRequestAsync(
+					new AbstractComponent.AbstractService<Void>() {
+						@Override
+						public Void call() throws Exception {
+							((Node)this.getOwner()).stab1() ;
+							return null;
+						}
+					}) ;
+		}
 	}
 
 	@Override
-	public void stab2(NodeInboundPort startNode) throws Exception {
-		this.getOwner().handleRequestAsync(
-				new AbstractComponent.AbstractService<Void>() {
-					@Override
-					public Void call() throws Exception {
-						((Node)this.getOwner()).stab2(startNode) ;
-						return null;
-					}
-				}) ;
+	public void stab2(String startNode) throws Exception {
+		synchronized(this) {
+			System.out.println("test stab2 Ibp");
+			this.getOwner().handleRequestAsync(
+					new AbstractComponent.AbstractService<Void>() {
+						@Override
+						public Void call() throws Exception {
+							((Node)this.getOwner()).stab2(startNode) ;
+							return null;
+						}
+					}) ;
+		}
 	}
 
 	@Override
 	public void stab3(int succPredInd, int succInd, String predOfSucc) throws Exception {
-		this.getOwner().handleRequestAsync(
-				new AbstractComponent.AbstractService<Void>() {
-					@Override
-					public Void call() throws Exception {
-						((Node)this.getOwner()).stab3(succPredInd, succInd, predOfSucc) ;
-						return null;
-					}
-				}) ;
+		synchronized(this) {
+			this.getOwner().handleRequestAsync(
+					new AbstractComponent.AbstractService<Void>() {
+						@Override
+						public Void call() throws Exception {
+							((Node)this.getOwner()).stab3(succPredInd, succInd, predOfSucc) ;
+							return null;
+						}
+					}) ;
+		}
 	}
 
 	@Override
 	public void notifyPred1(int notifierIndex, String notifierIbpURI) throws Exception {
-		this.getOwner().handleRequestAsync(
-				new AbstractComponent.AbstractService<Void>() {
-					@Override
-					public Void call() throws Exception {
-						((Node)this.getOwner()).notifyPred1(notifierIndex,notifierIbpURI) ;
-						return null;
-					}
-				}) ;
+		synchronized(this) {
+			this.getOwner().handleRequestAsync(
+					new AbstractComponent.AbstractService<Void>() {
+						@Override
+						public Void call() throws Exception {
+							((Node)this.getOwner()).notifyPred1(notifierIndex,notifierIbpURI) ;
+							return null;
+						}
+					}) ;
+		}
 	}
 
 	@Override
 	public void notifyPred2(int notifierIndex, String notifierIbpURI, String notifiedIbpURI) throws Exception {
-		this.getOwner().handleRequestAsync(
-				new AbstractComponent.AbstractService<Void>() {
-					@Override
-					public Void call() throws Exception {
-						((Node)this.getOwner()).notifyPred2(notifierIndex,notifierIbpURI, notifiedIbpURI) ;
-						return null;
-					}
-				}) ;
+		synchronized(this) {
+			this.getOwner().handleRequestAsync(
+					new AbstractComponent.AbstractService<Void>() {
+						@Override
+						public Void call() throws Exception {
+							((Node)this.getOwner()).notifyPred2(notifierIndex,notifierIbpURI, notifiedIbpURI) ;
+							return null;
+						}
+					}) ;
+		}
 	}
 
 	@Override
 	public void notifyPred3(int notifierIndex, String notifierIbpURI, int predInd) throws Exception {
-		this.getOwner().handleRequestAsync(
-				new AbstractComponent.AbstractService<Void>() {
-					@Override
-					public Void call() throws Exception {
-						((Node)this.getOwner()).notifyPred3(notifierIndex,notifierIbpURI, predInd) ;
-						return null;
-					}
-				}) ;
+		synchronized(this) {
+			this.getOwner().handleRequestAsync(
+					new AbstractComponent.AbstractService<Void>() {
+						@Override
+						public Void call() throws Exception {
+							((Node)this.getOwner()).notifyPred3(notifierIndex,notifierIbpURI, predInd) ;
+							return null;
+						}
+					}) ;
+		}
 	}
 
 	@Override
 	public void store(String s) throws Exception {
-		this.getOwner().handleRequestAsync(
-				new AbstractComponent.AbstractService<Void>() {
-					@Override
-					public Void call() throws Exception {
-						((Node)this.getOwner()).
-									store(s) ;
-						return null;
-					}
-				}) ;
+		synchronized(this) {
+			this.getOwner().handleRequestAsync(
+					new AbstractComponent.AbstractService<Void>() {
+						@Override
+						public Void call() throws Exception {
+							((Node)this.getOwner()).
+										store(s) ;
+							return null;
+						}
+					}) ;
+		}
 	}
 
 	@Override
 	public String retrieve(int id) throws Exception {
-		return this.getOwner().handleRequestSync(
-				new AbstractComponent.AbstractService<String>() {
-					@Override
-					public String call() throws Exception {
-						return ((Node)this.getOwner()).
-								retrieve(id) ;
-					}
-				}) ;
+		synchronized(this) {
+			return this.getOwner().handleRequestSync(
+					new AbstractComponent.AbstractService<String>() {
+						@Override
+						public String call() throws Exception {
+							return ((Node)this.getOwner()).
+									retrieve(id) ;
+						}
+					}) ;
+		}
 	}
 	
 	@Override
 	public void findSuccessor(String ClientIbpURI, int id) throws Exception {
-		this.getOwner().handleRequestAsync(
-				new AbstractComponent.AbstractService<Void>() {
-					@Override
-					public Void call() throws Exception {
-						((Node)this.getOwner()).findSuccessor(ClientIbpURI, id) ;
-						return null;
-					}
-				});
+		synchronized(this) {
+			this.getOwner().handleRequestAsync(
+					new AbstractComponent.AbstractService<Void>() {
+						@Override
+						public Void call() throws Exception {
+							((Node)this.getOwner()).findSuccessor(ClientIbpURI, id) ;
+							return null;
+						}
+					});
+		}
 	}
 	
 	@Override
 	public int closestPrecedingNode(int id) throws Exception {
-		return this.getOwner().handleRequestSync(
-				new AbstractComponent.AbstractService<Integer>() {
-					@Override
-					public Integer call() throws Exception {
-						return ((Node)this.getOwner()).closestPrecedingNode(id) ;
-					}
-				}) ;
+		synchronized(this) {
+			return this.getOwner().handleRequestSync(
+					new AbstractComponent.AbstractService<Integer>() {
+						@Override
+						public Integer call() throws Exception {
+							return ((Node)this.getOwner()).closestPrecedingNode(id) ;
+						}
+					}) ;
+		}
 	}
 	
 	@Override
 	public void fixFingers1() throws Exception {
-		this.getOwner().handleRequestAsync(
-				new AbstractComponent.AbstractService<Void>() {
-					@Override
-					public Void call() throws Exception {
-						((Node)this.getOwner()).fixFingers1() ;
-						return null;
-					}
-				}) ;
+		synchronized(this) {
+			this.getOwner().handleRequestAsync(
+					new AbstractComponent.AbstractService<Void>() {
+						@Override
+						public Void call() throws Exception {
+							((Node)this.getOwner()).fixFingers1() ;
+							return null;
+						}
+					}) ;
+		}
 	}
 	
 	@Override
 	public void fixFingers2(String ibpURI, int next) throws Exception {
-		this.getOwner().handleRequestAsync(
-				new AbstractComponent.AbstractService<Void>() {
-					@Override
-					public Void call() throws Exception {
-						((Node)this.getOwner()).fixFingers2(ibpURI, next) ;
-						return null;
-					}
-				}) ;
+		synchronized(this) {
+			this.getOwner().handleRequestAsync(
+					new AbstractComponent.AbstractService<Void>() {
+						@Override
+						public Void call() throws Exception {
+							((Node)this.getOwner()).fixFingers2(ibpURI, next) ;
+							return null;
+						}
+					}) ;
+		}
 	}
 	
 	@Override
 	public void fixFingers3(String ibpURI, int next) throws Exception {
-		this.getOwner().handleRequestAsync(
-				new AbstractComponent.AbstractService<Void>() {
-					@Override
-					public Void call() throws Exception {
-						((Node)this.getOwner()).fixFingers3(ibpURI, next) ;
-						return null;
-					}
-				}) ;
+		synchronized(this) {
+			this.getOwner().handleRequestAsync(
+					new AbstractComponent.AbstractService<Void>() {
+						@Override
+						public Void call() throws Exception {
+							((Node)this.getOwner()).fixFingers3(ibpURI, next) ;
+							return null;
+						}
+					}) ;
+		}
 	}
 	
 	@Override
 	public void get(String clientIbpURI, int id) throws Exception {
-		this.getOwner().handleRequestAsync(
-				new AbstractComponent.AbstractService<Void>() {
-					@Override
-					public Void call() throws Exception {
-						((Node)this.getOwner()).get(clientIbpURI, id) ;
-						return null;
-					}
-				}) ;
+		synchronized(this) {
+			this.getOwner().handleRequestAsync(
+					new AbstractComponent.AbstractService<Void>() {
+						@Override
+						public Void call() throws Exception {
+							((Node)this.getOwner()).get(clientIbpURI, id) ;
+							return null;
+						}
+					}) ;
+		}
 	}
 	
 	@Override
 	public void put(int id, String value) throws Exception {
-		this.getOwner().handleRequestAsync(
-				new AbstractComponent.AbstractService<Void>() {
-					@Override
-					public Void call() throws Exception {
-						((Node)this.getOwner()).put(id, value) ;
-						return null;
-					}
-				}) ;
+		synchronized(this) {
+			this.getOwner().handleRequestAsync(
+					new AbstractComponent.AbstractService<Void>() {
+						@Override
+						public Void call() throws Exception {
+							((Node)this.getOwner()).put(id, value) ;
+							return null;
+						}
+					}) ;
+		}
 	}
 
 	@Override
 	public void connectAndSendToClient(String ClientIbpURI, int id) throws Exception {
-		this.getOwner().handleRequestAsync(
-				new AbstractComponent.AbstractService<Void>() {
-					@Override
-					public Void call() throws Exception {
-						((Node)this.getOwner()).
-									connectAndSendToClient( ClientIbpURI,  id);
-						return null;
-					}
-				}) ;
+		synchronized(this) {
+			this.getOwner().handleRequestAsync(
+					new AbstractComponent.AbstractService<Void>() {
+						@Override
+						public Void call() throws Exception {
+							((Node)this.getOwner()).
+										connectAndSendToClient( ClientIbpURI,  id);
+							return null;
+						}
+					}) ;
+		}
 	}
 
 	@Override
 	public void updateSuccessorList(String askingNodeIbpURI, int successorsToVisit) throws Exception {
-		this.getOwner().handleRequestAsync(
-				new AbstractComponent.AbstractService<Void>() {
-					@Override
-					public Void call() throws Exception {
-						((Node)this.getOwner()).
-						updateSuccessorList( askingNodeIbpURI,  successorsToVisit);
-						return null;
-					}
-				}) ;
+		synchronized(this) {
+			this.getOwner().handleRequestAsync(
+					new AbstractComponent.AbstractService<Void>() {
+						@Override
+						public Void call() throws Exception {
+							((Node)this.getOwner()).
+							updateSuccessorList( askingNodeIbpURI,  successorsToVisit);
+							return null;
+						}
+					}) ;
+		}
 	}
 
 	@Override
 	public void receiveUpdateSuccessorList(String succIbpURI, int succIndex) throws Exception {
-		this.getOwner().handleRequestAsync(
-				new AbstractComponent.AbstractService<Void>() {
-					@Override
-					public Void call() throws Exception {
-						((Node)this.getOwner()).
-						receiveUpdateSuccessorList( succIbpURI,  succIndex) ;
-						return null;
-					}
-				}) ;
+		synchronized(this) {
+			this.getOwner().handleRequestAsync(
+					new AbstractComponent.AbstractService<Void>() {
+						@Override
+						public Void call() throws Exception {
+							((Node)this.getOwner()).
+							receiveUpdateSuccessorList( succIbpURI,  succIndex) ;
+							return null;
+						}
+					}) ;
+		}
 	}
 
 	@Override
 	public void initiateUpdateSuccessorList() throws Exception {
-		this.getOwner().handleRequestAsync(
-				new AbstractComponent.AbstractService<Void>() {
-					@Override
-					public Void call() throws Exception {
-						((Node)this.getOwner()).
-						initiateUpdateSuccessorList();
-						return null;
-					}
-				}) ;
-		
+		synchronized(this) {
+			this.getOwner().handleRequestAsync(
+					new AbstractComponent.AbstractService<Void>() {
+						@Override
+						public Void call() throws Exception {
+							((Node)this.getOwner()).
+							initiateUpdateSuccessorList();
+							return null;
+						}
+					}) ;
+		}
 	}
 					
 }

@@ -12,6 +12,7 @@ import fr.sorbonne_u.components.AbstractComponent;
 import fr.sorbonne_u.components.dht.connectors.NodeConnector;
 import fr.sorbonne_u.components.dht.connectors.NodeToClientConnector;
 import fr.sorbonne_u.components.dht.interfaces.AdminRequiredI;
+import fr.sorbonne_u.components.dht.interfaces.NodeClientI;
 import fr.sorbonne_u.components.dht.interfaces.NodeManagementI;
 import fr.sorbonne_u.components.dht.interfaces.NodeOfferedI;
 import fr.sorbonne_u.components.dht.interfaces.NodeRequiredI;
@@ -44,6 +45,7 @@ public class Node extends AbstractComponent{
 	protected HashMap<Integer, String> fingerIbpFromInd;
 	protected HashMap<Integer, String> successorsList;
 	protected int size;
+	
 	//protected AdminOutboundPort	adminPort ;
 
 	public Node(String nodeRIPURI, String adminRIPURI, int index, int size) throws Exception
@@ -62,8 +64,8 @@ public class Node extends AbstractComponent{
 		this.addOfferedInterface(NodeOfferedI.class) ;
 		this.addOfferedInterface(NodeManagementI.class) ;
 		this.addRequiredInterface(NodeManagementI.class) ;
-		this.addOfferedInterface(NodeClientIbp.class) ;
-		this.addRequiredInterface(NodeClientIbp.class) ;
+		this.addOfferedInterface(NodeClientI.class) ;
+		this.addRequiredInterface(NodeClientI.class) ;
 
 		this.nObpPred = new NodeOutboundPort(this) ;
 		this.addPort(this.nObpPred) ;
@@ -84,6 +86,7 @@ public class Node extends AbstractComponent{
 		this.nIbp = new NodeInboundPort(this) ;
 		this.addPort(this.nIbp) ;
 		this.nIbp.publishPort() ;
+		System.out.println("test : "+ this.nIbp.getPortURI());
 
 		this.nMIbp = new NodeManagementIbp(this) ;
 		this.addPort(this.nMIbp) ;
@@ -141,6 +144,12 @@ public class Node extends AbstractComponent{
 			this.doPortDisconnection(this.nObpPred.getPortURI());
 		}
 		this.doPortConnection(this.nObpPred.getPortURI(), inboundPort, NodeConnector.class.getCanonicalName());
+		if(nObpPred.connected()) {
+			this.logMessage("connexion successfull");
+		}
+		else {
+			this.logMessage("connexion not successfull");
+		}
 	}
 
 	public void setSucc(String inboundPort, int n) throws Exception {
@@ -151,6 +160,12 @@ public class Node extends AbstractComponent{
 			this.doPortDisconnection(this.nObpSucc.getPortURI());
 		}
 		this.doPortConnection(this.nObpSucc.getPortURI(), inboundPort, NodeConnector.class.getCanonicalName());
+		if(nObpSucc.connected()) {
+			this.logMessage("connexion successfull");
+		}
+		else {
+			this.logMessage("connexion not successfull");
+		}
 	}
 	public void connect(String port) throws Exception {//not used
 		//this.doPortConnection(this.nObp.getPortURI(), port, NodeConnector.class.getCanonicalName());
@@ -190,10 +205,10 @@ public class Node extends AbstractComponent{
 							throw new RuntimeException(e) ;
 						}
 					}
-				}, 3000, 3000 // délai entre la fin d'une exécution et la suivante, à modifier 
+				}, 10000, 3000 // délai entre la fin d'une exécution et la suivante, à modifier 
 				, TimeUnit.MILLISECONDS) ;
 
-		this.logMessage("starting fixFingers().") ;
+		/*this.logMessage("starting fixFingers().") ;
 		//  exécution de fixFingers() toutes les 3 secondes
 		this.scheduleTaskWithFixedDelay(		
 				new AbstractComponent.AbstractTask() {
@@ -206,75 +221,71 @@ public class Node extends AbstractComponent{
 						}
 					}
 				}, 4000, 10000 // délai entre la fin d'une exécution et la suivante, à modifier 
-				, TimeUnit.MILLISECONDS) ;
+				, TimeUnit.MILLISECONDS) ;*/
 
 	}
 	public void stab1() throws Exception {
-		synchronized(this) {
-			checkSucc();
-			checkPred();
-			if(this.succ != null) {
-				this.logMessage("stabilisation start...");
-				nObpSucc.stab2(this.nIbp);
-			}
-			else {
-				this.logMessage("no successor defined...");
-			}
+		checkSucc();
+		checkPred();
+		if(this.succ != null) {
+			this.logMessage("stabilisation starting... stab2 todo on : " + this.succ );
+			nObpSucc.stab2(this.nIbp.getPortURI());
+			this.logMessage("stabilisation started... ");
+		}
+		else {
+			this.logMessage("no successor defined...");
 		}
 	}
-	public void stab2(NodeInboundPort startNode) throws Exception {
-		synchronized(this) {
-			//this.logMessage("stabilisation 2...");
-			if(this.nObpStab.connected())
-				this.doPortDisconnection(this.nObpStab.getPortURI());
-			this.doPortConnection(this.nObpStab.getPortURI(), startNode.getPortURI(), NodeConnector.class.getCanonicalName());
-			//this.logMessage("index : "+this.index+" predInd : " +this.predInd );
-			this.nObpStab.stab3(this.predInd, this.index, this.pred);
-		}
+	public void stab2(String startNode) throws Exception {
+		this.logMessage("stabilisation 2...");
+		if(this.nObpStab.connected())
+			this.doPortDisconnection(this.nObpStab.getPortURI());
+		this.doPortConnection(this.nObpStab.getPortURI(), startNode, NodeConnector.class.getCanonicalName());
+		//this.logMessage("index : "+this.index+" predInd : " +this.predInd );
+		this.nObpStab.stab3(this.predInd, this.index, this.pred);
+
 	}
 
 	public void stab3(int predOfSuccInd, int succInd, String predOfSucc) throws Exception {
-		synchronized(this) {
-			if(this.index != predOfSuccInd && predOfSuccInd > this.index && predOfSuccInd < succInd) {
-				this.setSucc(predOfSucc, predOfSuccInd);
-			}
-
-			this.logMessage("stabilisation end... ");
-			this.nObpSucc.notifyPred1(this.index, this.nIbp.getPortURI());
-			this.nObpSucc.initiateUpdateSuccessorList();
+		
+		if(this.index != predOfSuccInd && predOfSuccInd > this.index && predOfSuccInd < succInd) {
+			this.setSucc(predOfSucc, predOfSuccInd);
 		}
+
+		this.logMessage("stabilisation end... ");
+		this.nObpSucc.notifyPred1(this.index, this.nIbp.getPortURI());
+		this.nObpSucc.initiateUpdateSuccessorList();
+		
 	}
 	public void notifyPred1(int notifierIndex, String notifierIbpURI) throws Exception {
-		synchronized(this) {
-			if(this.pred == null)
-				this.setPred(notifierIbpURI, notifierIndex);
-			else{
-				if(notifierIndex < this.index)
-					this.nObpPred.notifyPred2(notifierIndex, notifierIbpURI, this.nIbp.getPortURI());
-			}
+		
+		if(this.pred == null)
+			this.setPred(notifierIbpURI, notifierIndex);
+		else{
+			if(notifierIndex < this.index)
+				this.nObpPred.notifyPred2(notifierIndex, notifierIbpURI, this.nIbp.getPortURI());
 		}
+		
 	}
 	public void notifyPred2(int notifierIndex, String notifierIbpURI, String notifiedIbpURI) throws Exception {
-		synchronized(this) {
-			if(this.nObpStab.connected())
-				this.doPortDisconnection(this.nObpStab.getPortURI());
-			this.doPortConnection(this.nObpStab.getPortURI(), notifiedIbpURI, NodeConnector.class.getCanonicalName());
-			this.nObpStab.notifyPred3(notifierIndex, notifierIbpURI, this.index);
-		}
+		if(this.nObpStab.connected())
+			this.doPortDisconnection(this.nObpStab.getPortURI());
+		this.doPortConnection(this.nObpStab.getPortURI(), notifiedIbpURI, NodeConnector.class.getCanonicalName());
+		this.nObpStab.notifyPred3(notifierIndex, notifierIbpURI, this.index);
 	}
 	public void notifyPred3(int notifierIndex, String notifierIbpURI, int predInd) throws Exception {
-		synchronized(this) {
-			if(notifierIndex > predInd)
-			{
-				this.setPred(notifierIbpURI, notifierIndex);
-				for(int ind : components.keySet()) {
-					if(notifierIndex >= ind) {
-						nObpPred.store(components.get(ind));
-						components.remove(ind);
-					}
+		
+		if(notifierIndex > predInd)
+		{
+			this.setPred(notifierIbpURI, notifierIndex);
+			for(int ind : components.keySet()) {
+				if(notifierIndex >= ind) {
+					nObpPred.store(components.get(ind));
+					components.remove(ind);
 				}
 			}
 		}
+		
 	}
 
 	public void initiateUpdateSuccessorList() throws Exception {
@@ -301,7 +312,7 @@ public class Node extends AbstractComponent{
 
 	public void checkPred() throws Exception {
 		if(!nObpPred.connected()) {
-			System.out.println("pred failed in node " + this.index);
+			this.logMessage("pred failed in node " + this.index);
 			this.pred = null;
 			this.predInd = -1;
 		}
@@ -309,7 +320,7 @@ public class Node extends AbstractComponent{
 
 	public void checkSucc() throws Exception {
 		if (!nObpSucc.connected()) {
-			System.out.println("succ failed in node " + this.index);
+			this.logMessage("succ failed in node " + this.index);
 			succInd = -1;
 			setNewSuccessor();
 		}

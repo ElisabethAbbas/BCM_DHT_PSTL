@@ -65,6 +65,7 @@ public class DynamicAdmin extends		AbstractComponent
 		if(ring[index] != null)
 			this.logMessage("cant join node " + index + " : node already exists !") ;
 		else {
+			this.logMessage("joining node " + index + "...");
 			nodes.put(index,  JVMURI);
 			//initializing fingerTable
 			List<Integer> fingerInd ;
@@ -140,7 +141,7 @@ public class DynamicAdmin extends		AbstractComponent
 					this.doPortDisconnection(this.adminOutboundPort.getPortURI());
 				}
 			}
-			
+			this.logMessage("node " + index + " joined !");
 			//let node stabilisation do the rest... ( = connecting to the nodes)
 		}
 	}
@@ -274,7 +275,7 @@ public class DynamicAdmin extends		AbstractComponent
 	@Override
 	public void			start() throws ComponentStartException
 	{
-		
+		this.logMessage("starting ...");
 		try {
 			System.out.println("starting dccObp creation...");
 			nbNodes = 0;
@@ -288,19 +289,20 @@ public class DynamicAdmin extends		AbstractComponent
 				tmpCObp.doConnection(nodes.get(n) + AbstractCVM.DCC_INBOUNDPORT_URI_SUFFIX, DynamicComponentCreationConnector.class.getCanonicalName());
 			
 			}
+			this.logMessage("started ...");
 			
 		} catch (Exception e) {
 			throw new ComponentStartException(e) ;
 		}
 		
 		super.start() ; 
-				
+		this.logMessage("scheduling join ...");
 		this.scheduleTask(
 				new AbstractComponent.AbstractTask() {
 					@Override
 					public void run() {
 						try {
-							((DynamicAdmin)this.getOwner()).join(2, "");
+							((DynamicAdmin)this.getOwner()).join(2, "jvm-3");
 						} catch (Exception e) {
 							throw new RuntimeException(e) ;
 						}

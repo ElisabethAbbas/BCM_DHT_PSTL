@@ -67,7 +67,8 @@ public class NodeOutboundPort extends AbstractOutboundPort implements NodeRequir
 	}
 
 	@Override
-	public void stab2(NodeInboundPort startNode) throws Exception {
+	public void stab2(String startNode) throws Exception {
+		System.out.println("test stab2 Obp");
 		((NodeConnector)this.connector).stab2(startNode);
 	}
 
