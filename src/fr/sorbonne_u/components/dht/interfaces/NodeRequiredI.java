@@ -22,8 +22,10 @@ public interface NodeRequiredI extends	RequiredI, OfferedI
 	public void store( String s) throws Exception ;
 	public String retrieve( int id) throws Exception ;
 	public void fixFingers1() throws Exception;
-	public void fixFingers2(String ibpURI, int next) throws Exception;
+	public void fixFingers2(String ibpURI) throws Exception;
 	public void fixFingers3(String ibpURI, int next) throws Exception;
+	public void fixFingers4(String ibpURI, int id) throws Exception;
+	public void fixFingers5(String ibpURI, int index) throws Exception;
 	public int closestPrecedingNode(int id) throws Exception;
 	public void findSuccessor(String ClientIbpURI, int id) throws Exception ;
 	public void get(String clientIbpURI, int id) throws Exception;
@@ -32,4 +34,7 @@ public interface NodeRequiredI extends	RequiredI, OfferedI
 	public void initiateUpdateSuccessorList() throws Exception ;
 	public void updateSuccessorList(String askingNodeIbpURI, int successorsToVisit) throws Exception ;
 	public void receiveUpdateSuccessorList(String succIbpURI, int succIndex) throws Exception ;
+	public void fixFing1() throws Exception;
+	public void fixFing2(String senderIbp, int lastId, int id, int indice) throws Exception;
+	public void updateFing(int indice, int res, String resUri) throws Exception;
 }

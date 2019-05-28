@@ -122,13 +122,24 @@ public class NodeOutboundPort extends AbstractOutboundPort implements NodeRequir
 	}
 	
 	@Override
-	public void fixFingers2(String ibpURI, int next) throws Exception {
-		((NodeConnector)this.connector).fixFingers2(ibpURI, next);
+	public void fixFingers2(String ibpURI) throws Exception {
+		((NodeConnector)this.connector).fixFingers2(ibpURI);
 	}
 	
 	@Override
 	public void fixFingers3(String ibpURI, int next) throws Exception {
 		((NodeConnector)this.connector).fixFingers3(ibpURI, next);
+	}
+	
+	@Override
+	public void fixFingers4(String ibpURI, int id) throws Exception {
+		((NodeConnector)this.connector).fixFingers4(ibpURI, id);
+	}
+	
+	
+	@Override
+	public void fixFingers5(String ibpURI, int index) throws Exception {
+		((NodeConnector)this.connector).fixFingers5(ibpURI, index);
 	}
 	
 	@Override
@@ -163,5 +174,22 @@ public class NodeOutboundPort extends AbstractOutboundPort implements NodeRequir
 	public void initiateUpdateSuccessorList() throws Exception {
 		((NodeConnector)this.connector).initiateUpdateSuccessorList();
 		
+	}
+
+	@Override
+	public void fixFing1() throws Exception {
+		((NodeConnector)this.connector).fixFing1();
+		
+	}
+
+	@Override
+	public void fixFing2(String senderIbp, int lastId, int id, int indice) throws Exception {
+		((NodeConnector)this.connector).fixFing2(senderIbp, lastId, id, indice);
+		
+	}
+
+	@Override
+	public void updateFing(int indice, int res, String resUri) throws Exception {
+		((NodeConnector)this.connector).updateFing(indice, res, resUri);
 	}
 }

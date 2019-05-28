@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import fr.sorbonne_u.components.AbstractComponent;
@@ -36,6 +37,31 @@ public class DynamicAdmin extends		AbstractComponent
 	protected HashMap<Integer, String> nodes;//string correspond au nom de la JVM de la node a creer
 	protected HashMap<Integer, DynamicComponentCreationOutboundPort> portsToNodesJVM = new HashMap<Integer, DynamicComponentCreationOutboundPort>();
 	protected HashMap<Integer, String> nodesReflectionIbpURIS = new HashMap<Integer, String>();
+	
+	class HashMapAffiche extends HashMap<Integer, String>{
+		public String affiche(List<Integer> fingerInd) {
+			String res = "[";
+			
+			for(Integer k : this.keySet())
+				res+=fingerInd.get(k)+" -> "+ ((this.get(k)==null)?"null":"ok") +" ; ";
+			
+			res+="]";
+			
+			return res;
+		}
+		
+		public String affiche_i(List<Integer> fingerInd) {
+			String res = "[";
+			
+			for(Integer k : this.keySet())
+				res+=""+k+":"+fingerInd.get(k)+" ; ";
+			
+			res+="]";
+			
+			return res;
+		}
+    }
+	
 	public DynamicAdmin(String AdminInboundPortURI, String adminClientIbpURI, int size, HashMap<Integer, String> nodes) throws Exception//hashMap nodes != de celle de l'admin précédent
 	{
 		super(AdminInboundPortURI, 1, 1);
@@ -73,7 +99,7 @@ public class DynamicAdmin extends		AbstractComponent
 			int fingerIndex;
 			
 			fingerInd = new ArrayList<Integer>();
-			fingerIbpFromInd = new HashMap<Integer, String>();
+			fingerIbpFromInd = new HashMapAffiche();//new HashMap<Integer, String>();
 			fingerIndex = 0;
 			while(Math.pow(2, fingerIndex) < size) {
 				int tmpFingerInd = 0;
@@ -169,7 +195,6 @@ public class DynamicAdmin extends		AbstractComponent
 		this.addPort(rop) ;
 		this.rop.localPublishPort() ;
 		
-		
 		for(int n : nodesReflectionIbpURIS.keySet()) {
 			String [] tmpRingNode = new String[2];
 			rop.doConnection(nodesReflectionIbpURIS.get(n), ReflectionConnector.class.getCanonicalName());
@@ -183,12 +208,12 @@ public class DynamicAdmin extends		AbstractComponent
 				//tmpRingNode[1] = rop.findPortURIsFromInterface(NodeInboundPort.class)[0];
 			}catch (Exception e) {
 				throw new Exception(e) ;
-			}
+			}			
 			ring[n] = tmpRingNode;
 			rop.doDisconnection();
 		}
-		List<Integer> fingerInd ;
-		HashMap<Integer, String> fingerIbpFromInd;
+		List<Integer> fingerInd =null;
+		HashMap<Integer, String> fingerIbpFromInd=null;
 		int fingerIndex;
 		
 		String[] first = null;
@@ -206,7 +231,7 @@ public class DynamicAdmin extends		AbstractComponent
 				else{
 					//initializing fingerTable
 					fingerInd = new ArrayList<Integer>();
-					fingerIbpFromInd = new HashMap<Integer, String>();
+					fingerIbpFromInd = new HashMapAffiche();//new HashMap<Integer, String>();
 					fingerIndex = 0;
 					while(Math.pow(2, fingerIndex) < size) {
 						int tmpFingerInd = 0;
@@ -238,13 +263,15 @@ public class DynamicAdmin extends		AbstractComponent
 					
 					tmp = ring[i];
 					tmpi = i;
+					System.out.println("à l'init : "+((DynamicAdmin.HashMapAffiche)fingerIbpFromInd).affiche_i(fingerInd));
 				}
 			}
 		}
+		
 		if((first != null)&&(first != tmp)){//pour ne pas faire le cas ou 1 seule node
 			//initializing fingerTable
 			fingerInd = new ArrayList<Integer>();
-			fingerIbpFromInd = new HashMap<Integer, String>();
+			fingerIbpFromInd = /*new HashMap<Integer, String>();*/ new HashMapAffiche();
 			fingerIndex = 0;
 			while(Math.pow(2, fingerIndex) < size) {
 				int tmpFingerInd = 0;
@@ -259,6 +286,7 @@ public class DynamicAdmin extends		AbstractComponent
 				fingerIndex++;
 			}
 			System.out.println("admin -> node "+firsti+" : finger size : "+fingerInd.size());
+			System.out.println("à l'init : "+((DynamicAdmin.HashMapAffiche)fingerIbpFromInd).affiche_i(fingerInd));
 			this.doPortConnection(this.adminOutboundPort.getPortURI(), first[0], NodeManagementConnector.class.getCanonicalName());
 			this.adminOutboundPort.setPred(tmp[1],tmpi);
 			this.adminOutboundPort.setFingers(fingerInd, fingerIbpFromInd);
@@ -269,7 +297,6 @@ public class DynamicAdmin extends		AbstractComponent
 			this.doPortDisconnection(this.adminOutboundPort.getPortURI());
 		}
 		this.logMessage("initialized !");
-		
 	}
 	
 	@Override
@@ -302,7 +329,7 @@ public class DynamicAdmin extends		AbstractComponent
 					@Override
 					public void run() {
 						try {
-							((DynamicAdmin)this.getOwner()).join(2, "jvm-3");
+							((DynamicAdmin)this.getOwner()).join(2, "");
 						} catch (Exception e) {
 							throw new RuntimeException(e) ;
 						}

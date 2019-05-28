@@ -282,17 +282,15 @@ public class NodeInboundPort extends AbstractInboundPort implements NodeOfferedI
 	}
 	
 	@Override
-	public void fixFingers2(String ibpURI, int next) throws Exception {
-		synchronized(this) {
-			this.getOwner().handleRequestAsync(
-					new AbstractComponent.AbstractService<Void>() {
-						@Override
-						public Void call() throws Exception {
-							((Node)this.getOwner()).fixFingers2(ibpURI, next) ;
-							return null;
-						}
-					}) ;
-		}
+	public void fixFingers2(String ibpURI) throws Exception {
+		this.getOwner().handleRequestAsync(
+				new AbstractComponent.AbstractService<Void>() {
+					@Override
+					public Void call() throws Exception {
+						((Node)this.getOwner()).fixFingers2(ibpURI) ;
+						return null;
+					}
+				}) ;
 	}
 	
 	@Override
@@ -307,6 +305,31 @@ public class NodeInboundPort extends AbstractInboundPort implements NodeOfferedI
 						}
 					}) ;
 		}
+	}
+	
+
+	@Override
+	public void fixFingers4(String ibpURI, int id) throws Exception {
+		this.getOwner().handleRequestAsync(
+				new AbstractComponent.AbstractService<Void>() {
+					@Override
+					public Void call() throws Exception {
+						((Node)this.getOwner()).fixFingers4(ibpURI, id) ;
+						return null;
+					}
+				}) ;
+	}
+
+	@Override
+	public void fixFingers5(String ibpURI, int indice) throws Exception {
+		this.getOwner().handleRequestAsync(
+				new AbstractComponent.AbstractService<Void>() {
+					@Override
+					public Void call() throws Exception {
+						((Node)this.getOwner()).fixFingers5(ibpURI, indice) ;
+						return null;
+					}
+				}) ;
 	}
 	
 	@Override
@@ -384,17 +407,54 @@ public class NodeInboundPort extends AbstractInboundPort implements NodeOfferedI
 
 	@Override
 	public void initiateUpdateSuccessorList() throws Exception {
-		synchronized(this) {
-			this.getOwner().handleRequestAsync(
-					new AbstractComponent.AbstractService<Void>() {
-						@Override
-						public Void call() throws Exception {
-							((Node)this.getOwner()).
-							initiateUpdateSuccessorList();
-							return null;
-						}
-					}) ;
-		}
+		this.getOwner().handleRequestAsync(
+				new AbstractComponent.AbstractService<Void>() {
+					@Override
+					public Void call() throws Exception {
+						((Node)this.getOwner()).
+						initiateUpdateSuccessorList();
+						return null;
+					}
+				}) ;
+		
 	}
-					
+
+	@Override
+	public void fixFing1() throws Exception {
+		this.getOwner().handleRequestAsync(
+				new AbstractComponent.AbstractService<Void>() {
+					@Override
+					public Void call() throws Exception {
+						((Node)this.getOwner()).
+						fixFing1();
+						return null;
+					}
+				}) ;
+	}
+
+	@Override
+	public void fixFing2(String senderIbp, int lastId, int id, int indice) throws Exception {
+		this.getOwner().handleRequestAsync(
+				new AbstractComponent.AbstractService<Void>() {
+					@Override
+					public Void call() throws Exception {
+						((Node)this.getOwner()).
+						fixFing2(senderIbp, lastId, id, indice);
+						return null;
+					}
+				}) ;
+	}
+
+	@Override
+	public void updateFing(int indice, int res, String resUri) throws Exception {
+		this.getOwner().handleRequestAsync(
+				new AbstractComponent.AbstractService<Void>() {
+					@Override
+					public Void call() throws Exception {
+						((Node)this.getOwner()).
+						updateFing(indice, res, resUri);
+						return null;
+					}
+				}) ;
+	}				
 }

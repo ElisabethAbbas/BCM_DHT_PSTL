@@ -104,13 +104,23 @@ implements	NodeRequiredI
 	}
 	
 	@Override
-	public void fixFingers2(String ibpURI, int next) throws Exception {
-		((NodeOfferedI)this.offering).fixFingers2(ibpURI, next);
+	public void fixFingers2(String ibpURI) throws Exception {
+		((NodeInboundPort)this.offering).fixFingers2(ibpURI);
 	}
 	
 	@Override
 	public void fixFingers3(String ibpURI, int next) throws Exception {
 		((NodeOfferedI)this.offering).fixFingers3(ibpURI, next);
+	}
+	
+	@Override
+	public void fixFingers4(String ibpURI, int id) throws Exception {
+		((NodeInboundPort)this.offering).fixFingers4(ibpURI, id);
+	}
+	
+	@Override
+	public void fixFingers5(String ibpURI, int indice) throws Exception {
+		((NodeInboundPort)this.offering).fixFingers5(ibpURI, indice);
 	}
 	
 	@Override
@@ -144,6 +154,22 @@ implements	NodeRequiredI
 	@Override
 	public void initiateUpdateSuccessorList() throws Exception {
 		((NodeOfferedI)this.offering).initiateUpdateSuccessorList();
+		
+	}
+
+	@Override
+	public void fixFing1() throws Exception {
+		((NodeOfferedI)this.offering).fixFing1();
+	}
+
+	@Override
+	public void fixFing2(String senderIbp, int lastId, int id, int indice) throws Exception {
+		((NodeOfferedI)this.offering).fixFing2(senderIbp, lastId, id, indice);
+	}
+
+	@Override
+	public void updateFing(int indice, int res, String resUri) throws Exception {
+		((NodeOfferedI)this.offering).updateFing(indice, res, resUri);
 		
 	}
 }

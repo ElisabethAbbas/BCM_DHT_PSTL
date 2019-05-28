@@ -31,7 +31,7 @@ public class DynamicCVM extends		AbstractCVM
 		
 		nodes.put(6,"");
 		
-		this.dAdmin = new DynamicAdmin(ADMIN_RIP_URI, ADMIN_CLIENT_RIP_URI, 15, nodes) ;
+		this.dAdmin = new DynamicAdmin(ADMIN_RIP_URI, ADMIN_CLIENT_RIP_URI, 16, nodes) ;
 		this.deployedComponents.add(this.dAdmin) ;
 		this.dAdmin.toggleTracing() ;
 		this.dAdmin.toggleLogging() ;
@@ -82,7 +82,7 @@ public class DynamicCVM extends		AbstractCVM
 	{
 		try {
 			CVM cvm = new CVM() ;
-			cvm.startStandardLifeCycle(20000L) ;
+			cvm.startStandardLifeCycle(200000L) ;
 			Thread.sleep(20000L) ;
 			System.exit(0) ;
 		} catch (Exception e) {
