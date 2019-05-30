@@ -143,7 +143,6 @@ public class NodeInboundPort extends AbstractInboundPort implements NodeOfferedI
 	@Override
 	public void stab2(String startNode) throws Exception {
 		synchronized(this) {
-			System.out.println("test stab2 Ibp");
 			this.getOwner().handleRequestAsync(
 					new AbstractComponent.AbstractService<Void>() {
 						@Override
@@ -333,7 +332,7 @@ public class NodeInboundPort extends AbstractInboundPort implements NodeOfferedI
 	}
 	
 	@Override
-	public void get(String clientIbpURI, int id) throws Exception {
+	public void get(String clientIbpURI, String id) throws Exception {
 		synchronized(this) {
 			this.getOwner().handleRequestAsync(
 					new AbstractComponent.AbstractService<Void>() {
@@ -347,7 +346,7 @@ public class NodeInboundPort extends AbstractInboundPort implements NodeOfferedI
 	}
 	
 	@Override
-	public void put(int id, String value) throws Exception {
+	public void put(String id, String value) throws Exception {
 		synchronized(this) {
 			this.getOwner().handleRequestAsync(
 					new AbstractComponent.AbstractService<Void>() {

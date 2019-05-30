@@ -39,7 +39,7 @@ public class Node extends AbstractComponent{
 	protected NodeManagementIbp nMIbp ;
 	protected NodeClientIbp nClientIbp ;
 	protected String adminRIPURI ;
-	protected Map<Integer, String> components ;
+	protected Map<String, String> components ;
 	protected List<Integer> fingerInd ;
 	protected HashMap<Integer, String> fingerIbpFromInd;
 	protected HashMap<Integer, String> successorsList;
@@ -94,7 +94,7 @@ public class Node extends AbstractComponent{
 		this.addPort(this.nClientIbp) ;
 		this.nClientIbp.publishPort() ;
 
-		this.components = new HashMap<Integer, String>();
+		this.components = new HashMap<String, String>();
 		this.size = size;
 
 		this.tracer.setTitle("Node "+nodeRIPURI) ;
@@ -277,7 +277,8 @@ public class Node extends AbstractComponent{
 		if(notifierIndex > predInd)
 		{
 			this.setPred(notifierIbpURI, notifierIndex);
-			for(int ind : components.keySet()) {
+			for(String s : components.keySet()) {
+				int ind = hashFunction(s);
 				if(notifierIndex >= ind) {
 					nObpPred.store(components.get(ind));
 					components.remove(ind);
@@ -348,7 +349,7 @@ public class Node extends AbstractComponent{
 	}
 
 	public void store( String s) throws Exception {
-		components.put(hashFunction(s), s);
+		components.put(s, s);
 	}
 
 	public String retrieve( int id) throws Exception {//not used
@@ -358,7 +359,8 @@ public class Node extends AbstractComponent{
 			return null;
 	}
 
-	public void put(int id, String value) throws Exception {
+	public void put(String uri, String value) throws Exception {
+		int id = hashFunction(uri);
 		if (predInd != -1 && id > predInd && predInd <= index) 
 			store(value);
 		else if (id > index && id <= succInd) {
@@ -373,11 +375,12 @@ public class Node extends AbstractComponent{
 			if(this.nObpStab.connected())
 				this.doPortDisconnection(this.nObpStab.getPortURI());
 			this.doPortConnection(this.nObpStab.getPortURI(), fingerIbpFromInd.get(fingerInd.indexOf(closestPrecedingNode(id))), NodeConnector.class.getCanonicalName());
-			this.nObpStab.put(id,  value);
+			this.nObpStab.put(uri,  value);
 		}
 	}
 
-	public void get(String ClientIbpURI, int id) throws Exception {
+	public void get(String ClientIbpURI, String uri) throws Exception {
+		int id = hashFunction(uri);
 		if (predInd != -1 && id > predInd && predInd <= index) 
 			connectAndSendToClient( ClientIbpURI, id);
 		else if (id > index && id <= succInd) {
@@ -392,7 +395,7 @@ public class Node extends AbstractComponent{
 			if(this.nObpStab.connected())
 				this.doPortDisconnection(this.nObpStab.getPortURI());
 			this.doPortConnection(this.nObpStab.getPortURI(), fingerIbpFromInd.get(fingerInd.indexOf(closestPrecedingNode(id))), NodeConnector.class.getCanonicalName());
-			nObpStab.get(ClientIbpURI, id);
+			nObpStab.get(ClientIbpURI, uri);
 		}
 	}
 
@@ -729,29 +732,6 @@ public class Node extends AbstractComponent{
 			}
 		}
 	}	
-
-	/*@Override
-	public void			execute() throws Exception
-	{
-		super.execute() ;
-
-		this.doPortConnection(
-					this.nObp.getPortURI(),
-					this.adminRIPURI,
-					ReflectionConnector.class.getCanonicalName());
-		String[] uris =
-				((ComponentI) this.nObp).findInboundPortURIsFromInterface(
-													AdminI.class) ;
-		this.doPortConnection(
-					this.adminPort.getPortURI(),
-					uris[0],
-					MyServiceConnector.class.getCanonicalName()) ;
-
-		System.out.println("-------------------------------------------") ;
-		this.adminPort.test() ;
-		System.out.println("-------------------------------------------") ;
-	}*/
-
 
 	/**
 	 * @see fr.sorbonne_u.components.AbstractComponent#finalise()

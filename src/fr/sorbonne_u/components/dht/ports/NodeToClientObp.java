@@ -24,13 +24,13 @@ public class NodeToClientObp extends AbstractOutboundPort implements NodeClientI
 	}
 
 	@Override
-	public void put(int id, String s) throws Exception {
+	public void put(String id, String s) throws Exception {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void get(String clientIbpURI, int id) throws Exception {
+	public void get(String clientIbpURI, String id) throws Exception {
 		// TODO Auto-generated method stub
 		
 	}

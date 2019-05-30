@@ -5,7 +5,7 @@ import fr.sorbonne_u.components.interfaces.RequiredI;
 
 public interface NodeClientI extends		 OfferedI, RequiredI
 {
-	public void put( int id, String s) throws Exception ;
-	public void get(String clientIbpURI, int id) throws Exception ;
+	public void put( String id, String s) throws Exception ;
+	public void get(String clientIbpURI, String id) throws Exception ;
 	public void receiveResultOfGet(String result) throws Exception;
 }

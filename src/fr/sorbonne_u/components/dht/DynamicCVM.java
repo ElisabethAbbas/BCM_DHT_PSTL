@@ -43,18 +43,6 @@ public class DynamicCVM extends		AbstractCVM
 	{
 		super.start() ;
 
-		/*this.dAdmin.runTask(
-			new AbstractComponent.AbstractTask() {
-					@Override
-					public void run() {
-						try {
-							((DynamicAdmin)this.getOwner()).
-													dynamicDeploy() ;
-						} catch (Exception e) {
-							throw new RuntimeException(e) ;
-						}
-					}
-				}) ;*/
 	}
 
 	/**
@@ -65,17 +53,6 @@ public class DynamicCVM extends		AbstractCVM
 	{
 		super.execute() ;
 
-		/*this.dAdmin.runTask(
-			new AbstractComponent.AbstractTask() {
-					@Override
-					public void run() {
-						try {
-							((DynamicAdmin)this.getOwner()).initialize() ;
-						} catch (Exception e) {
-							throw new RuntimeException(e) ;
-						}
-					}
-				}) ;*/
 	}
 
 	public static void		main(String[] args)

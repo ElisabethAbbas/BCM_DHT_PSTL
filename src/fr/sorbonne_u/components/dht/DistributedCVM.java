@@ -89,18 +89,6 @@ extends		AbstractDistributedCVM
 	{
 		super.execute() ;
 
-		/*this.dAdmin.runTask(
-				new AbstractComponent.AbstractTask() {
-						@Override
-						public void run() {
-							try {
-								((DynamicAdmin)this.getOwner()).
-														initialize() ;
-							} catch (Exception e) {
-								throw new RuntimeException(e) ;
-							}
-						}
-					}) ;*/
 	}
 
 	public static void		main(String[] args)

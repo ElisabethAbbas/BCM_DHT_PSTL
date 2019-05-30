@@ -48,7 +48,6 @@ implements	NodeRequiredI
 
 	@Override
 	public void stab2(String startNode) throws Exception {
-		System.out.println("test stab2 connector");
 		if(this.offering == null)
 			System.out.println("PROBLEM : offering is null");
 		((NodeOfferedI)this.offering).stab2(startNode);
@@ -124,12 +123,12 @@ implements	NodeRequiredI
 	}
 	
 	@Override
-	public void get(String clientIbpURI, int id) throws Exception{
+	public void get(String clientIbpURI, String id) throws Exception{
 		((NodeOfferedI)this.offering).get(clientIbpURI,id);
 	}
 	
 	@Override
-	public void put(int id, String value) throws Exception {
+	public void put(String id, String value) throws Exception {
 		((NodeOfferedI)this.offering).put(id, value);
 	}
 

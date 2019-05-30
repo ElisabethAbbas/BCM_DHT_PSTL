@@ -28,8 +28,8 @@ public interface NodeRequiredI extends	RequiredI, OfferedI
 	public void fixFingers5(String ibpURI, int index) throws Exception;
 	public int closestPrecedingNode(int id) throws Exception;
 	public void findSuccessor(String ClientIbpURI, int id) throws Exception ;
-	public void get(String clientIbpURI, int id) throws Exception;
-	public void put(int id, String value) throws Exception;
+	public void get(String clientIbpURI, String id) throws Exception;
+	public void put(String id, String value) throws Exception;
 	public void connectAndSendToClient(String ClientIbpURI, int id) throws Exception;
 	public void initiateUpdateSuccessorList() throws Exception ;
 	public void updateSuccessorList(String askingNodeIbpURI, int successorsToVisit) throws Exception ;

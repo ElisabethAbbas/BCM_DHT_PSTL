@@ -24,7 +24,7 @@ public class NodeClientIbp extends AbstractInboundPort implements NodeClientI{
 	}
 
 	@Override
-	public void put(int id, String s) throws Exception {
+	public void put(String id, String s) throws Exception {
 		this.getOwner().handleRequestAsync(
 				new AbstractComponent.AbstractService<Void>() {
 					@Override
@@ -36,7 +36,7 @@ public class NodeClientIbp extends AbstractInboundPort implements NodeClientI{
 	}
 	
 	@Override
-	public void get(String clientIbpURI,int id) throws Exception {
+	public void get(String clientIbpURI,String id) throws Exception {
 		this.getOwner().handleRequestAsync(
 				new AbstractComponent.AbstractService<Void>() {
 					@Override

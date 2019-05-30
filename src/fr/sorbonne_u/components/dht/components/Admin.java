@@ -97,13 +97,6 @@ public class Admin extends AbstractComponent{
 			this.doPortDisconnection(this.adminOutboundPort.getPortURI());
 		}
 		this.logMessage("initialized !");
-		//fingerTable, TODO
-		
-		/*for(int i = 0; i < ring.length; i++) {
-			if(ring[i] != null) {
-				FingerTable.initialize(this, ring[i]);
-			}
-		}*/
 	}
 	
 	public void			start() throws ComponentStartException
