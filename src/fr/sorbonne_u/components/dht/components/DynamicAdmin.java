@@ -38,6 +38,7 @@ public class DynamicAdmin extends		AbstractComponent
 	protected HashMap<Integer, DynamicComponentCreationOutboundPort> portsToNodesJVM = new HashMap<Integer, DynamicComponentCreationOutboundPort>();
 	protected HashMap<Integer, String> nodesReflectionIbpURIS = new HashMap<Integer, String>();
 	
+	// class pour un affichage lisible des fingerTables
 	class HashMapAffiche extends HashMap<Integer, String>{
 		public String affiche(List<Integer> fingerInd) {
 			String res = "[";
@@ -53,8 +54,11 @@ public class DynamicAdmin extends		AbstractComponent
 		public String affiche_i(List<Integer> fingerInd) {
 			String res = "[";
 			
-			for(Integer k : this.keySet())
-				res+=""+k+":"+fingerInd.get(k)+" ; ";
+			for(Integer k : this.keySet()) {
+				res+=""+k+":"+fingerInd.get(k);
+				if(k!=(this.size()-1))
+					res+=" ; ";
+			}
 			
 			res+="]";
 			
@@ -99,7 +103,7 @@ public class DynamicAdmin extends		AbstractComponent
 			int fingerIndex;
 			
 			fingerInd = new ArrayList<Integer>();
-			fingerIbpFromInd = new HashMapAffiche();//new HashMap<Integer, String>();
+			fingerIbpFromInd = new HashMapAffiche();
 			fingerIndex = 0;
 			while(Math.pow(2, fingerIndex) < size) {
 				int tmpFingerInd = 0;
@@ -231,7 +235,7 @@ public class DynamicAdmin extends		AbstractComponent
 				else{
 					//initializing fingerTable
 					fingerInd = new ArrayList<Integer>();
-					fingerIbpFromInd = new HashMapAffiche();//new HashMap<Integer, String>();
+					fingerIbpFromInd = new HashMapAffiche();
 					fingerIndex = 0;
 					while(Math.pow(2, fingerIndex) < size) {
 						int tmpFingerInd = 0;
@@ -263,7 +267,7 @@ public class DynamicAdmin extends		AbstractComponent
 					
 					tmp = ring[i];
 					tmpi = i;
-					System.out.println("à l'init : "+((DynamicAdmin.HashMapAffiche)fingerIbpFromInd).affiche_i(fingerInd));
+					System.out.println("à l'initialisation : "+((DynamicAdmin.HashMapAffiche)fingerIbpFromInd).affiche_i(fingerInd));
 				}
 			}
 		}
@@ -271,7 +275,7 @@ public class DynamicAdmin extends		AbstractComponent
 		if((first != null)&&(first != tmp)){//pour ne pas faire le cas ou 1 seule node
 			//initializing fingerTable
 			fingerInd = new ArrayList<Integer>();
-			fingerIbpFromInd = /*new HashMap<Integer, String>();*/ new HashMapAffiche();
+			fingerIbpFromInd = new HashMapAffiche();
 			fingerIndex = 0;
 			while(Math.pow(2, fingerIndex) < size) {
 				int tmpFingerInd = 0;
@@ -286,7 +290,7 @@ public class DynamicAdmin extends		AbstractComponent
 				fingerIndex++;
 			}
 			System.out.println("admin -> node "+firsti+" : finger size : "+fingerInd.size());
-			System.out.println("à l'init : "+((DynamicAdmin.HashMapAffiche)fingerIbpFromInd).affiche_i(fingerInd));
+			System.out.println("à l'initialisation : "+((DynamicAdmin.HashMapAffiche)fingerIbpFromInd).affiche_i(fingerInd));
 			this.doPortConnection(this.adminOutboundPort.getPortURI(), first[0], NodeManagementConnector.class.getCanonicalName());
 			this.adminOutboundPort.setPred(tmp[1],tmpi);
 			this.adminOutboundPort.setFingers(fingerInd, fingerIbpFromInd);
