@@ -1,0 +1,213 @@
+1559066518104|Registry up and running!
+1559066581010|GlobalRegistry processing put admin-rip rmi=localhost
+1559066581955|GlobalRegistry processing put fr.sorbonne_u.components.reflection.interfaces.ReflectionI-56efe1b3-6bd2-47a6-b653-059dcdc0f61b rmi=localhost
+1559066581982|All connected!
+1559066582014|GlobalRegistry processing put fr.sorbonne_u.components.reflection.interfaces.ReflectionI-2a964398-da9d-40b1-adb3-71e78bf92287 rmi=localhost
+1559066582263|GlobalRegistry processing put jvm-2-dcc rmi=localhost
+1559066582288|GlobalRegistry processing put jvm-3-dcc rmi=localhost
+1559066583019|GlobalRegistry processing put fr.sorbonne_u.components.reflection.interfaces.ReflectionI-e152faea-f2dd-4bd2-85c7-b6ed4b5d58c1 rmi=localhost
+1559066583150|GlobalRegistry processing put jvm-1-dcc rmi=localhost
+1559066583386|GlobalRegistry processing lookup jvm-2-dcc
+1559066583514|GlobalRegistry processing lookup jvm-3-dcc
+1559066583834|GlobalRegistry processing put node1-rip rmi=localhost
+1559066584082|GlobalRegistry processing put fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-4857da51-1337-4355-8a0a-1faf39c65084 rmi=localhost
+1559066584278|GlobalRegistry processing put fr.sorbonne_u.components.dht.interfaces.NodeManagementI-0b25ba03-25fa-4e36-a2e0-e1caf65caec1 rmi=localhost
+1559066584446|GlobalRegistry processing put fr.sorbonne_u.components.dht.interfaces.NodeClientI-2fd9c0a1-5446-4e0d-9cae-a7e385de7318 rmi=localhost
+1559066584602|GlobalRegistry processing put node4-rip rmi=localhost
+1559066584707|GlobalRegistry processing put fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-52d1e8c0-9156-4c27-8f26-1f63e50bf34c rmi=localhost
+1559066584790|GlobalRegistry processing put fr.sorbonne_u.components.dht.interfaces.NodeManagementI-a74ed10b-435d-4caa-990f-2e33ccc3b007 rmi=localhost
+1559066584870|GlobalRegistry processing put fr.sorbonne_u.components.dht.interfaces.NodeClientI-40e78cd1-c048-47f3-b217-dc141aa278ae rmi=localhost
+1559066585002|GlobalRegistry processing put node6-rip rmi=localhost
+1559066585114|GlobalRegistry processing put fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-4d3ebd63-39c3-4560-8d25-624c184d4a7e rmi=localhost
+1559066585182|GlobalRegistry processing put fr.sorbonne_u.components.dht.interfaces.NodeManagementI-3ef2278c-2bd3-4a10-8cf0-4198a25dc3f9 rmi=localhost
+1559066585318|GlobalRegistry processing put fr.sorbonne_u.components.dht.interfaces.NodeClientI-f52e52e1-c002-414e-8781-dc3224b1e63e rmi=localhost
+1559066585411|GlobalRegistry processing lookup node1-rip
+1559066586550|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeManagementI-0b25ba03-25fa-4e36-a2e0-e1caf65caec1
+1559066586686|GlobalRegistry processing lookup node6-rip
+1559066588022|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeManagementI-3ef2278c-2bd3-4a10-8cf0-4198a25dc3f9
+1559066588138|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-4857da51-1337-4355-8a0a-1faf39c65084
+1559066588194|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeManagementI-0b25ba03-25fa-4e36-a2e0-e1caf65caec1
+1559066588302|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-52d1e8c0-9156-4c27-8f26-1f63e50bf34c
+1559066588315|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeManagementI-3ef2278c-2bd3-4a10-8cf0-4198a25dc3f9
+1559066588490|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-52d1e8c0-9156-4c27-8f26-1f63e50bf34c
+1559066588494|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-4d3ebd63-39c3-4560-8d25-624c184d4a7e
+1559066588549|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeManagementI-0b25ba03-25fa-4e36-a2e0-e1caf65caec1
+1559066588746|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeManagementI-3ef2278c-2bd3-4a10-8cf0-4198a25dc3f9
+1559066588850|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-4d3ebd63-39c3-4560-8d25-624c184d4a7e
+1559066588952|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-4857da51-1337-4355-8a0a-1faf39c65084
+1559066594514|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-4857da51-1337-4355-8a0a-1faf39c65084
+1559066594614|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-52d1e8c0-9156-4c27-8f26-1f63e50bf34c
+1559066594622|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-52d1e8c0-9156-4c27-8f26-1f63e50bf34c
+1559066594690|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-52d1e8c0-9156-4c27-8f26-1f63e50bf34c
+1559066594966|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-52d1e8c0-9156-4c27-8f26-1f63e50bf34c
+1559066595090|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-4d3ebd63-39c3-4560-8d25-624c184d4a7e
+1559066595098|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-4d3ebd63-39c3-4560-8d25-624c184d4a7e
+1559066595170|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-4d3ebd63-39c3-4560-8d25-624c184d4a7e
+1559066595386|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-4d3ebd63-39c3-4560-8d25-624c184d4a7e
+1559066595470|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-4857da51-1337-4355-8a0a-1faf39c65084
+1559066595478|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-4857da51-1337-4355-8a0a-1faf39c65084
+1559066597539|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-4857da51-1337-4355-8a0a-1faf39c65084
+1559066597598|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-52d1e8c0-9156-4c27-8f26-1f63e50bf34c
+1559066597599|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-52d1e8c0-9156-4c27-8f26-1f63e50bf34c
+1559066597654|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-52d1e8c0-9156-4c27-8f26-1f63e50bf34c
+1559066597994|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-52d1e8c0-9156-4c27-8f26-1f63e50bf34c
+1559066598054|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-4d3ebd63-39c3-4560-8d25-624c184d4a7e
+1559066598062|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-4d3ebd63-39c3-4560-8d25-624c184d4a7e
+1559066598106|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-4d3ebd63-39c3-4560-8d25-624c184d4a7e
+1559066598410|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-4d3ebd63-39c3-4560-8d25-624c184d4a7e
+1559066598491|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-4857da51-1337-4355-8a0a-1faf39c65084
+1559066598500|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-4857da51-1337-4355-8a0a-1faf39c65084
+1559066600550|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-4857da51-1337-4355-8a0a-1faf39c65084
+1559066600618|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-52d1e8c0-9156-4c27-8f26-1f63e50bf34c
+1559066600638|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-52d1e8c0-9156-4c27-8f26-1f63e50bf34c
+1559066600682|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-52d1e8c0-9156-4c27-8f26-1f63e50bf34c
+1559066601006|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-52d1e8c0-9156-4c27-8f26-1f63e50bf34c
+1559066601098|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-4d3ebd63-39c3-4560-8d25-624c184d4a7e
+1559066601159|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-4d3ebd63-39c3-4560-8d25-624c184d4a7e
+1559066601442|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-4d3ebd63-39c3-4560-8d25-624c184d4a7e
+1559066601510|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-4857da51-1337-4355-8a0a-1faf39c65084
+1559066601517|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-4857da51-1337-4355-8a0a-1faf39c65084
+1559066603566|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-4857da51-1337-4355-8a0a-1faf39c65084
+1559066603622|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-52d1e8c0-9156-4c27-8f26-1f63e50bf34c
+1559066603623|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-52d1e8c0-9156-4c27-8f26-1f63e50bf34c
+1559066603718|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-52d1e8c0-9156-4c27-8f26-1f63e50bf34c
+1559066604014|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-52d1e8c0-9156-4c27-8f26-1f63e50bf34c
+1559066604090|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-4d3ebd63-39c3-4560-8d25-624c184d4a7e
+1559066604110|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-4d3ebd63-39c3-4560-8d25-624c184d4a7e
+1559066604150|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-4d3ebd63-39c3-4560-8d25-624c184d4a7e
+1559066604470|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-4d3ebd63-39c3-4560-8d25-624c184d4a7e
+1559066604526|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-4857da51-1337-4355-8a0a-1faf39c65084
+1559066606578|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-4857da51-1337-4355-8a0a-1faf39c65084
+1559066606646|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-52d1e8c0-9156-4c27-8f26-1f63e50bf34c
+1559066606651|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-52d1e8c0-9156-4c27-8f26-1f63e50bf34c
+1559066606714|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-52d1e8c0-9156-4c27-8f26-1f63e50bf34c
+1559066607018|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-52d1e8c0-9156-4c27-8f26-1f63e50bf34c
+1559066607106|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-4d3ebd63-39c3-4560-8d25-624c184d4a7e
+1559066607106|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-4d3ebd63-39c3-4560-8d25-624c184d4a7e
+1559066607178|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-4d3ebd63-39c3-4560-8d25-624c184d4a7e
+1559066607474|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-4d3ebd63-39c3-4560-8d25-624c184d4a7e
+1559066607558|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-4857da51-1337-4355-8a0a-1faf39c65084
+1559066607570|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-4857da51-1337-4355-8a0a-1faf39c65084
+1559066609598|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-4857da51-1337-4355-8a0a-1faf39c65084
+1559066609654|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-52d1e8c0-9156-4c27-8f26-1f63e50bf34c
+1559066609655|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-52d1e8c0-9156-4c27-8f26-1f63e50bf34c
+1559066609714|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-52d1e8c0-9156-4c27-8f26-1f63e50bf34c
+1559066610038|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-52d1e8c0-9156-4c27-8f26-1f63e50bf34c
+1559066610106|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-4d3ebd63-39c3-4560-8d25-624c184d4a7e
+1559066610131|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-4d3ebd63-39c3-4560-8d25-624c184d4a7e
+1559066610171|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-4d3ebd63-39c3-4560-8d25-624c184d4a7e
+1559066610492|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-4d3ebd63-39c3-4560-8d25-624c184d4a7e
+1559066610570|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-4857da51-1337-4355-8a0a-1faf39c65084
+1559066610578|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-4857da51-1337-4355-8a0a-1faf39c65084
+1559066612602|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-4857da51-1337-4355-8a0a-1faf39c65084
+1559066612694|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-52d1e8c0-9156-4c27-8f26-1f63e50bf34c
+1559066612698|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-52d1e8c0-9156-4c27-8f26-1f63e50bf34c
+1559066612746|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-52d1e8c0-9156-4c27-8f26-1f63e50bf34c
+1559066613038|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-52d1e8c0-9156-4c27-8f26-1f63e50bf34c
+1559066613110|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-4d3ebd63-39c3-4560-8d25-624c184d4a7e
+1559066613154|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-4d3ebd63-39c3-4560-8d25-624c184d4a7e
+1559066613490|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-4d3ebd63-39c3-4560-8d25-624c184d4a7e
+1559066613567|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-4857da51-1337-4355-8a0a-1faf39c65084
+1559066615627|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-4857da51-1337-4355-8a0a-1faf39c65084
+1559066615706|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-52d1e8c0-9156-4c27-8f26-1f63e50bf34c
+1559066615726|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-52d1e8c0-9156-4c27-8f26-1f63e50bf34c
+1559066615767|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-52d1e8c0-9156-4c27-8f26-1f63e50bf34c
+1559066616054|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-52d1e8c0-9156-4c27-8f26-1f63e50bf34c
+1559066616118|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-4d3ebd63-39c3-4560-8d25-624c184d4a7e
+1559066616126|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-4d3ebd63-39c3-4560-8d25-624c184d4a7e
+1559066616170|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-4d3ebd63-39c3-4560-8d25-624c184d4a7e
+1559066616510|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-4d3ebd63-39c3-4560-8d25-624c184d4a7e
+1559066616586|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-4857da51-1337-4355-8a0a-1faf39c65084
+1559066618638|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-4857da51-1337-4355-8a0a-1faf39c65084
+1559066618706|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-52d1e8c0-9156-4c27-8f26-1f63e50bf34c
+1559066618706|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-52d1e8c0-9156-4c27-8f26-1f63e50bf34c
+1559066618762|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-52d1e8c0-9156-4c27-8f26-1f63e50bf34c
+1559066619083|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-52d1e8c0-9156-4c27-8f26-1f63e50bf34c
+1559066619142|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-4d3ebd63-39c3-4560-8d25-624c184d4a7e
+1559066619150|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-4d3ebd63-39c3-4560-8d25-624c184d4a7e
+1559066619214|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-4d3ebd63-39c3-4560-8d25-624c184d4a7e
+1559066619515|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-4d3ebd63-39c3-4560-8d25-624c184d4a7e
+1559066619586|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-4857da51-1337-4355-8a0a-1faf39c65084
+1559066619591|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-4857da51-1337-4355-8a0a-1faf39c65084
+1559066621638|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-4857da51-1337-4355-8a0a-1faf39c65084
+1559066621706|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-52d1e8c0-9156-4c27-8f26-1f63e50bf34c
+1559066621714|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-52d1e8c0-9156-4c27-8f26-1f63e50bf34c
+1559066621782|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-52d1e8c0-9156-4c27-8f26-1f63e50bf34c
+1559066622094|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-52d1e8c0-9156-4c27-8f26-1f63e50bf34c
+1559066622166|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-4d3ebd63-39c3-4560-8d25-624c184d4a7e
+1559066622167|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-4d3ebd63-39c3-4560-8d25-624c184d4a7e
+1559066622218|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-4d3ebd63-39c3-4560-8d25-624c184d4a7e
+1559066622522|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-4d3ebd63-39c3-4560-8d25-624c184d4a7e
+1559066622614|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-4857da51-1337-4355-8a0a-1faf39c65084
+1559066622618|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-4857da51-1337-4355-8a0a-1faf39c65084
+1559066624646|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-4857da51-1337-4355-8a0a-1faf39c65084
+1559066624714|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-52d1e8c0-9156-4c27-8f26-1f63e50bf34c
+1559066624726|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-52d1e8c0-9156-4c27-8f26-1f63e50bf34c
+1559066624770|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-52d1e8c0-9156-4c27-8f26-1f63e50bf34c
+1559066625110|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-52d1e8c0-9156-4c27-8f26-1f63e50bf34c
+1559066625166|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-4d3ebd63-39c3-4560-8d25-624c184d4a7e
+1559066625182|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-4d3ebd63-39c3-4560-8d25-624c184d4a7e
+1559066625218|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-4d3ebd63-39c3-4560-8d25-624c184d4a7e
+1559066625530|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-4d3ebd63-39c3-4560-8d25-624c184d4a7e
+1559066625586|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-4857da51-1337-4355-8a0a-1faf39c65084
+1559066625587|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-4857da51-1337-4355-8a0a-1faf39c65084
+1559066627658|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-4857da51-1337-4355-8a0a-1faf39c65084
+1559066627714|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-52d1e8c0-9156-4c27-8f26-1f63e50bf34c
+1559066627715|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-52d1e8c0-9156-4c27-8f26-1f63e50bf34c
+1559066627766|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-52d1e8c0-9156-4c27-8f26-1f63e50bf34c
+1559066628130|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-52d1e8c0-9156-4c27-8f26-1f63e50bf34c
+1559066628198|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-4d3ebd63-39c3-4560-8d25-624c184d4a7e
+1559066628198|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-4d3ebd63-39c3-4560-8d25-624c184d4a7e
+1559066628254|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-4d3ebd63-39c3-4560-8d25-624c184d4a7e
+1559066628538|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-4d3ebd63-39c3-4560-8d25-624c184d4a7e
+1559066628594|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-4857da51-1337-4355-8a0a-1faf39c65084
+1559066628598|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-4857da51-1337-4355-8a0a-1faf39c65084
+1559066630674|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-4857da51-1337-4355-8a0a-1faf39c65084
+1559066630726|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-52d1e8c0-9156-4c27-8f26-1f63e50bf34c
+1559066630762|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-52d1e8c0-9156-4c27-8f26-1f63e50bf34c
+1559066630775|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-52d1e8c0-9156-4c27-8f26-1f63e50bf34c
+1559066631130|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-52d1e8c0-9156-4c27-8f26-1f63e50bf34c
+1559066631198|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-4d3ebd63-39c3-4560-8d25-624c184d4a7e
+1559066631210|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-4d3ebd63-39c3-4560-8d25-624c184d4a7e
+1559066631262|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-4d3ebd63-39c3-4560-8d25-624c184d4a7e
+1559066631566|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-4d3ebd63-39c3-4560-8d25-624c184d4a7e
+1559066631618|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-4857da51-1337-4355-8a0a-1faf39c65084
+1559066631619|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-4857da51-1337-4355-8a0a-1faf39c65084
+1559066633678|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-4857da51-1337-4355-8a0a-1faf39c65084
+1559066633738|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-52d1e8c0-9156-4c27-8f26-1f63e50bf34c
+1559066633742|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-52d1e8c0-9156-4c27-8f26-1f63e50bf34c
+1559066633787|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-52d1e8c0-9156-4c27-8f26-1f63e50bf34c
+1559066634138|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-52d1e8c0-9156-4c27-8f26-1f63e50bf34c
+1559066634198|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-4d3ebd63-39c3-4560-8d25-624c184d4a7e
+1559066634202|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-4d3ebd63-39c3-4560-8d25-624c184d4a7e
+1559066634242|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-4d3ebd63-39c3-4560-8d25-624c184d4a7e
+1559066634570|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-4d3ebd63-39c3-4560-8d25-624c184d4a7e
+1559066634638|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-4857da51-1337-4355-8a0a-1faf39c65084
+1559066634646|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-4857da51-1337-4355-8a0a-1faf39c65084
+1559066636691|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-4857da51-1337-4355-8a0a-1faf39c65084
+1559066636794|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-52d1e8c0-9156-4c27-8f26-1f63e50bf34c
+1559066636794|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-52d1e8c0-9156-4c27-8f26-1f63e50bf34c
+1559066636846|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-52d1e8c0-9156-4c27-8f26-1f63e50bf34c
+1559066637150|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-52d1e8c0-9156-4c27-8f26-1f63e50bf34c
+1559066637210|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-4d3ebd63-39c3-4560-8d25-624c184d4a7e
+1559066637215|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-4d3ebd63-39c3-4560-8d25-624c184d4a7e
+1559066637270|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-4d3ebd63-39c3-4560-8d25-624c184d4a7e
+1559066637570|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-4d3ebd63-39c3-4560-8d25-624c184d4a7e
+1559066637630|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-4857da51-1337-4355-8a0a-1faf39c65084
+1559066637631|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-4857da51-1337-4355-8a0a-1faf39c65084
+1559066639698|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-4857da51-1337-4355-8a0a-1faf39c65084
+1559066639766|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-52d1e8c0-9156-4c27-8f26-1f63e50bf34c
+1559066639770|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-52d1e8c0-9156-4c27-8f26-1f63e50bf34c
+1559066639830|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-52d1e8c0-9156-4c27-8f26-1f63e50bf34c
+1559066640150|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-52d1e8c0-9156-4c27-8f26-1f63e50bf34c
+1559066640258|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-4d3ebd63-39c3-4560-8d25-624c184d4a7e
+1559066640266|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-4d3ebd63-39c3-4560-8d25-624c184d4a7e
+1559066640322|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-4d3ebd63-39c3-4560-8d25-624c184d4a7e
+1559066640570|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-4d3ebd63-39c3-4560-8d25-624c184d4a7e
+1559066640634|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-4857da51-1337-4355-8a0a-1faf39c65084
+1559066640635|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-4857da51-1337-4355-8a0a-1faf39c65084
+1559066641031|GlobalRegistry processing null
+1559066643582|GlobalRegistry processing lookup fr.sorbonne_u.components.dht.interfaces.NodeOfferedI-4d3ebd63-39c3-4560-8d25-624c184d4a7e
+1559066646153|GlobalRegistry processing null
+1559066649294|GlobalRegistry processing null
+1559066649294|Global registry shuts down!
