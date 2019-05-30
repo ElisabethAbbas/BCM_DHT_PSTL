@@ -215,7 +215,7 @@ public class Node extends AbstractComponent{
 						try {
 							//System.out.println("start - index : "+((Node)this.getOwner()).getIndex());
 							//System.out.println(((DynamicAdmin.HashMapAffiche)fingerIbpFromInd).affiche_i(fingerInd));
-							((Node)this.getOwner()).fixFing1();
+							((Node)this.getOwner()).fixFingers1();
 						} catch (Exception e) {
 							throw new RuntimeException(e) ;
 						}
@@ -476,11 +476,17 @@ public class Node extends AbstractComponent{
 				if ((fingerInd.get(i) > index && fingerInd.get(i) < id))
 					return fingerInd.get(i);
 			}
-			else if(id < index ){
-				if((size - 1 - fingerInd.get(i) <= index) && fingerInd.get(i) < id) 
+			else if(id < index){
+				//if((size - 1 - fingerInd.get(i) <= index) && fingerInd.get(i) < id)
+				if ((fingerInd.get(i) > index && fingerInd.get(i) < id+size))
+					return fingerInd.get(i);
+				if ((fingerInd.get(i) > index-size && fingerInd.get(i) < id))
 					return fingerInd.get(i);
 			}
+			
 		}
+		
+		
 		System.out.println();
 		return index;
 	}
